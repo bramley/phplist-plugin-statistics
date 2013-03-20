@@ -1,0 +1,1 @@
+<p>On this tab you can select user attributes to be displayed as separate columns in most of the other tabs.The form shows only the first 15 attributes, with the attribute name truncated to 20 characters.</p><p>If no user attributes have been created then the selection form is not displayed.</p>
