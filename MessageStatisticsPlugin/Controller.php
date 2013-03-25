@@ -153,7 +153,7 @@
 			$toolbar = new CommonPlugin_Toolbar($this);
 
 			if ($this instanceof CommonPlugin_IExportable) {
-				$toolbar->addDownloadButton($query);
+				$toolbar->addExportButton($query);
 			}
 			$toolbar->addHelpButton($this->model->type);
 			$params['toolbar'] = $toolbar->display();
