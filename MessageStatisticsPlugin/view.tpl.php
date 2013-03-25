@@ -18,7 +18,7 @@
  * @author    Duncan Cameron
  * @copyright 2011-2012 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
- * @version   SVN: $Id: view.tpl.php 1235 2013-03-17 15:45:44Z Duncan $
+ * @version   SVN: $Id: view.tpl.php 1232 2013-03-16 10:17:11Z Duncan $
  * @link      http://forums.phplist.com/viewtopic.php?f=7&t=35427
  */
 
@@ -44,18 +44,7 @@
  * - $listing: HTML result of CommonPlugin_Listing
  */
 ?>
-<div>
-	<h4 id='top'><?php echo $this->i18n->get('plugin_title'); ?></h4>
-<style type="text/css">
-/*
- * Fix to make tabs wrap-around neatly
- */
-#webblertabs li {
-	height: 21px;
-}
-</style>
-<div>
-	<h3 id='top'><?php echo $this->i18n->get('plugin_title'); ?></h3>
+<div id='top'>
 	<hr />
 <?php if (isset($toolbar)) echo $toolbar; ?>
 	<div style='padding-top: 10px;' >
