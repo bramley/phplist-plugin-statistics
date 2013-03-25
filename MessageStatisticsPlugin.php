@@ -33,6 +33,19 @@ require_once PLUGIN_ROOTDIR . '/CommonPlugin/HelpManager.php';
 
 class MessageStatisticsPlugin extends phplistPlugin
 {
+    /*
+     *  Inherited variables
+     */
+    public $name = 'Message Statistics';
+    public $enabled = true;
+    public $authors = 'Duncan Cameron';
+    public $topMenuLinks = array(
+        'main' => array('category' => 'statistics')
+    );
+    public $pageTitles = array(
+        'main' => 'Message Statistics',
+    );
+
     public function adminmenu()
     {
         return array(
@@ -42,9 +55,6 @@ class MessageStatisticsPlugin extends phplistPlugin
 
     public function __construct()
     {
-        $this->name = 'Message Statistics';
-        $this->enabled = true;
-        $this->authors = 'Duncan Cameron';
         $this->coderoot = dirname(__FILE__) . '/MessageStatisticsPlugin/';
         $this->version = CommonPlugin_HelpManager::version($this);
         parent::__construct();
