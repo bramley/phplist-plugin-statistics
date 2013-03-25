@@ -18,7 +18,7 @@
  * @author    Duncan Cameron
  * @copyright 2011-2012 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
- * @version   SVN: $Id: Message.php 1235 2013-03-17 15:45:44Z Duncan $
+ * @version   SVN: $Id$
  * @link      http://forums.phplist.com/viewtopic.php?f=7&t=35427
  */
 
@@ -396,7 +396,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 	public function fetchMessageClicks($msgid, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
 	{
 		list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-		$ltuc_lu_exists = $this->xx_lu_exists('ltuc.userid', $listid);
+		$u_lu_exists = $this->xx_lu_exists('u.id', $listid);
 		$limitClause = $this->limitClause($start, $limit);
 
 		$sql =
@@ -418,7 +418,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 	}
 	public function totalMessageClicks($msgid, $listid, $attributes, $searchTerm, $searchAttr)
 	{
-		$ltuc_lu_exists = $this->xx_lu_exists('ltuc.userid', $listid);
+		$u_lu_exists = $this->xx_lu_exists('u.id', $listid);
 
 		if ($searchTerm) {
 			list($attr_join) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
@@ -436,7 +436,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 				SELECT 1 from {$this->tables['usermessage']} um 
 				WHERE um.userid = uml.userid AND uml.messageid = um.messageid
 			)
-			$ltuc_lu_exists";
+			$u_lu_exists";
 		return $this->dbCommand->queryOne($sql, 't');
 	}
 	/*
@@ -668,7 +668,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 	public function linkClicks($forwardId, $msgID, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
 	{
 		list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-		$ltuc_lu_exists = $this->xx_lu_exists('ltuc.userid', $listid);
+		$uml_lu_exists = $this->xx_lu_exists('uml.userid', $listid);
 		$limitClause = $this->limitClause($start, $limit);
 
 		$sql = 
@@ -684,6 +684,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 			$attr_join
 			WHERE uml.messageid = $msgID
 			AND uml.forwardid = $forwardId
+            $uml_lu_exists
 			$limitClause
 			";
 
@@ -697,15 +698,15 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 		} else {
 			$attr_join = '';
 		}
-		$ltuc_lu_exists = $this->xx_lu_exists('ltuc.userid', $listid);
+		$uml_lu_exists = $this->xx_lu_exists('uml.userid', $listid);
 		$sql =
 			"SELECT COUNT(*) as t
 			FROM {$this->tables['linktrack_uml_click']} uml
 			JOIN {$this->tables['user']} AS u ON uml.userid = u.id
-			$listuser_join
 			$attr_join
 			WHERE uml.messageid = $msgID
 			AND uml.forwardid = $forwardId
+            $uml_lu_exists
 			";
 
 		return $this->dbCommand->queryOne($sql, 't');
