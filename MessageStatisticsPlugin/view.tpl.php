@@ -62,9 +62,11 @@
 		<p><?php echo $chartMessage; ?></p>
 <?php endif; ?>
 <?php if (isset($form)) echo $form; ?>
+    </div>
 <?php if (isset($listing)): ?>
+    <div style='padding-top: 10px;'>
 	<?php echo $listing; ?>
 		<p><a href='#top'>[<?php echo $this->i18n->get('top'); ?>]</a></p>
-<?php endif; ?>
     </div>
+<?php endif; ?>
 </div>
