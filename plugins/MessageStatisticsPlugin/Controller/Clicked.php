@@ -31,77 +31,77 @@
  */
  
 class MessageStatisticsPlugin_Controller_Clicked 
-	extends MessageStatisticsPlugin_Controller
-	implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+    extends MessageStatisticsPlugin_Controller
+    implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
-	/*
-	 * Implementation of CommonPlugin_IExportable
-	 */
-	public function exportRows()
-	{
-		return $this->model->fetchMessageClicks();
-	}
+    /*
+     * Implementation of CommonPlugin_IExportable
+     */
+    public function exportRows()
+    {
+        return $this->model->fetchMessageClicks();
+    }
 
-	public function exportFieldNames()
-	{
-		$fields = array($this->i18n->get('User email'));
+    public function exportFieldNames()
+    {
+        $fields = array($this->i18n->get('User email'));
 
-		foreach ($this->model->selectedAttrs as $attr)
-			$fields[] = $this->model->attributes[$attr]['name'];
+        foreach ($this->model->selectedAttrs as $attr)
+            $fields[] = $this->model->attributes[$attr]['name'];
 
-		$fields[] = $this->i18n->get('links clicked');
-		$fields[] = $this->i18n->get('clicks_total');
-		return $fields;
-	}
+        $fields[] = $this->i18n->get('links clicked');
+        $fields[] = $this->i18n->get('clicks_total');
+        return $fields;
+    }
 
-	public function exportValues(array $row)
-	{
-		$values = array($row['email']);
+    public function exportValues(array $row)
+    {
+        $values = array($row['email']);
 
-		foreach ($this->model->selectedAttrs as $attr)
-			$values[] = $row["attr{$attr}"];
-		$values[] = $row['links'];
-		$values[] = $row['clicks'];
-		return $values;
-	}
+        foreach ($this->model->selectedAttrs as $attr)
+            $values[] = $row["attr{$attr}"];
+        $values[] = $row['links'];
+        $values[] = $row['clicks'];
+        return $values;
+    }
 
-	/*
-	 * Implementation of CommonPlugin_IPopulator
-	 */
-	public function populate(WebblerListing $w, $start, $limit)
-	{
-		/*
-		 * Populate the webbler list with users who have clicked a link in the message
-		 */
-		$w->setTitle($this->i18n->get('User email'));
-		$resultSet = $this->model->fetchMessageClicks($start, $limit);
+    /*
+     * Implementation of CommonPlugin_IPopulator
+     */
+    public function populate(WebblerListing $w, $start, $limit)
+    {
+        /*
+         * Populate the webbler list with users who have clicked a link in the message
+         */
+        $w->setTitle($this->i18n->get('User email'));
+        $resultSet = $this->model->fetchMessageClicks($start, $limit);
 
-		foreach ($resultSet as $row) {
-			$key = $row['email'];
-			if ($key) {
+        foreach ($resultSet as $row) {
+            $key = $row['email'];
+            if ($key) {
                 $w->addElement($key, new CommonPlugin_PageURL('userhistory', array('id' => $row['userid'])));
 
-				foreach ($this->model->selectedAttrs as $attr) {
-					$w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
-				}
-				$w->addColumn($key, $this->i18n->get('links clicked'), $row['links'],
+                foreach ($this->model->selectedAttrs as $attr) {
+                    $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
+                }
+                $w->addColumn($key, $this->i18n->get('links clicked'), $row['links'],
                      new CommonPlugin_PageURL('userclicks', array('userid' => $row['userid'], 'msgid' => $this->model->msgid)),
-					'left'
-				);
-			} else {
-				$key = $this->i18n->get('user_not_exist');
-				$w->addElement($key, '');
-				$w->addColumn($key, $this->i18n->get('links clicked'), $row['links']);
-			}
-			$w->addColumn($key, $this->i18n->get('clicks_total'), $row['clicks']);
-		}
-	}
+                    'left'
+                );
+            } else {
+                $key = $this->i18n->get('user_not_exist');
+                $w->addElement($key, '');
+                $w->addColumn($key, $this->i18n->get('links clicked'), $row['links']);
+            }
+            $w->addColumn($key, $this->i18n->get('clicks_total'), $row['clicks']);
+        }
+    }
 
-	public function total()
-	{
-		/*
-		 * Returns the total number of records to be displayed
-		 */
-		return $this->model->totalMessageClicks();
-	}
+    public function total()
+    {
+        /*
+         * Returns the total number of records to be displayed
+         */
+        return $this->model->totalMessageClicks();
+    }
 }

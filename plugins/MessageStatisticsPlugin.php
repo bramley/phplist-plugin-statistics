@@ -32,7 +32,7 @@
 
 class MessageStatisticsPlugin extends phplistPlugin
 {
-	const VERSION_FILE = 'version.txt';
+    const VERSION_FILE = 'version.txt';
 
     /*
      *  Inherited variables
@@ -57,8 +57,8 @@ class MessageStatisticsPlugin extends phplistPlugin
     public function __construct()
     {
         $this->coderoot = dirname(__FILE__) . '/MessageStatisticsPlugin/';
-		$this->version = (is_file($f = $this->coderoot . self::VERSION_FILE))
-			? file_get_contents($f)
+        $this->version = (is_file($f = $this->coderoot . self::VERSION_FILE))
+            ? file_get_contents($f)
             : '';
         parent::__construct();
     }

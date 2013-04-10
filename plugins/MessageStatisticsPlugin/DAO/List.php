@@ -32,36 +32,36 @@
 
 class MessageStatisticsPlugin_DAO_List extends CommonPlugin_DAO_List
 {
-	/*
-	 *
-	 */
-	public function fetchLists($loginid, $start = null, $limit = null)
-	{
-		$owner = $loginid ? " WHERE l.owner = $loginid" : '';
-		$limitClause = is_null($start) ? '' : "LIMIT $start, $limit";
-		$sql = 
-			"SELECT l.id, REPLACE(l.name, '&amp;', '&') as name, l.description, l.active,
-				count(lm.messageid) as count, max(lm.messageid) as max
-			FROM {$this->tables['list']} l
-			LEFT OUTER JOIN ({$this->tables['listmessage']} lm, {$this->tables['message']} m)
-				ON (l.id = lm.listid AND lm.messageid = m.id AND m.status='sent')
-			$owner
-			GROUP BY l.id
-			ORDER BY listorder
-			$limitClause";
+    /*
+     *
+     */
+    public function fetchLists($loginid, $start = null, $limit = null)
+    {
+        $owner = $loginid ? " WHERE l.owner = $loginid" : '';
+        $limitClause = is_null($start) ? '' : "LIMIT $start, $limit";
+        $sql = 
+            "SELECT l.id, REPLACE(l.name, '&amp;', '&') as name, l.description, l.active,
+                count(lm.messageid) as count, max(lm.messageid) as max
+            FROM {$this->tables['list']} l
+            LEFT OUTER JOIN ({$this->tables['listmessage']} lm, {$this->tables['message']} m)
+                ON (l.id = lm.listid AND lm.messageid = m.id AND m.status='sent')
+            $owner
+            GROUP BY l.id
+            ORDER BY listorder
+            $limitClause";
 
-		return $this->dbCommand->queryAll($sql);
-	}
+        return $this->dbCommand->queryAll($sql);
+    }
 
-	public function totalLists($loginid)
-	{
-		$owner = $loginid ? "WHERE l.owner = $loginid" : '';
-		$sql = 
-			"SELECT count(*) as t
-			FROM {$this->tables['list']} l
-			$owner";
+    public function totalLists($loginid)
+    {
+        $owner = $loginid ? "WHERE l.owner = $loginid" : '';
+        $sql = 
+            "SELECT count(*) as t
+            FROM {$this->tables['list']} l
+            $owner";
 
-		return $this->dbCommand->queryOne($sql, 't');
-	}
+        return $this->dbCommand->queryOne($sql, 't');
+    }
 
 }

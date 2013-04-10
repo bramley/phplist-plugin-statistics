@@ -29,73 +29,73 @@
  * @package   MessageStatisticsPlugin
  */
 $lan = array(
-//	Controller.php
-	'tab_settings' => 'Settings',
-	'tab_lists' => 'Lists',
-	'tab_messages' => 'Messages',
-	'tab_opened' => 'Opened',
-	'tab_unopened' => 'Unopened',
-	'tab_clicked' => 'Clicked',
-	'tab_bounced' => 'Bounced',
-	'tab_forwarded' => 'Forwarded',
-	'tab_domains' => 'Domains',
-	'tab_links' => 'Links',
-	'tab_linkclicks' => 'Link Clicks',
-	'User email' => 'User email',
-	'message %s sent to %s' => 'Message %s sent to %s',
-//	Opened.php
-	'last viewed' => 'Last viewed',
-//	Unopened.php
-//	Bounced.php
-	'Bounce ID' => 'Bounce ID',
-	'email' => 'email',
-//	Clicked.php
-	'count' => 'Count',
-	'links clicked' => 'Links clicked',
-	'clicks_total' => 'Total clicks',
-	'user_not_exist' => 'User does not exist now',
-//	Domain.php
-	'Domain' => 'Domain',
-	'sent' => 'Sent',
-	'opened' => 'Opened',
-	'clicked' => 'Clicked',
-//	Forwarded.php
-//	Lists.php
-	'ID' => 'ID',
-	'All lists' => 'All lists',
-	'name' => 'Name',
-	'active' => 'Active',
-	'total sent' => 'Total sent',
-	'latest' => 'Latest',
-//	Messages.php
-	'Messages sent to %s' => 'Messages sent to %s',
-	'All sent messages' => 'All sent messages',
-	'ID' => 'ID',
-	'Subject' => 'Subject',
-	'date' => 'Date',
-	'bounced' => 'Bounced',
-	'views' => 'Views',
-	'print' => 'Print',
-	'print to PDF' => 'print to PDF',
-	'Message ID' => 'Message ID',
-	'Users' => 'Users',
-//	Links
-	'Link URL' => 'Link URL',
-	'clicks' => 'Clicks',
-	'users' => 'Users',
-	'users%' => 'Users %',
-	'firstclick' => 'First',
-	'latestclick' => 'Latest',
-//	LinkClicks
-	'Link "%s"' => 'Link "%s"',
-//	Settings
-	'caption' => 'Select any of the user attributes to be displayed as separate columns in addition to the user email',
-	'no_attrs' => 'There are no user attributes to select',
-//	exceptions
-	'You are not authorised to view message %d' => 'You are not authorised to view message %d.',
-	'Message %d does not exist' => 'Message %d does not exist.',
-	'no_messages' => 'No messages found for the current user.',
-	'no_access' => 'You do not have access to this page.',
-//	view.tpl.php
-	'plugin_title' => 'Message Statistics Plugin',
+//    Controller.php
+    'tab_settings' => 'Settings',
+    'tab_lists' => 'Lists',
+    'tab_messages' => 'Messages',
+    'tab_opened' => 'Opened',
+    'tab_unopened' => 'Unopened',
+    'tab_clicked' => 'Clicked',
+    'tab_bounced' => 'Bounced',
+    'tab_forwarded' => 'Forwarded',
+    'tab_domains' => 'Domains',
+    'tab_links' => 'Links',
+    'tab_linkclicks' => 'Link Clicks',
+    'User email' => 'User email',
+    'message %s sent to %s' => 'Message %s sent to %s',
+//    Opened.php
+    'last viewed' => 'Last viewed',
+//    Unopened.php
+//    Bounced.php
+    'Bounce ID' => 'Bounce ID',
+    'email' => 'email',
+//    Clicked.php
+    'count' => 'Count',
+    'links clicked' => 'Links clicked',
+    'clicks_total' => 'Total clicks',
+    'user_not_exist' => 'User does not exist now',
+//    Domain.php
+    'Domain' => 'Domain',
+    'sent' => 'Sent',
+    'opened' => 'Opened',
+    'clicked' => 'Clicked',
+//    Forwarded.php
+//    Lists.php
+    'ID' => 'ID',
+    'All lists' => 'All lists',
+    'name' => 'Name',
+    'active' => 'Active',
+    'total sent' => 'Total sent',
+    'latest' => 'Latest',
+//    Messages.php
+    'Messages sent to %s' => 'Messages sent to %s',
+    'All sent messages' => 'All sent messages',
+    'ID' => 'ID',
+    'Subject' => 'Subject',
+    'date' => 'Date',
+    'bounced' => 'Bounced',
+    'views' => 'Views',
+    'print' => 'Print',
+    'print to PDF' => 'print to PDF',
+    'Message ID' => 'Message ID',
+    'Users' => 'Users',
+//    Links
+    'Link URL' => 'Link URL',
+    'clicks' => 'Clicks',
+    'users' => 'Users',
+    'users%' => 'Users %',
+    'firstclick' => 'First',
+    'latestclick' => 'Latest',
+//    LinkClicks
+    'Link "%s"' => 'Link "%s"',
+//    Settings
+    'caption' => 'Select any of the user attributes to be displayed as separate columns in addition to the user email',
+    'no_attrs' => 'There are no user attributes to select',
+//    exceptions
+    'You are not authorised to view message %d' => 'You are not authorised to view message %d.',
+    'Message %d does not exist' => 'Message %d does not exist.',
+    'no_messages' => 'No messages found for the current user.',
+    'no_access' => 'You do not have access to this page.',
+//    view.tpl.php
+    'plugin_title' => 'Message Statistics Plugin',
 );

@@ -31,65 +31,65 @@
  */
 
 class MessageStatisticsPlugin_Controller_Opened 
-	extends MessageStatisticsPlugin_Controller
-	implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+    extends MessageStatisticsPlugin_Controller
+    implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
-	private $isOpened = true;
-	/*
-	 * Implementation of CommonPlugin_IExportable
-	 */
-	public function exportRows()
-	{
-		return $this->model->fetchMessageOpens($this->isOpened);
-	}
+    private $isOpened = true;
+    /*
+     * Implementation of CommonPlugin_IExportable
+     */
+    public function exportRows()
+    {
+        return $this->model->fetchMessageOpens($this->isOpened);
+    }
 
-	public function exportFieldNames()
-	{
-		$fields = array($this->i18n->get('User email'));
-		foreach ($this->model->selectedAttrs as $attr)
-			$fields[] = $this->model->attributes[$attr]['name'];
+    public function exportFieldNames()
+    {
+        $fields = array($this->i18n->get('User email'));
+        foreach ($this->model->selectedAttrs as $attr)
+            $fields[] = $this->model->attributes[$attr]['name'];
 
-		$fields[] = $this->i18n->get('last viewed');
-		return $fields;
-	}
+        $fields[] = $this->i18n->get('last viewed');
+        return $fields;
+    }
 
-	public function exportValues(array $row)
-	{
-		$values = array($row['email']);
-		foreach ($this->model->selectedAttrs as $attr)
-			$values[] = $row["attr{$attr}"];
+    public function exportValues(array $row)
+    {
+        $values = array($row['email']);
+        foreach ($this->model->selectedAttrs as $attr)
+            $values[] = $row["attr{$attr}"];
 
-		$values[] = $row['viewed'];
-		return $values;
-	}
-	/*
-	 * Implementation of CommonPlugin_IPopulator
-	 */
+        $values[] = $row['viewed'];
+        return $values;
+    }
+    /*
+     * Implementation of CommonPlugin_IPopulator
+     */
 
-	public function populate(WebblerListing $w, $start, $limit)
-	{
-		/*
-		 * Populate the webbler list with users who have opened the message
-		 */
-		$w->setTitle($this->i18n->get('User email'));
-		$resultIterator = $this->model->fetchMessageOpens($this->isOpened, $start, $limit);
+    public function populate(WebblerListing $w, $start, $limit)
+    {
+        /*
+         * Populate the webbler list with users who have opened the message
+         */
+        $w->setTitle($this->i18n->get('User email'));
+        $resultIterator = $this->model->fetchMessageOpens($this->isOpened, $start, $limit);
 
-		foreach ($resultIterator as $row) {
-			$key = $row['email'];
+        foreach ($resultIterator as $row) {
+            $key = $row['email'];
             $w->addElement($key, new CommonPlugin_PageURL('user', array('id' => $row['userid'])));
 
-			foreach ($this->model->selectedAttrs as $attr) {
-				$w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
-			}
-			$w->addColumn($key, $this->i18n->get('last viewed'), $row['viewed']);
-		}
-	}
+            foreach ($this->model->selectedAttrs as $attr) {
+                $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
+            }
+            $w->addColumn($key, $this->i18n->get('last viewed'), $row['viewed']);
+        }
+    }
 
-	public function total()
-	{
-		/*
-		 * Returns the total number of records to be displayed
-		 */
-		return $this->model->totalMessageOpens($this->isOpened);
-	}
+    public function total()
+    {
+        /*
+         * Returns the total number of records to be displayed
+         */
+        return $this->model->totalMessageOpens($this->isOpened);
+    }
 }

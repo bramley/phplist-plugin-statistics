@@ -28,73 +28,73 @@
  */
 
 $lan = array(
-//	Controller.php
-	'tab_settings' => 'Paramètres',
-	'tab_lists' => 'Listes',
-	'tab_messages' => 'Messages',
-	'tab_opened' => 'Ouverts',
-	'tab_unopened' => 'Non ouverts',
-	'tab_clicked' => 'Cliqués',
-	'tab_bounced' => 'Rejetés',
-	'tab_forwarded' => 'Transmis',
-	'tab_domains' => 'Domaines',
-	'tab_links' => 'Liens',
-	'tab_linkclicks' => 'Clics sur le lien',
-	'User email' => 'Courriel',
-	'message %s sent to %s' => 'Message %s envoyés à %s',
-//	Opened.php
-	'last viewed' => 'Dernière ouverture',
-//	Unopened.php
-//	Bounced.php
-	'Bounce ID' => 'N° du rejet',
-	'email' => 'Courriel',
-//	Clicked.php
-	'count' => 'Nombre de clics',
-	'links clicked' => 'Liens cliqués',
-	'clicks_total' => 'Total de clics',
-	'user_not_exist' => 'L\'utilisateur n\'existe pas',
-//	Domain.php
-	'Domain' => 'Domaines',
-	'sent' => 'Envoyés',
-	'opened' => 'Ouverts',
-	'clicked' => 'Cliqués',
-//	Forwarded.php
-//	Lists.php
-	'ID' => 'N°',
-	'All lists' => 'Toutes les listes',
-	'name' => 'Nom',
-	'active' => 'Actif',
-	'total sent' => 'Total messages envoyés',
-	'latest' => 'Dernière',
-//	Messages.php
-	'Messages sent to %s' => 'Les messages envoyés à %s',
-	'All sent messages' => 'Tous les messages envoyés',
-	'ID' => 'N°',
-	'Subject' => 'Sujet',
-	'date' => 'Date',
-	'bounced' => 'Rejetés',
-	'views' => 'Visites',
-	'print' => 'Imprimer',
-	'print to PDF' => 'print to PDF',
-	'Message ID' => 'N° du message',
-	'Users' => 'Utilisateurs',
-//	Links
-	'Link URL' => 'URL du lien',
-	'clicks' => 'Clics',
-	'users' => 'Utilisateurs',
-	'users%' => 'Utilisateurs %',
-	'firstclick' => 'Premier',
-	'latestclick' => 'Dernier',
-//	LinkClicks
-	'Link "%s"' => 'Lien "%s"',
-//	Settings
-	'caption' => "Sélectionnez les attributs à afficher en plus de l'adresse électronique de l'utilisateur",
-	'no_attrs' => "Il n'y a pas d'attributs utilisateur à sélectionner",
-//	exceptions
-	'You are not authorised to view message %d' => "Vous n'êtes pas autorisé à voir le message %d.",
-	'Message %d does not exist' => "Le message %d n'existe pas.",
-	'no_messages' => "Aucun message trouvé pour l'utilisateur courant.",
-	'no_access' => "Vous n'avez pas accès à cette page.",
-//	view.tpl.php
-	'plugin_title' => 'Greffon Statistiques des messages',
+//    Controller.php
+    'tab_settings' => 'Paramètres',
+    'tab_lists' => 'Listes',
+    'tab_messages' => 'Messages',
+    'tab_opened' => 'Ouverts',
+    'tab_unopened' => 'Non ouverts',
+    'tab_clicked' => 'Cliqués',
+    'tab_bounced' => 'Rejetés',
+    'tab_forwarded' => 'Transmis',
+    'tab_domains' => 'Domaines',
+    'tab_links' => 'Liens',
+    'tab_linkclicks' => 'Clics sur le lien',
+    'User email' => 'Courriel',
+    'message %s sent to %s' => 'Message %s envoyés à %s',
+//    Opened.php
+    'last viewed' => 'Dernière ouverture',
+//    Unopened.php
+//    Bounced.php
+    'Bounce ID' => 'N° du rejet',
+    'email' => 'Courriel',
+//    Clicked.php
+    'count' => 'Nombre de clics',
+    'links clicked' => 'Liens cliqués',
+    'clicks_total' => 'Total de clics',
+    'user_not_exist' => 'L\'utilisateur n\'existe pas',
+//    Domain.php
+    'Domain' => 'Domaines',
+    'sent' => 'Envoyés',
+    'opened' => 'Ouverts',
+    'clicked' => 'Cliqués',
+//    Forwarded.php
+//    Lists.php
+    'ID' => 'N°',
+    'All lists' => 'Toutes les listes',
+    'name' => 'Nom',
+    'active' => 'Actif',
+    'total sent' => 'Total messages envoyés',
+    'latest' => 'Dernière',
+//    Messages.php
+    'Messages sent to %s' => 'Les messages envoyés à %s',
+    'All sent messages' => 'Tous les messages envoyés',
+    'ID' => 'N°',
+    'Subject' => 'Sujet',
+    'date' => 'Date',
+    'bounced' => 'Rejetés',
+    'views' => 'Visites',
+    'print' => 'Imprimer',
+    'print to PDF' => 'print to PDF',
+    'Message ID' => 'N° du message',
+    'Users' => 'Utilisateurs',
+//    Links
+    'Link URL' => 'URL du lien',
+    'clicks' => 'Clics',
+    'users' => 'Utilisateurs',
+    'users%' => 'Utilisateurs %',
+    'firstclick' => 'Premier',
+    'latestclick' => 'Dernier',
+//    LinkClicks
+    'Link "%s"' => 'Lien "%s"',
+//    Settings
+    'caption' => "Sélectionnez les attributs à afficher en plus de l'adresse électronique de l'utilisateur",
+    'no_attrs' => "Il n'y a pas d'attributs utilisateur à sélectionner",
+//    exceptions
+    'You are not authorised to view message %d' => "Vous n'êtes pas autorisé à voir le message %d.",
+    'Message %d does not exist' => "Le message %d n'existe pas.",
+    'no_messages' => "Aucun message trouvé pour l'utilisateur courant.",
+    'no_access' => "Vous n'avez pas accès à cette page.",
+//    view.tpl.php
+    'plugin_title' => 'Greffon Statistiques des messages',
 );

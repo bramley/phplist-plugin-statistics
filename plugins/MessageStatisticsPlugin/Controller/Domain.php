@@ -31,59 +31,59 @@
  */
  
 class MessageStatisticsPlugin_Controller_Domain 
-	extends MessageStatisticsPlugin_Controller
-	implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+    extends MessageStatisticsPlugin_Controller
+    implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
-	/*
-	 * Implementation of CommonPlugin_IExportable
-	 */
-	public function exportRows()
-	{
-		return $this->model->messageByDomain();
-	}
+    /*
+     * Implementation of CommonPlugin_IExportable
+     */
+    public function exportRows()
+    {
+        return $this->model->messageByDomain();
+    }
 
-	public function exportFieldNames()
-	{
-		$fields = $this->i18n->get(array('domain', 'sent', 'opened', 'clicked'));
-		return $fields;
-	}
+    public function exportFieldNames()
+    {
+        $fields = $this->i18n->get(array('domain', 'sent', 'opened', 'clicked'));
+        return $fields;
+    }
 
-	public function exportValues(array $row)
-	{
-		$values = array();
-		$values[] = $row['domain'];
-		$values[] = $row['sent'];
-		$values[] = $row['opened'];
-		$values[] = $row['clicked'];
+    public function exportValues(array $row)
+    {
+        $values = array();
+        $values[] = $row['domain'];
+        $values[] = $row['sent'];
+        $values[] = $row['opened'];
+        $values[] = $row['clicked'];
 
-		return $values;
-	}
+        return $values;
+    }
 
-	/*
-	 * Implementation of CommonPlugin_IPopulator
-	 */
-	public function populate(WebblerListing $w, $start, $limit)
-	{
-		/*
-		 * Populate the webbler list with domains
-		 */
-		$w->setTitle($this->i18n->get('Domain'));
-		$resultSet = $this->model->messageByDomain($start, $limit);
+    /*
+     * Implementation of CommonPlugin_IPopulator
+     */
+    public function populate(WebblerListing $w, $start, $limit)
+    {
+        /*
+         * Populate the webbler list with domains
+         */
+        $w->setTitle($this->i18n->get('Domain'));
+        $resultSet = $this->model->messageByDomain($start, $limit);
 
-		foreach ($resultSet as $row) {
-			$key = $row['domain'];
-			$w->addElement($key, null);
-			$w->addColumn($key, $this->i18n->get('sent'), $row['sent']);
-			$w->addColumn($key, $this->i18n->get('opened'), $row['opened']);
-			$w->addColumn($key, $this->i18n->get('clicked'), $row['clicked']);
-		}
-	}
+        foreach ($resultSet as $row) {
+            $key = $row['domain'];
+            $w->addElement($key, null);
+            $w->addColumn($key, $this->i18n->get('sent'), $row['sent']);
+            $w->addColumn($key, $this->i18n->get('opened'), $row['opened']);
+            $w->addColumn($key, $this->i18n->get('clicked'), $row['clicked']);
+        }
+    }
 
-	public function total()
-	{
-		/*
-		 * Returns the total number of records to be displayed
-		 */
-		return $this->model->totalMessageByDomain();
-	}
+    public function total()
+    {
+        /*
+         * Returns the total number of records to be displayed
+         */
+        return $this->model->totalMessageByDomain();
+    }
 }

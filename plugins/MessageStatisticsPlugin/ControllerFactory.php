@@ -32,19 +32,19 @@
  
 class MessageStatisticsPlugin_ControllerFactory extends CommonPlugin_ControllerFactoryBase
 {
-	protected $defaultType = 'messages';
+    protected $defaultType = 'messages';
 
     /**
      * Custom implementation to create a controller using plugin and type
      *
      * @param string $pi the plugin
      * @param array $params further parameters from the URL
-	 *
+     *
      * @return CommonPlugin_Controller 
      * @access public
      */
     public function createController($pi, array $params)
     {
-		return $this->createControllerType($pi, $params);
-	}
+        return $this->createControllerType($pi, $params);
+    }
 }

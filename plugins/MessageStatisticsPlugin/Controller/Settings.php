@@ -23,12 +23,12 @@
  */
 
 class MessageStatisticsPlugin_Controller_Settings
-	extends MessageStatisticsPlugin_Controller
+    extends MessageStatisticsPlugin_Controller
 {
-	protected $showAttributeForm = true;
+    protected $showAttributeForm = true;
 
-	protected function caption()
-	{
-		return $this->i18n->get(count($this->model->attributes) > 0 ? 'caption' : 'no_attrs');
-	}
+    protected function caption()
+    {
+        return $this->i18n->get(count($this->model->attributes) > 0 ? 'caption' : 'no_attrs');
+    }
 }

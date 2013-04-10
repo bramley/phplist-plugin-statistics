@@ -32,11 +32,11 @@
  
 class MessageStatisticsPlugin_NoMessagesException extends CommonPlugin_Exception
 {
-	/*
-	 *	Public methods
-	 */
-	public function __construct()
-	{
-		parent::__construct('no_messages');
-	}
+    /*
+     *    Public methods
+     */
+    public function __construct()
+    {
+        parent::__construct('no_messages');
+    }
 }

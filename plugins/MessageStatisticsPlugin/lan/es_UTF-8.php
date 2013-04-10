@@ -29,70 +29,70 @@
  * @package   MessageStatisticsPlugin
  */
 $lan = array(
-//	Controller.php
-	'tab_settings' => 'Configuración',
-	'tab_lists' => 'Listas',
-	'tab_messages' => 'Mensajes',
-	'tab_opened' => 'Abiertos',
-	'tab_unopened' => 'No abiertos',
-	'tab_clicked' => 'Clickeados',
-	'tab_bounced' => 'Rebotados',
-	'tab_forwarded' => 'Reenviados',
-	'tab_domains' => 'Dominios',
-	'tab_links' => 'Enlaces',
-	'tab_linkclicks' => 'Clicks a enlaces',
-	'User email' => 'Email de usuario',
-	'message %s sent to %s' => 'Mensaje %s enviado a %s',
-//	Opened.php
-	'last viewed' => 'Último visto',
-//	Unopened.php
-//	Bounced.php
-	'Bounce ID' => 'ID de rebote',
-	'email' => 'email',
-//	Clicked.php
-	'count' => 'Cuenta',
-	'links clicked' => 'Enlaces clickeados',
-	'user_not_exist' => 'El usuario no existe ahora',
-//	Domain.php
-	'Domain' => 'Dominio',
-	'sent' => 'Enviado',
-	'opened' => 'Abierto',
-	'clicked' => 'Clickeado',
-//	Forwarded.php
-//	Lists.php
-	'ID' => 'ID',
-	'All lists' => 'Todas las listas',
-	'name' => 'Nombre',
-	'active' => 'Activo',
-	'total sent' => 'Total enviados',
-	'latest' => 'Último',
-//	Messages.php
-	'Messages sent to %s' => 'Mensajes enviados a %s',
-	'All sent messages' => 'Todos los mensajes enviados',
-	'ID' => 'ID',
-	'Subject' => 'Asunto',
-	'date' => 'Fecha',
-	'clicks_total' => 'Clicks totales',
-	'click_open' => '% Aperturas / clicks',
-	'bounced' => 'Rebotados',
-	'total (avg) views' => 'Vistas totales (promedio)',
-	'Message ID' => 'ID de mensaje',
-	'Users' => 'Usuarios',
-//	Links
-	'Link URL' => 'URL de enlace',
-	'clicks' => 'Clicks',
-	'users' => 'Usuarios',
-	'users%' => 'Usuarios %',
-	'firstclick' => 'Primero',
-	'latestclick' => 'Último',
-//	Settings
-	'caption' => 'Seleccione cualquiera de los atributos de usuario para ser mostrado como columnas adicionales a la del email de usuario',
-	'no_attrs' => 'No hay atributos de usuario para seleccionar',
-//	exceptions
-	'You are not authorised to view message %d' => 'No tiene autorización para ver el mensaje %d.',
-	'Message %d does not exist' => 'El mensaje %d no existe.',
-	'no_messages' => 'No se encontraron mensajes para el usuario actual.',
-	'no_access' => 'No tiene acceso a esta página.',
-//	statistics.tpl.php
-	'plugin_title' => 'Plugin Estadísticas de Mensaje',
+//    Controller.php
+    'tab_settings' => 'Configuración',
+    'tab_lists' => 'Listas',
+    'tab_messages' => 'Mensajes',
+    'tab_opened' => 'Abiertos',
+    'tab_unopened' => 'No abiertos',
+    'tab_clicked' => 'Clickeados',
+    'tab_bounced' => 'Rebotados',
+    'tab_forwarded' => 'Reenviados',
+    'tab_domains' => 'Dominios',
+    'tab_links' => 'Enlaces',
+    'tab_linkclicks' => 'Clicks a enlaces',
+    'User email' => 'Email de usuario',
+    'message %s sent to %s' => 'Mensaje %s enviado a %s',
+//    Opened.php
+    'last viewed' => 'Último visto',
+//    Unopened.php
+//    Bounced.php
+    'Bounce ID' => 'ID de rebote',
+    'email' => 'email',
+//    Clicked.php
+    'count' => 'Cuenta',
+    'links clicked' => 'Enlaces clickeados',
+    'user_not_exist' => 'El usuario no existe ahora',
+//    Domain.php
+    'Domain' => 'Dominio',
+    'sent' => 'Enviado',
+    'opened' => 'Abierto',
+    'clicked' => 'Clickeado',
+//    Forwarded.php
+//    Lists.php
+    'ID' => 'ID',
+    'All lists' => 'Todas las listas',
+    'name' => 'Nombre',
+    'active' => 'Activo',
+    'total sent' => 'Total enviados',
+    'latest' => 'Último',
+//    Messages.php
+    'Messages sent to %s' => 'Mensajes enviados a %s',
+    'All sent messages' => 'Todos los mensajes enviados',
+    'ID' => 'ID',
+    'Subject' => 'Asunto',
+    'date' => 'Fecha',
+    'clicks_total' => 'Clicks totales',
+    'click_open' => '% Aperturas / clicks',
+    'bounced' => 'Rebotados',
+    'total (avg) views' => 'Vistas totales (promedio)',
+    'Message ID' => 'ID de mensaje',
+    'Users' => 'Usuarios',
+//    Links
+    'Link URL' => 'URL de enlace',
+    'clicks' => 'Clicks',
+    'users' => 'Usuarios',
+    'users%' => 'Usuarios %',
+    'firstclick' => 'Primero',
+    'latestclick' => 'Último',
+//    Settings
+    'caption' => 'Seleccione cualquiera de los atributos de usuario para ser mostrado como columnas adicionales a la del email de usuario',
+    'no_attrs' => 'No hay atributos de usuario para seleccionar',
+//    exceptions
+    'You are not authorised to view message %d' => 'No tiene autorización para ver el mensaje %d.',
+    'Message %d does not exist' => 'El mensaje %d no existe.',
+    'no_messages' => 'No se encontraron mensajes para el usuario actual.',
+    'no_access' => 'No tiene acceso a esta página.',
+//    statistics.tpl.php
+    'plugin_title' => 'Plugin Estadísticas de Mensaje',
 );

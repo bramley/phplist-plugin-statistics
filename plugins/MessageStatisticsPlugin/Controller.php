@@ -32,190 +32,190 @@
  */
  
  abstract class MessageStatisticsPlugin_Controller
-	extends CommonPlugin_Controller
+    extends CommonPlugin_Controller
 {
-	/*
-	 *	Protected attributes
-	 * 	Read by sub-classes
-	 */	
-	protected $model;
-	/*
-	 * 	Written by sub-classes
-	 */	
-	protected $showAttributeForm = false;
-	protected $itemsPerPage = null;
-	/*
-	 *	Private methods
-	 */
-	private function navigation()
-	{
-		$types = array(
-			'settings' => $this->i18n->get('tab_settings'),
-			'lists' => $this->i18n->get('tab_lists'),
-			'messages' => $this->i18n->get('tab_messages'),
-			'opened' => $this->i18n->get('tab_opened'),
-			'unopened' => $this->i18n->get('tab_unopened'),
-			'clicked' => $this->i18n->get('tab_clicked'),
-			'bounced' => $this->i18n->get('tab_bounced'),
-			'forwarded' => $this->i18n->get('tab_forwarded'),
-			'domain' => $this->i18n->get('tab_domains'),
-			'links' => $this->i18n->get('tab_links'),
-			'linkclicks' => $this->i18n->get('tab_linkclicks'),
-		);
-		$tabs = new CommonPlugin_Tabs();
-		/*
-		 * Settings tab
-		 */
+    /*
+     *    Protected attributes
+     *     Read by sub-classes
+     */    
+    protected $model;
+    /*
+     *     Written by sub-classes
+     */    
+    protected $showAttributeForm = false;
+    protected $itemsPerPage = null;
+    /*
+     *    Private methods
+     */
+    private function navigation()
+    {
+        $types = array(
+            'settings' => $this->i18n->get('tab_settings'),
+            'lists' => $this->i18n->get('tab_lists'),
+            'messages' => $this->i18n->get('tab_messages'),
+            'opened' => $this->i18n->get('tab_opened'),
+            'unopened' => $this->i18n->get('tab_unopened'),
+            'clicked' => $this->i18n->get('tab_clicked'),
+            'bounced' => $this->i18n->get('tab_bounced'),
+            'forwarded' => $this->i18n->get('tab_forwarded'),
+            'domain' => $this->i18n->get('tab_domains'),
+            'links' => $this->i18n->get('tab_links'),
+            'linkclicks' => $this->i18n->get('tab_linkclicks'),
+        );
+        $tabs = new CommonPlugin_Tabs();
+        /*
+         * Settings tab
+         */
         $tabs->addTab($types['settings'],  new CommonPlugin_PageURL(null, array('type' => 'settings')));
-		/*
-		 * Lists tab
-		 */
+        /*
+         * Lists tab
+         */
         $tabs->addTab($types['lists'],  new CommonPlugin_PageURL(null, array('type' => 'lists')));
-		/*
-		 * Messages tab
-		 */
-		$query = array();
-		$query['listid'] = $this->model->listid;
-		$query['type'] = 'messages';
+        /*
+         * Messages tab
+         */
+        $query = array();
+        $query['listid'] = $this->model->listid;
+        $query['type'] = 'messages';
         $tabs->addTab($types['messages'],  new CommonPlugin_PageURL(null, $query));
-		/*
-		 * Opened -> Links tabs
-		 */
-		$query['msgid'] = $this->model->msgid;
-		foreach (array_slice($types, 3, 7) as $type => $title) {
-			$query['type'] = $type;
+        /*
+         * Opened -> Links tabs
+         */
+        $query['msgid'] = $this->model->msgid;
+        foreach (array_slice($types, 3, 7) as $type => $title) {
+            $query['type'] = $type;
             $tabs->addTab($title, new CommonPlugin_PageURL(null, $query));
-		}
-		/*
-		 * Link clicks tab
-		 */
-		if ($this->model->type == 'linkclicks') {
-			$query['forwardid'] = $this->model->forwardid;
-			$query['type'] = 'linkclicks';
+        }
+        /*
+         * Link clicks tab
+         */
+        if ($this->model->type == 'linkclicks') {
+            $query['forwardid'] = $this->model->forwardid;
+            $query['type'] = 'linkclicks';
             $tabs->addTab($types['linkclicks'],  new CommonPlugin_PageURL(null, $query));
-		}
-		$tabs->setCurrent($types[$this->model->type]);
-		return $tabs;
-	}
-	/*
-	 *	Protected methods
-	 */
+        }
+        $tabs->setCurrent($types[$this->model->type]);
+        return $tabs;
+    }
+    /*
+     *    Protected methods
+     */
      /**
      * Generate default caption
-	 * Intended to be overridden by subclasses
+     * Intended to be overridden by subclasses
      * @return string 
      * @access protected
      */
-	protected function caption()
-	{
-		return $this->i18n->get(
-			'message %s sent to %s', 
-			$this->model->msgid  . ' ' . '"' . $this->model->msgSubject . '"', 
-			'"' . implode('", "', $this->model->listNames) . '"'
-		);
-	}
+    protected function caption()
+    {
+        return $this->i18n->get(
+            'message %s sent to %s', 
+            $this->model->msgid  . ' ' . '"' . $this->model->msgSubject . '"', 
+            '"' . implode('", "', $this->model->listNames) . '"'
+        );
+    }
 
      /**
      * Create prev and next message values
-	 * Intended to be overridden by subclasses
+     * Intended to be overridden by subclasses
      * @return array [0] parameter, [1] previous item, [2] next item
      * @access protected
      */
-	protected function prevNext()
-	{
-		list($prev, $next) = $this->model->prevNextMessage();
-		return array('msgid', $prev, $next);
-	}
+    protected function prevNext()
+    {
+        list($prev, $next) = $this->model->prevNextMessage();
+        return array('msgid', $prev, $next);
+    }
 
-	protected function actionDefault()
-	{
-		global $google_chart_direct;
-		
-		try {
-			if ($this->model->access == 'none') 
-				throw new MessageStatisticsPlugin_NoAccessException();
+    protected function actionDefault()
+    {
+        global $google_chart_direct;
+        
+        try {
+            if ($this->model->access == 'none') 
+                throw new MessageStatisticsPlugin_NoAccessException();
 
-			$this->model->validateProperties();
-			$query = array(
-				'listid' => $this->model->listid,
-				'msgid' => $this->model->msgid,
-				'type' => $this->model->type,
-			);
+            $this->model->validateProperties();
+            $query = array(
+                'listid' => $this->model->listid,
+                'msgid' => $this->model->msgid,
+                'type' => $this->model->type,
+            );
 
-			if (isset($_POST['SearchForm'])) {
-				$this->model->setProperties($_POST['SearchForm'], true);
+            if (isset($_POST['SearchForm'])) {
+                $this->model->setProperties($_POST['SearchForm'], true);
                 $redirect = new CommonPlugin_PageURL(null, $query);
-				header("Location: $redirect");
-				exit;
-			}
+                header("Location: $redirect");
+                exit;
+            }
 
-			$params = array();
-			$toolbar = new CommonPlugin_Toolbar($this);
+            $params = array();
+            $toolbar = new CommonPlugin_Toolbar($this);
 
-			if ($this instanceof CommonPlugin_IExportable) {
-				$toolbar->addExportButton($query);
-			}
-			$toolbar->addHelpButton($this->model->type);
-			$params['toolbar'] = $toolbar->display();
-			$params['tabs'] = $this->navigation()->display();
-			$params['caption'] = $this->caption();
+            if ($this instanceof CommonPlugin_IExportable) {
+                $toolbar->addExportButton($query);
+            }
+            $toolbar->addHelpButton($this->model->type);
+            $params['toolbar'] = $toolbar->display();
+            $params['tabs'] = $this->navigation()->display();
+            $params['caption'] = $this->caption();
 
-			if ($this instanceof CommonPlugin_IPopulator) {
-			
-				$listing = new CommonPlugin_Listing($this, $this);
+            if ($this instanceof CommonPlugin_IPopulator) {
+            
+                $listing = new CommonPlugin_Listing($this, $this);
 
-				if ($this->itemsPerPage) {
-					$listing->pager->setItemsPerPage($this->itemsPerPage[0], $this->itemsPerPage[1]);
-				}
+                if ($this->itemsPerPage) {
+                    $listing->pager->setItemsPerPage($this->itemsPerPage[0], $this->itemsPerPage[1]);
+                }
 
-				if ($r = $this->prevNext()) {
-					$listing->pager->setPrevNext($r[0], $r[1], $r[2]);
-				}
-				$params['listing'] = $listing->display();
-			}
+                if ($r = $this->prevNext()) {
+                    $listing->pager->setPrevNext($r[0], $r[1], $r[2]);
+                }
+                $params['listing'] = $listing->display();
+            }
 
-			if ($this->showAttributeForm && count($this->model->attributes) > 0) {
-				$params['form'] = CommonPlugin_Widget::attributeForm($this, $this->model, false, true);
-			}
+            if ($this->showAttributeForm && count($this->model->attributes) > 0) {
+                $params['form'] = CommonPlugin_Widget::attributeForm($this, $this->model, false, true);
+            }
 
-			if ($this instanceof CommonPlugin_IChartable) {
-				$chart = new CommonPlugin_GoogleChart();
+            if ($this instanceof CommonPlugin_IChartable) {
+                $chart = new CommonPlugin_GoogleChart();
 
-				if (empty($google_chart_direct)) {
-					try {
-						$id = $chart->createChart($this);
+                if (empty($google_chart_direct)) {
+                    try {
+                        $id = $chart->createChart($this);
                         $params['chartURL'] = new CommonPlugin_PageURL(
-							null, $_GET + array('action' => 'chart', 'chartID' => $id)
-						);
-					} catch (CommonPlugin_GoogleChartException $e) {
-						$params['chartMessage'] = $e->getMessage();
-					} catch (ErrorException $e) {
-						$params['chartMessage'] = 'ErrorException ' . $e->getMessage();
-					}
-				} else {
-					$params['chartURL'] = $chart->url($this);
-				}
-			}
-		} catch (Exception $e) {
-			$params['exception'] = $e->getMessage();
-		}
-		print $this->render(dirname(__FILE__) . '/view.tpl.php', $params);
-	}
-	/*
-	 *	Public methods
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->model = new MessageStatisticsPlugin_Model(new CommonPlugin_DB());
-		$this->model->setProperties($_REQUEST);
-	}
+                            null, $_GET + array('action' => 'chart', 'chartID' => $id)
+                        );
+                    } catch (CommonPlugin_GoogleChartException $e) {
+                        $params['chartMessage'] = $e->getMessage();
+                    } catch (ErrorException $e) {
+                        $params['chartMessage'] = 'ErrorException ' . $e->getMessage();
+                    }
+                } else {
+                    $params['chartURL'] = $chart->url($this);
+                }
+            }
+        } catch (Exception $e) {
+            $params['exception'] = $e->getMessage();
+        }
+        print $this->render(dirname(__FILE__) . '/view.tpl.php', $params);
+    }
+    /*
+     *    Public methods
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->model = new MessageStatisticsPlugin_Model(new CommonPlugin_DB());
+        $this->model->setProperties($_REQUEST);
+    }
 
-	public function exportFileName()
-	{
-		$msgid = $this->model->msgid;
-		return isset($msgid)
-			? "message_{$msgid}_{$this->model->type}"
-			: $this->model->type;
-	}
+    public function exportFileName()
+    {
+        $msgid = $this->model->msgid;
+        return isset($msgid)
+            ? "message_{$msgid}_{$this->model->type}"
+            : $this->model->type;
+    }
 }

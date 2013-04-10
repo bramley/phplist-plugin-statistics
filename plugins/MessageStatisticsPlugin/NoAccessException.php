@@ -32,11 +32,11 @@
  
 class MessageStatisticsPlugin_NoAccessException extends CommonPlugin_Exception
 {
-	/*
-	 *	Public methods
-	 */
-	public function __construct()
-	{
-		parent::__construct('no_access');
-	}
+    /*
+     *    Public methods
+     */
+    public function __construct()
+    {
+        parent::__construct('no_access');
+    }
 }

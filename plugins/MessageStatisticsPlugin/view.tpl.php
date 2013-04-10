@@ -45,9 +45,9 @@
  */
 ?>
 <div id='top'>
-	<hr />
+    <hr />
 <?php if (isset($toolbar)) echo $toolbar; ?>
-	<div style='padding-top: 10px;' >
+    <div style='padding-top: 10px;' >
 <?php if (isset($tabs)) echo $tabs; ?>
     </div>
     <div style='padding-top: 10px;' >
@@ -56,17 +56,17 @@
     </div>
     <div style='padding-top: 10px;'>
 <?php if (isset($chartURL)): ?>
-		<img src='<?php echo $chartURL; ?>' width='600'  height='300' />
+        <img src='<?php echo $chartURL; ?>' width='600'  height='300' />
 <?php endif; ?>
 <?php if (isset($chartMessage)): ?>
-		<p><?php echo $chartMessage; ?></p>
+        <p><?php echo $chartMessage; ?></p>
 <?php endif; ?>
 <?php if (isset($form)) echo $form; ?>
     </div>
 <?php if (isset($listing)): ?>
     <div style='padding-top: 10px;'>
-	<?php echo $listing; ?>
-		<p><a href='#top'>[<?php echo $this->i18n->get('top'); ?>]</a></p>
+    <?php echo $listing; ?>
+        <p><a href='#top'>[<?php echo $this->i18n->get('top'); ?>]</a></p>
     </div>
 <?php endif; ?>
 </div>

@@ -31,66 +31,66 @@
  */
  
 class MessageStatisticsPlugin_Controller_Forwarded 
-	extends MessageStatisticsPlugin_Controller
-	implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+    extends MessageStatisticsPlugin_Controller
+    implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
-	/*
-	 * Implementation of CommonPlugin_IExportable
-	 */
-	public function exportRows()
-	{
-		return $this->model->fetchMessageForwards();
-	}
+    /*
+     * Implementation of CommonPlugin_IExportable
+     */
+    public function exportRows()
+    {
+        return $this->model->fetchMessageForwards();
+    }
 
-	public function exportFieldNames()
-	{
-		$fields = array($this->i18n->get('email'));
+    public function exportFieldNames()
+    {
+        $fields = array($this->i18n->get('email'));
 
-		foreach ($this->model->selectedAttrs as $attr)
-			$fields[] = $this->model->attributes[$attr]['name'];
+        foreach ($this->model->selectedAttrs as $attr)
+            $fields[] = $this->model->attributes[$attr]['name'];
 
-		$fields[] = $this->i18n->get('count');
-		return $fields;
-	}
+        $fields[] = $this->i18n->get('count');
+        return $fields;
+    }
 
-	public function exportValues(array $row)
-	{
-		$values = array($row['email']);
+    public function exportValues(array $row)
+    {
+        $values = array($row['email']);
 
-		foreach ($this->model->selectedAttrs as $attr)
-			$values[] = $row["attr{$attr}"];
+        foreach ($this->model->selectedAttrs as $attr)
+            $values[] = $row["attr{$attr}"];
 
-		$values[] = $row['count'];
-		return $values;
-	}
+        $values[] = $row['count'];
+        return $values;
+    }
 
-	/*
-	 * Implementation of CommonPlugin_IPopulator
-	 */
-	public function populate(WebblerListing $w, $start, $limit)
-	{
-		/*
-		 * Populate the webbler list with users who have forwarded the message
-		 */
-		$w->setTitle($this->i18n->get('User email'));
-		$resultSet = $this->model->fetchMessageForwards($start, $limit);
+    /*
+     * Implementation of CommonPlugin_IPopulator
+     */
+    public function populate(WebblerListing $w, $start, $limit)
+    {
+        /*
+         * Populate the webbler list with users who have forwarded the message
+         */
+        $w->setTitle($this->i18n->get('User email'));
+        $resultSet = $this->model->fetchMessageForwards($start, $limit);
 
-		foreach ($resultSet as $row) {
-			$key = $row['email'];
+        foreach ($resultSet as $row) {
+            $key = $row['email'];
             $w->addElement($key,  new CommonPlugin_PageURL('userhistory', array('id' => $row['id'])));
 
-			foreach ($this->model->selectedAttrs as $attr) {
-				$w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
-			}
-			$w->addColumn($key, $this->i18n->get('count'), $row['count'], null, 'left');
-		}
-	}
+            foreach ($this->model->selectedAttrs as $attr) {
+                $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
+            }
+            $w->addColumn($key, $this->i18n->get('count'), $row['count'], null, 'left');
+        }
+    }
 
-	public function total()
-	{
-		/*
-		 * Returns the total number of records to be displayed
-		 */
-		return $this->model->totalMessageForwards();
-	}
+    public function total()
+    {
+        /*
+         * Returns the total number of records to be displayed
+         */
+        return $this->model->totalMessageForwards();
+    }
 }

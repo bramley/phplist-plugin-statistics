@@ -32,11 +32,11 @@
  
 class MessageStatisticsPlugin_NotAuthorisedException extends CommonPlugin_Exception
 {
-	/*
-	 *	Public methods
-	 */
-	public function __construct($msgid)
-	{
-		parent::__construct('You are not authorised to view message %d', null, $msgid);
-	}
+    /*
+     *    Public methods
+     */
+    public function __construct($msgid)
+    {
+        parent::__construct('You are not authorised to view message %d', null, $msgid);
+    }
 }

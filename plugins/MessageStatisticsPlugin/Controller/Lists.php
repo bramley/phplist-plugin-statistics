@@ -30,59 +30,59 @@
  */
 
 class MessageStatisticsPlugin_Controller_Lists
-	extends MessageStatisticsPlugin_Controller
-	implements CommonPlugin_IPopulator
+    extends MessageStatisticsPlugin_Controller
+    implements CommonPlugin_IPopulator
 {
-	protected $itemsPerPage = array(array(10, 25), 10);
+    protected $itemsPerPage = array(array(10, 25), 10);
 
-	protected function caption()
-	{
-		return '';
-	}
+    protected function caption()
+    {
+        return '';
+    }
 
-	protected function prevNext()
-	{
-		return null;
-	}
+    protected function prevNext()
+    {
+        return null;
+    }
 
-	/*
-	 * Implementation of CommonPlugin_IPopulator
-	 */
-	public function populate(WebblerListing $w, $start, $limit)
-	{
-		/*
-		 * Populates the webbler list with list details
-		 */
-		$w->setTitle($this->i18n->get('ID'));
-		$resultIterator = $this->model->fetchLists($start, $limit);
-		$rows = iterator_to_array($resultIterator);
+    /*
+     * Implementation of CommonPlugin_IPopulator
+     */
+    public function populate(WebblerListing $w, $start, $limit)
+    {
+        /*
+         * Populates the webbler list with list details
+         */
+        $w->setTitle($this->i18n->get('ID'));
+        $resultIterator = $this->model->fetchLists($start, $limit);
+        $rows = iterator_to_array($resultIterator);
 
-		if (!($start == 0 && $limit == 1)) {
-			$rows[] = array('id' => '', 'name' => $this->i18n->get('All lists'), 'description' => '',
-				'active' => '', 'count' => '', 'max' => $this->model->latestMessage()
-			);
-		}
+        if (!($start == 0 && $limit == 1)) {
+            $rows[] = array('id' => '', 'name' => $this->i18n->get('All lists'), 'description' => '',
+                'active' => '', 'count' => '', 'max' => $this->model->latestMessage()
+            );
+        }
 
-		foreach ($rows as $row) {
-			$key = $row['id'];
-			$w->addElement($key);
-			$w->addColumn($key, $this->i18n->get('name'), $row['name'],
-				$row['max']
+        foreach ($rows as $row) {
+            $key = $row['id'];
+            $w->addElement($key);
+            $w->addColumn($key, $this->i18n->get('name'), $row['name'],
+                $row['max']
                     ? new CommonPlugin_PageURL(null, array('type' => 'messages', 'listid' => $row['id']))
-					: ''
-			);
-			$w->addColumn($key, $this->i18n->get('active'), $row['active']);
-			$w->addColumn($key, $this->i18n->get('total sent'), $row['count']);
-			$w->addColumn($key, $this->i18n->get('latest'), $row['max'],
-				$row['max']
+                    : ''
+            );
+            $w->addColumn($key, $this->i18n->get('active'), $row['active']);
+            $w->addColumn($key, $this->i18n->get('total sent'), $row['count']);
+            $w->addColumn($key, $this->i18n->get('latest'), $row['max'],
+                $row['max']
                     ? new CommonPlugin_PageURL(null, array('listid' => $row['id'], 'msgid' => $row['max']))
-					: ''
-			);
-		}
-	}
+                    : ''
+            );
+        }
+    }
 
-	public function total()
-	{
-		return $this->model->totalLists();
-	}
+    public function total()
+    {
+        return $this->model->totalLists();
+    }
 }
