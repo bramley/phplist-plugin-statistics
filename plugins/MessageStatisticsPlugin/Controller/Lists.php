@@ -68,14 +68,14 @@ class MessageStatisticsPlugin_Controller_Lists
 			$w->addElement($key);
 			$w->addColumn($key, $this->i18n->get('name'), $row['name'],
 				$row['max']
-					? CommonPlugin_PageURL::create(null, array('type' => 'messages', 'listid' => $row['id']))
+                    ? new CommonPlugin_PageURL(null, array('type' => 'messages', 'listid' => $row['id']))
 					: ''
 			);
 			$w->addColumn($key, $this->i18n->get('active'), $row['active']);
 			$w->addColumn($key, $this->i18n->get('total sent'), $row['count']);
 			$w->addColumn($key, $this->i18n->get('latest'), $row['max'],
 				$row['max']
-					? CommonPlugin_PageURL::create(null, array('listid' => $row['id'], 'msgid' => $row['max']))
+                    ? new CommonPlugin_PageURL(null, array('listid' => $row['id'], 'msgid' => $row['max']))
 					: ''
 			);
 		}

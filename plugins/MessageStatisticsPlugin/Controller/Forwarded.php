@@ -77,7 +77,7 @@ class MessageStatisticsPlugin_Controller_Forwarded
 
 		foreach ($resultSet as $row) {
 			$key = $row['email'];
-			$w->addElement($key,  CommonPlugin_PageURL::create('userhistory', array('id' => $row['id'])));
+            $w->addElement($key,  new CommonPlugin_PageURL('userhistory', array('id' => $row['id'])));
 
 			foreach ($this->model->selectedAttrs as $attr) {
 				$w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);

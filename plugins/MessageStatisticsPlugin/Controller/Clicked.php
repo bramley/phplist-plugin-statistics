@@ -79,13 +79,13 @@ class MessageStatisticsPlugin_Controller_Clicked
 		foreach ($resultSet as $row) {
 			$key = $row['email'];
 			if ($key) {
-				$w->addElement($key, CommonPlugin_PageURL::create('userhistory', array('id' => $row['userid'])));
+                $w->addElement($key, new CommonPlugin_PageURL('userhistory', array('id' => $row['userid'])));
 
 				foreach ($this->model->selectedAttrs as $attr) {
 					$w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
 				}
 				$w->addColumn($key, $this->i18n->get('links clicked'), $row['links'],
-					 CommonPlugin_PageURL::create('userclicks', array('userid' => $row['userid'], 'msgid' => $this->model->msgid)),
+                     new CommonPlugin_PageURL('userclicks', array('userid' => $row['userid'], 'msgid' => $this->model->msgid)),
 					'left'
 				);
 			} else {

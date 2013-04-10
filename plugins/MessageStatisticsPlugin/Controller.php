@@ -66,25 +66,25 @@
 		/*
 		 * Settings tab
 		 */
-		$tabs->addTab($types['settings'],  CommonPlugin_PageURL::create(null, array('type' => 'settings')));
+        $tabs->addTab($types['settings'],  new CommonPlugin_PageURL(null, array('type' => 'settings')));
 		/*
 		 * Lists tab
 		 */
-		$tabs->addTab($types['lists'],  CommonPlugin_PageURL::create(null, array('type' => 'lists')));
+        $tabs->addTab($types['lists'],  new CommonPlugin_PageURL(null, array('type' => 'lists')));
 		/*
 		 * Messages tab
 		 */
 		$query = array();
 		$query['listid'] = $this->model->listid;
 		$query['type'] = 'messages';
-		$tabs->addTab($types['messages'],  CommonPlugin_PageURL::create(null, $query));
+        $tabs->addTab($types['messages'],  new CommonPlugin_PageURL(null, $query));
 		/*
 		 * Opened -> Links tabs
 		 */
 		$query['msgid'] = $this->model->msgid;
 		foreach (array_slice($types, 3, 7) as $type => $title) {
 			$query['type'] = $type;
-			$tabs->addTab($title, CommonPlugin_PageURL::create(null, $query));
+            $tabs->addTab($title, new CommonPlugin_PageURL(null, $query));
 		}
 		/*
 		 * Link clicks tab
@@ -92,7 +92,7 @@
 		if ($this->model->type == 'linkclicks') {
 			$query['forwardid'] = $this->model->forwardid;
 			$query['type'] = 'linkclicks';
-			$tabs->addTab($types['linkclicks'],  CommonPlugin_PageURL::create(null, $query));
+            $tabs->addTab($types['linkclicks'],  new CommonPlugin_PageURL(null, $query));
 		}
 		$tabs->setCurrent($types[$this->model->type]);
 		return $tabs;
@@ -144,7 +144,7 @@
 
 			if (isset($_POST['SearchForm'])) {
 				$this->model->setProperties($_POST['SearchForm'], true);
-				$redirect = CommonPlugin_PageURL::create(null, $query);
+                $redirect = new CommonPlugin_PageURL(null, $query);
 				header("Location: $redirect");
 				exit;
 			}
@@ -184,7 +184,7 @@
 				if (empty($google_chart_direct)) {
 					try {
 						$id = $chart->createChart($this);
-						$params['chartURL'] = CommonPlugin_PageURL::create(
+                        $params['chartURL'] = new CommonPlugin_PageURL(
 							null, $_GET + array('action' => 'chart', 'chartID' => $id)
 						);
 					} catch (CommonPlugin_GoogleChartException $e) {

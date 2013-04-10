@@ -76,7 +76,7 @@ class MessageStatisticsPlugin_Controller_Opened
 
 		foreach ($resultIterator as $row) {
 			$key = $row['email'];
-			$w->addElement($key, CommonPlugin_PageURL::create('user', array('id' => $row['userid'])));
+            $w->addElement($key, new CommonPlugin_PageURL('user', array('id' => $row['userid'])));
 
 			foreach ($this->model->selectedAttrs as $attr) {
 				$w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);

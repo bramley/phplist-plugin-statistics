@@ -79,9 +79,9 @@ class MessageStatisticsPlugin_Controller_Bounced
 
 		foreach ($resultIterator as $row) {
 			$key = $row['bounce'];
-			$w->addElement($key,  CommonPlugin_PageURL::create('bounce', array('s' => 0, 'id' => $row['bounce'])));
+            $w->addElement($key,  new CommonPlugin_PageURL('bounce', array('s' => 0, 'id' => $row['bounce'])));
 			$w->addColumn($key, 'email', $row['email'],
-				 CommonPlugin_PageURL::create('userhistory', array('id' => $row['user']), 'left')
+                 new CommonPlugin_PageURL('userhistory', array('id' => $row['user']), 'left')
 			);
 
 			foreach ($this->model->selectedAttrs as $attr) {

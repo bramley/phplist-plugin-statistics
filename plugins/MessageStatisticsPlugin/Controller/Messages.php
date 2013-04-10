@@ -50,11 +50,6 @@ class MessageStatisticsPlugin_Controller_Messages
 	/*
 	 * Private methods
 	 */
-	private static function image($image, $alt)
-	{
-		return CHtml::image(self::IMAGE_DIR . $image, $alt, array('title' => $alt));
-	}
-
 	private function messageStats(array $row)
 	{
 		$sent = $row['sent'];
@@ -257,7 +252,7 @@ class MessageStatisticsPlugin_Controller_Messages
 			$fields = $this->messageStats($row);
 			$query['msgid'] = $fields['id'];
 			$key = "$fields[id] | $fields[subject]";
-			$w->addElement($key,  CommonPlugin_PageURL::create(null, $query));
+            $w->addElement($key,  new CommonPlugin_PageURL(null, $query));
 			$w->addColumn($key, $this->i18n->get('date'), $fields['datesent']);
 			$w->addColumn($key, $this->i18n->get('sent'), $fields['sent'], '');
 			$w->addColumn($key, $this->i18n->get('opened'), "{$fields['openrate']}% ({$fields['opens']})");
@@ -270,8 +265,8 @@ class MessageStatisticsPlugin_Controller_Messages
 			$w->addColumn($key, $this->i18n->get('views'), "{$fields['viewed']} ({$fields['avgviews']})");
 
             if (isset($wkhtmltopdfOptions) && is_executable($wkhtmltopdfOptions['bin'])) {
-                $w->addColumnHtml($key, $this->i18n->get('print'), self::image('doc_pdf.png', $this->i18n->get('print to PDF')),
-                    CommonPlugin_PageURL::create(null, array('listid' => $this->model->listid, 'action' => 'print', 'msgid' => $fields['id']))
+                $w->addColumnHtml($key, $this->i18n->get('print'), new CommonPlugin_ImageTag('doc_pdf.png', $this->i18n->get('print to PDF')),
+                    new CommonPlugin_PageURL(null, array('listid' => $this->model->listid, 'action' => 'print', 'msgid' => $fields['id']))
                 );
 		}
 	}

@@ -87,7 +87,7 @@ class MessageStatisticsPlugin_Controller_Links
             }
 
 			$query['forwardid'] = $row['forwardid'];
-			$w->addElement($key, CommonPlugin_PageURL::create(null, $query));
+            $w->addElement($key, new CommonPlugin_PageURL(null, $query));
 			$w->addColumn($key, $this->i18n->get('clicks'), $row['numclicks']);
 			$w->addColumn($key, $this->i18n->get('users'),
 				$row['usersclicked'] > 0 
