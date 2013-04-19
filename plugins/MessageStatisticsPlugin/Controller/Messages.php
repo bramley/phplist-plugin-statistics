@@ -268,8 +268,8 @@ class MessageStatisticsPlugin_Controller_Messages
                 $w->addColumnHtml($key, $this->i18n->get('print'), new CommonPlugin_ImageTag('doc_pdf.png', $this->i18n->get('print to PDF')),
                     new CommonPlugin_PageURL(null, array('listid' => $this->model->listid, 'action' => 'print', 'msgid' => $fields['id']))
                 );
+            }
         }
-    }
     }
 
     public function total()
