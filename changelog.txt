@@ -1,0 +1,5 @@
+version 2013-04-22
+      Changes to CommonPlugin_PageURL and CommonPlugin_ImageTag
+      Change tabs to 4 spaces throughout
+      Initial version file
+      Remove dependency on PLUGIN_ROOTDIR
