@@ -29,6 +29,6 @@
  * @package   MessageStatisticsPlugin
  */
  
-include PLUGIN_ROOTDIR . '/CommonPlugin/Autoloader.php';
+include $plugins['CommonPlugin']->coderoot . 'Autoloader.php';
 
 CommonPlugin_Main::run(new MessageStatisticsPlugin_ControllerFactory());
