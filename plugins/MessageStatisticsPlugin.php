@@ -40,6 +40,7 @@ class MessageStatisticsPlugin extends phplistPlugin
     public $name = 'Message Statistics';
     public $enabled = true;
     public $authors = 'Duncan Cameron';
+    public $description = 'Provides statistics on opens, clicks, bounces, forwards, and links of sent messages.';
     public $topMenuLinks = array(
         'main' => array('category' => 'statistics')
     );
