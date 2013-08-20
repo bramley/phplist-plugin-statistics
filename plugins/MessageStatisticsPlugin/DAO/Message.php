@@ -243,9 +243,9 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             : "";
 
         $um_lu_exists = $this->xx_lu_exists('um.userid', $listId);
-        $ltuc_lu_exists = $this->xx_lu_exists('ltuc.userid', $listId);
         $umb_lu_exists = $this->xx_lu_exists('umb.user', $listId);
         $umf_lu_exists = $this->xx_lu_exists('umf.user', $listId);
+        $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listId);
 
         $sql =
             "SELECT m.id, fromfield AS 'from', subject, viewed, owner,
@@ -262,29 +262,29 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                 $um_lu_exists
             ) AS sent,
 
-            (SELECT COUNT(DISTINCT ltuc.userid)
-                FROM {$this->tables['linktrack_userclick']} ltuc
-                JOIN {$this->tables['linktrack']} lt ON lt.linkid = ltuc.linkid AND lt.userid = ltuc.userid AND lt.messageid = ltuc.messageid
-                WHERE ltuc.messageid = m.id
-                AND lt.url NOT RLIKE('$excludeRegex')
+            (SELECT COUNT(DISTINCT uml.userid)
+                FROM {$this->tables['linktrack_uml_click']} uml
+                JOIN {$this->tables['linktrack_forward']} fw ON fw.id = uml.forwardid
+                WHERE uml.messageid = m.id
+                AND fw.url NOT RLIKE('$excludeRegex')
                 AND EXISTS (
                     SELECT * FROM {$this->tables['usermessage']} um
-                    WHERE ltuc.userid = um.userid AND ltuc.messageid = um.messageid
+                    WHERE uml.userid = um.userid AND uml.messageid = um.messageid
                 )
-                $ltuc_lu_exists
-            ) AS clickUsers,
+                $uml_lu_exists
+            ) as clickUsers,
 
-            (SELECT COUNT(*)
-                FROM {$this->tables['linktrack_userclick']} ltuc
-                JOIN {$this->tables['linktrack']} lt ON lt.linkid = ltuc.linkid AND lt.userid = ltuc.userid AND lt.messageid = ltuc.messageid
-                WHERE ltuc.messageid = m.id AND ltuc.name = 'Message Type'
-                AND lt.url NOT RLIKE('$excludeRegex')
+            (SELECT COALESCE(SUM(clicked), 0)
+                FROM {$this->tables['linktrack_uml_click']} uml
+                JOIN {$this->tables['linktrack_forward']} fw ON fw.id = uml.forwardid
+                WHERE uml.messageid = m.id
+                AND fw.url NOT RLIKE('$excludeRegex')
                 AND EXISTS (
                     SELECT * FROM {$this->tables['usermessage']} um
-                    WHERE ltuc.userid = um.userid AND ltuc.messageid = um.messageid
+                    WHERE uml.userid = um.userid AND uml.messageid = um.messageid
                 )
-                $ltuc_lu_exists
-            ) AS totalClicks,
+                $uml_lu_exists
+            ) as totalClicks,
 
             (SELECT COUNT(DISTINCT umb.user)
                 FROM {$this->tables['user_message_bounce']} umb
