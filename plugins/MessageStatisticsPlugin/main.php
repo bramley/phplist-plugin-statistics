@@ -29,6 +29,13 @@
  * @package   MessageStatisticsPlugin
  */
  
-include $plugins['CommonPlugin']->coderoot . 'Autoloader.php';
+$commonPlugin = isset($plugins['CommonPlugin']) ? $plugins['CommonPlugin'] : null;
+
+if (!($commonPlugin && $commonPlugin->enabled)) {
+    echo "phplist-plugin-common must be installed and enabled to use this plugin";
+    return;
+}
+
+include $commonPlugin->coderoot . 'Autoloader.php';
 
 CommonPlugin_Main::run(new MessageStatisticsPlugin_ControllerFactory());
