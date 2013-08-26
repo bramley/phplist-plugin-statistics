@@ -1,3 +1,8 @@
+version 2013-08-26
+      Added description for plugins page
+      Clarify the required version of phplist
+      Test that common plugin is installed and enabled
+
 version 2013-04-22
       Changes to CommonPlugin_PageURL and CommonPlugin_ImageTag
       Change tabs to 4 spaces throughout

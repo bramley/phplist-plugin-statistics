@@ -4,7 +4,7 @@
 
 ### Dependencies ###
 
-This plugin is for phplist 2.11.8 and later.
+This plugin is for phplist 3.0.0 and later.
 
 Requires php version 5.2 or later.
 
@@ -17,7 +17,7 @@ You can use a directory outside of the web root by changing the definition of `P
 The benefit of this is that plugins will not be affected when you upgrade phplist.
 
 ### Install through phplist ###
-Install on the Plugins page (menu Config > Plugins) using the package URL `https://github.com/bramley/phplist-plugin-statistics/archive/master.zip`.
+The recommended way to install is through the Plugins page (menu Config > Plugins) using the package URL `https://github.com/bramley/phplist-plugin-statistics/archive/master.zip`.
 
 ### Install manually ###
 Download the plugin zip file from <https://github.com/bramley/phplist-plugin-statistics/archive/master.zip>
@@ -31,6 +31,7 @@ This should contain
 ## Version history ##
 
     version     Description
+    2013-08-26  Accumulated minor changes
     2013-04-22  Added README, changes to use the latest Common Plugin 
     2013-03-29  Initial version for phplist 2.11.x releases
 
