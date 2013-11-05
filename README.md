@@ -28,6 +28,12 @@ This should contain
 * the file MessageStatisticsPlugin.php
 * the directory MessageStatisticsPlugin
 
+## Donation ##
+
+This plugin is free but if you install and find it useful then a donation to support further development is greatly appreciated.
+
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=W5GLX53WDM7T4)
+
 ## Version history ##
 
     version     Description
