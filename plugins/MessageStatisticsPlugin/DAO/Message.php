@@ -181,7 +181,8 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             ) AS openUsers,
             (SELECT COUNT(status)
                 FROM {$this->tables['usermessage']} um
-                WHERE messageid = m.id 
+                WHERE messageid = m.id
+                AND status = 'sent'
                 $um_lu_exists
             ) AS sent,
 
@@ -258,7 +259,8 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 
             (SELECT COUNT(status)
                 FROM {$this->tables['usermessage']} um
-                WHERE messageid = m.id 
+                WHERE messageid = m.id
+                AND status = 'sent'
                 $um_lu_exists
             ) AS sent,
 
@@ -357,6 +359,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             JOIN {$this->tables['user']} u ON um.userid = u.id
             $attr_join
             WHERE um.messageid = $msgid
+            AND um.status = 'sent'
             AND um.viewed IS $isOpened
             $u_lu_exists
             ORDER BY $order
@@ -385,6 +388,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             JOIN {$this->tables['user']} u ON um.userid = u.id
             $attr_join
             WHERE um.messageid = $msgid
+            AND um.status = 'sent'
             AND um.viewed IS $isOpened
             $u_lu_exists
             ";
@@ -548,12 +552,14 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             "SELECT SUBSTRING_INDEX(u.email, '@', -1) AS domain,
                 COUNT(um.viewed) AS opened, COUNT(um.status) AS sent, COUNT(lt.userid) AS clicked
             FROM {$this->tables['user']} u 
-            JOIN {$this->tables['usermessage']} um ON u.id = um.userid AND um.messageid = $msgID
+            JOIN {$this->tables['usermessage']} um ON u.id = um.userid
             $listuser_join
             LEFT OUTER JOIN 
                 (SELECT DISTINCT userid
                 FROM {$this->tables['linktrack_uml_click']}
                 WHERE messageid = $msgID ) AS lt ON u.id = lt.userid
+            WHERE um.messageid = $msgID
+            AND um.status = 'sent'
             GROUP BY domain
             $limitClause";
 
@@ -568,8 +574,10 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             FROM (
                 SELECT SUBSTRING_INDEX(u.email, '@', -1) AS domain
                 FROM {$this->tables['user']} u 
-                JOIN {$this->tables['usermessage']} um ON u.id = um.userid AND um.messageid = $msgID
+                JOIN {$this->tables['usermessage']} um ON u.id = um.userid
                 $listuser_join
+                WHERE um.messageid = $msgID
+                AND um.status = 'sent'
                 GROUP BY domain
             ) AS domain
             ";
@@ -636,6 +644,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                     (SELECT COUNT(userid) 
                     FROM {$this->tables['usermessage']} um
                     WHERE um.messageid = lt.messageid
+                    AND um.status = 'sent'
                     $um_lu_exists
                     ) AS totalsent,
                 COALESCE(COUNT(uml.userid), 0) as usersclicked
