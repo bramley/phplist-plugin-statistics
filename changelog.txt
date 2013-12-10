@@ -1,3 +1,6 @@
+version 2013-12-10
+      GitHub #3 - Test for 'sent' status on usermessage table
+
 version 2013-08-26
       Added description for plugins page
       Clarify the required version of phplist
