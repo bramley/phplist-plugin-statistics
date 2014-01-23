@@ -32,7 +32,7 @@
 
 class MessageStatisticsPlugin_Controller_Messages 
     extends MessageStatisticsPlugin_Controller
-    implements CommonPlugin_IPopulator, CommonPlugin_IExportable, CommonPlugin_IChartable
+    implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
     const IMAGE_DIR = 'images/';
 
@@ -160,50 +160,34 @@ class MessageStatisticsPlugin_Controller_Messages
     {
         return null;
     }
-    /*
-     * Implementation of CommonPlugin_IChartable
-     */
-    public function chartParameters()
+
+    protected function createChart($chartDiv)
     {
-        $chartStatistics = array();
-
+        $chart = new Chart('ComboChart');
+        $data = array();
+        
         foreach ($this->messageResults as $row) {
-            $fields = $this->messageStats($row);
-            $chartStatistics['ID'][] = $fields['id'];
-            $chartStatistics['sent'][] = $fields['sent'];
-            $chartStatistics['opened'][] = $fields['opens'];
-            $chartStatistics['clicked'][] = $fields['clickUsers'];
-            $chartStatistics['bounced'][] = $fields['bouncecount'];
-        }
-        $barWidth = min(
-            self::MAX_BAR_WIDTH,
-            intval((self::IMAGE_WIDTH - self::LEFT_MARGIN - self::RIGHT_MARGIN) / count($chartStatistics['ID'])) - self::BAR_GAP
-        );
+            $data[] = array(
+                'ID' => $row['id'],
+                'Sent' => (int) $row['sent'],
+                'Opened' => (int) $row['openUsers'],
+                'Clicked' => (int) $row['clickUsers'],
+                'Bounced' => (int) $row['bouncecount']
+            );
+        };
 
-        return array(
-            'cht' => 'bvg',
-            'chs' => sprintf('%dx%d', self::IMAGE_WIDTH, self::IMAGE_HEIGHT),
-            'chbh' => sprintf('%d,%d,%d', $barWidth, self::BAR_GAP, self::BAR_GAP),
-            'chd' => sprintf(
-                't1:%s|%s|%s|%s',
-                implode(',', $chartStatistics['sent']), implode(',', $chartStatistics['opened']),
-                implode(',', $chartStatistics['clicked']), implode(',', $chartStatistics['bounced'])
-            ),
-            'chds' => 'a',
-            'chdl' => implode('|', $this->i18n->getUtf8(array('Sent', 'Opened', 'Clicked', 'Bounced'))),
-            'chdlp' => 'b|l',
-            'chf' => 'bg,s,EFEFEF',
-            'chm' => 'D,00FF00,1,0,2|D,0000FF,2,0,2|D,B22222,3,0,2',
-            'chma' => sprintf('%d,%d,20,20', self::LEFT_MARGIN, self::RIGHT_MARGIN),
-            'chco' => '00FFFF,00FF00,0000FF,B22222',
-            'chxt' => 'x,x,y,y',
-            'chxl' => sprintf(
-                '0:|%s|1:|%s|3:|%s',
-                 implode('|', $chartStatistics['ID']), $this->i18n->getUtf8('Message ID'), $this->i18n->getUtf8('Users')
-            ),
-            'chxp' => sprintf('1,50|3,%d', max($chartStatistics['sent']) / 2),
-            'chxtc' => sprintf('2,%d', -self::IMAGE_WIDTH),
+        $chart->load($data, 'array');
+        $options = array(
+            'height' => self::IMAGE_HEIGHT,
+            'axisTitlesPosition' => 'out',
+            'vAxis' => array('title' => 'Subscribers', 'gridlines' => array('count' => 10), 'logScale' => true, 'format' => '#'),
+            'hAxis' => array('title' => 'Campaign'),
+            'seriesType' => 'line',
+            'series' => array(0 => array('type' => 'bars')),
+            'legend' => array('position' => 'bottom')
         );
+        $result = $chart->draw($chartDiv, $options);
+        return $result;
     }
 
     /*

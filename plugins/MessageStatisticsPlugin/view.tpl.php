@@ -38,8 +38,7 @@
  * - $help: help link
  * - $caption: text
  * - $download: download link
- * - $chartURL: URL for displaying a chart
- * - $chartMessage: error message to replace a chart
+ * - $chart: chart
  * - $form: attribute search/select form
  * - $listing: HTML result of CommonPlugin_Listing
  */
@@ -55,11 +54,9 @@
 <?php if (isset($caption)) echo nl2br(htmlspecialchars($caption)); ?>
     </div>
     <div style='padding-top: 10px;'>
-<?php if (isset($chartURL)): ?>
-        <img src='<?php echo $chartURL; ?>' width='600'  height='300' />
-<?php endif; ?>
-<?php if (isset($chartMessage)): ?>
-        <p><?php echo $chartMessage; ?></p>
+<?php if (isset($chart)): ?>
+    <?php echo $chart; ?>
+        <div id="<?php echo $chart_div; ?>"></div>
 <?php endif; ?>
 <?php if (isset($form)) echo $form; ?>
     </div>

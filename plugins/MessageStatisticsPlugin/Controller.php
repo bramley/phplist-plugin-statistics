@@ -178,23 +178,9 @@
                 $params['form'] = CommonPlugin_Widget::attributeForm($this, $this->model, false, true);
             }
 
-            if ($this instanceof CommonPlugin_IChartable) {
-                $chart = new CommonPlugin_GoogleChart();
-
-                if (empty($google_chart_direct)) {
-                    try {
-                        $id = $chart->createChart($this);
-                        $params['chartURL'] = new CommonPlugin_PageURL(
-                            null, $_GET + array('action' => 'chart', 'chartID' => $id)
-                        );
-                    } catch (CommonPlugin_GoogleChartException $e) {
-                        $params['chartMessage'] = $e->getMessage();
-                    } catch (ErrorException $e) {
-                        $params['chartMessage'] = 'ErrorException ' . $e->getMessage();
-                    }
-                } else {
-                    $params['chartURL'] = $chart->url($this);
-                }
+            if ($this instanceof MessageStatisticsPlugin_Controller_Messages) {
+                $params['chart_div'] = 'chart_div';
+                $params['chart'] = $this->createChart($params['chart_div']);
             }
         } catch (Exception $e) {
             $params['exception'] = $e->getMessage();
