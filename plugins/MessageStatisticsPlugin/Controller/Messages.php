@@ -34,14 +34,7 @@ class MessageStatisticsPlugin_Controller_Messages
     extends MessageStatisticsPlugin_Controller
     implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
-    const IMAGE_DIR = 'images/';
-
-    const IMAGE_WIDTH = 600;
     const IMAGE_HEIGHT = 300;
-    const LEFT_MARGIN = 50;
-    const RIGHT_MARGIN = 20;
-    const MAX_BAR_WIDTH = 40;
-    const BAR_GAP = 2;
     const EXCLUDE_REGEX = 'p=preferences|p=unsubscribe|phplist.com';
 
     private $messageResults;
