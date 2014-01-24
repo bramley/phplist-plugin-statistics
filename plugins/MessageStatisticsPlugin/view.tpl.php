@@ -33,11 +33,10 @@
 /**
  *
  * Available fields
+ * - $toolbar: toolbar
  * - $tabs: WebblerTabs
  * - $exception: exception text
- * - $help: help link
  * - $caption: text
- * - $download: download link
  * - $chart: chart
  * - $form: attribute search/select form
  * - $listing: HTML result of CommonPlugin_Listing

@@ -37,21 +37,21 @@ class MessageStatisticsPlugin extends phplistPlugin
     /*
      *  Inherited variables
      */
-    public $name = 'Message Statistics';
+    public $name = 'Campaign Statistics';
     public $enabled = true;
     public $authors = 'Duncan Cameron';
-    public $description = 'Provides statistics on opens, clicks, bounces, forwards, and links of sent messages.';
+    public $description = 'Provides statistics on opens, clicks, bounces, forwards, and links of sent campaigns.';
     public $topMenuLinks = array(
         'main' => array('category' => 'statistics')
     );
     public $pageTitles = array(
-        'main' => 'Message Statistics',
+        'main' => 'Advanced Statistics',
     );
 
     public function adminmenu()
     {
         return array(
-            'main' => 'Message Statistics'
+            'main' => 'Advanced Statistics'
         );
     }
 

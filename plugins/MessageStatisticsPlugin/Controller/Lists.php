@@ -53,7 +53,7 @@ class MessageStatisticsPlugin_Controller_Lists
         /*
          * Populates the webbler list with list details
          */
-        $w->setTitle($this->i18n->get('ID'));
+        $w->setTitle($this->i18n->get('Lists'));
         $resultIterator = $this->model->fetchLists($start, $limit);
         $rows = iterator_to_array($resultIterator);
 
@@ -64,9 +64,8 @@ class MessageStatisticsPlugin_Controller_Lists
         }
 
         foreach ($rows as $row) {
-            $key = $row['id'];
-            $w->addElement($key);
-            $w->addColumn($key, $this->i18n->get('name'), $row['name'],
+            $key = "{$row['id']} | {$row['name']}";
+            $w->addElement($key,
                 $row['max']
                     ? new CommonPlugin_PageURL(null, array('type' => 'messages', 'listid' => $row['id']))
                     : ''

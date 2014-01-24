@@ -219,7 +219,7 @@ class MessageStatisticsPlugin_Controller_Messages
          */
         global $wkhtmltopdfOptions;
 
-        $w->setTitle(sprintf('%s | %s', $this->i18n->get('ID'), $this->i18n->get('Subject')));
+        $w->setTitle($this->i18n->get('Campaigns'));
 
         $rows = iterator_to_array($this->model->fetchMessages(false, $start, $limit));
         $this->messageResults = array_reverse($rows);

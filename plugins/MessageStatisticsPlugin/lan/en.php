@@ -32,7 +32,7 @@ $lan = array(
 //    Controller.php
     'tab_settings' => 'Settings',
     'tab_lists' => 'Lists',
-    'tab_messages' => 'Messages',
+    'tab_messages' => 'Campaigns',
     'tab_opened' => 'Opened',
     'tab_unopened' => 'Unopened',
     'tab_clicked' => 'Clicked',
@@ -42,7 +42,7 @@ $lan = array(
     'tab_links' => 'Links',
     'tab_linkclicks' => 'Link Clicks',
     'User email' => 'User email',
-    'message %s sent to %s' => 'Message %s sent to %s',
+    'message %s sent to %s' => 'Campaign %s sent to %s',
 //    Opened.php
     'last viewed' => 'Last viewed',
 //    Unopened.php
@@ -61,15 +61,14 @@ $lan = array(
     'clicked' => 'Clicked',
 //    Forwarded.php
 //    Lists.php
-    'ID' => 'ID',
+    'Lists' => 'Lists',
     'All lists' => 'All lists',
-    'name' => 'Name',
     'active' => 'Active',
     'total sent' => 'Total sent',
     'latest' => 'Latest',
 //    Messages.php
-    'Messages sent to %s' => 'Messages sent to %s',
-    'All sent messages' => 'All sent messages',
+    'Messages sent to %s' => 'Campaigns sent to %s',
+    'All sent messages' => 'All sent campaigns',
     'ID' => 'ID',
     'Subject' => 'Subject',
     'date' => 'Date',
@@ -79,6 +78,7 @@ $lan = array(
     'print to PDF' => 'print to PDF',
     'Message ID' => 'Message ID',
     'Users' => 'Users',
+    'Campaigns' => 'Campaigns',
 //    Links
     'Link URL' => 'Link URL',
     'clicks' => 'Clicks',
@@ -92,10 +92,9 @@ $lan = array(
     'caption' => 'Select any of the user attributes to be displayed as separate columns in addition to the user email',
     'no_attrs' => 'There are no user attributes to select',
 //    exceptions
-    'You are not authorised to view message %d' => 'You are not authorised to view message %d.',
-    'Message %d does not exist' => 'Message %d does not exist.',
-    'no_messages' => 'No messages found for the current user.',
+    'You are not authorised to view message %d' => 'You are not authorised to view campaign %d.',
+    'Message %d does not exist' => 'Campaign %d does not exist.',
+    'no_messages' => 'No campaigns found for the current user.',
     'no_access' => 'You do not have access to this page.',
 //    view.tpl.php
-    'plugin_title' => 'Message Statistics Plugin',
 );
