@@ -56,7 +56,9 @@
     <div style='padding-top: 10px;'>
 <?php if (isset($chart)): ?>
     <?php echo $chart; ?>
-        <div id="<?php echo $chart_div; ?>"></div>
+        <div id="<?php echo $chart_div; ?>" 
+            style="width: 100%; height: <?php echo MessageStatisticsPlugin_Controller_Messages::IMAGE_HEIGHT; ?>px;">
+        </div>
 <?php endif; ?>
 <?php if (isset($form)) echo $form; ?>
     </div>
