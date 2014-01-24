@@ -129,8 +129,6 @@
 
     protected function actionDefault()
     {
-        global $google_chart_direct;
-        
         try {
             if ($this->model->access == 'none') 
                 throw new MessageStatisticsPlugin_NoAccessException();
