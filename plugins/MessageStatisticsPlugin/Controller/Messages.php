@@ -173,7 +173,7 @@ class MessageStatisticsPlugin_Controller_Messages
         $options = array(
             'height' => self::IMAGE_HEIGHT,
             'axisTitlesPosition' => 'out',
-            'vAxis' => array('title' => 'Subscribers', 'gridlines' => array('count' => 10), 'logScale' => true, 'format' => '#'),
+            'vAxis' => array('title' => 'Subscribers', 'gridlines' => array('count' => 10), 'logScale' => false, 'format' => '#'),
             'hAxis' => array('title' => 'Campaign'),
             'seriesType' => 'line',
             'series' => array(0 => array('type' => 'bars')),
