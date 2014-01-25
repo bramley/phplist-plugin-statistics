@@ -1,3 +1,7 @@
+version 2014-01-25
+      Use javascript Google Chart instead of Image Charts
+      Use campaign instead of message
+
 version 2013-12-10
       GitHub #3 - Test for 'sent' status on usermessage table
 

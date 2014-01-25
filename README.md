@@ -43,6 +43,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2014-01-25  Use Google Charts instead of Chart API
     2013-12-10  GitHub issue #3
     2013-08-26  Accumulated minor changes
     2013-04-22  Added README, changes to use the latest Common Plugin 
