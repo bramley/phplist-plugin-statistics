@@ -1,3 +1,6 @@
+version 2014-01-27
+      On Messages tab order by the sent date instead of message id
+
 version 2014-01-25
       Use javascript Google Chart instead of Image Charts
       Use campaign instead of message

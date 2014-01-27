@@ -43,6 +43,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2014-01-27  On Messages tab order by sent date
     2014-01-25  Use Google Charts instead of Chart API
     2013-12-10  GitHub issue #3
     2013-08-26  Accumulated minor changes
