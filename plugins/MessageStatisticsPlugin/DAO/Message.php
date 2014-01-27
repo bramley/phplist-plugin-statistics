@@ -34,6 +34,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
     /**
      * Private methods
      */
+    private $orderBy = 'sent';
 
     private function xx_lu_exists($field, $listid)
     {
@@ -107,47 +108,59 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $owner = $loginid ? "AND m.owner = $loginid" : '';
         $list = $listid ? "AND lm.listid = $listid" : '';
         $sql = 
-            "SELECT MAX(lm.messageid) AS msgid
-            FROM {$this->tables['listmessage']} lm
-            JOIN {$this->tables['message']} m ON lm.messageid = m.id
-            JOIN {$this->tables['usermessage']} um ON um.messageid = m.id 
-            WHERE m.status = 'sent' $owner $list";
+            "SELECT id
+            FROM {$this->tables['message']}
+            WHERE $this->orderBy = (
+                SELECT MAX(m.$this->orderBy) AS latest
+                FROM {$this->tables['listmessage']} lm
+                JOIN {$this->tables['message']} m ON lm.messageid = m.id
+                JOIN {$this->tables['usermessage']} um ON um.messageid = m.id 
+                WHERE m.status = 'sent' $owner $list
+            )";
 
-        return $this->dbCommand->queryOne($sql, 'msgid');
+        return $this->dbCommand->queryOne($sql, 'id');
     }
 
     public function prevNextMessage($listId, $msgID, $loginid)
     {
         $owner_and = $loginid ? "AND owner = $loginid" : '';
-        $m_lm_exists = $listId
-            ? "AND EXISTS (
-                SELECT 1 FROM {$this->tables['listmessage']} lm
-                WHERE m.id = lm.messageid AND lm.listid = $listId)"
+        $m_lm_join = $listId
+            ? "JOIN {$this->tables['listmessage']} lm ON m.id = lm.messageid AND lm.listid = $listId"
             : "";
 
         $sql = 
-            "SELECT MAX(a.id) AS prev
-            FROM (
-                SELECT DISTINCT id
+            "SELECT id AS prev
+            FROM {$this->tables['message']}
+            WHERE $this->orderBy = (
+                SELECT MAX($this->orderBy)
                 FROM {$this->tables['message']} m
+                $m_lm_join
                 WHERE m.status = 'sent'
-                AND id < $msgID
-                $m_lm_exists
+                AND $this->orderBy < (
+                    SELECT $this->orderBy
+                    FROM {$this->tables['message']}
+                    WHERE id = $msgID
+                )
                 $owner_and
-            ) AS a";
+            )";
 
         $prev = $this->dbCommand->queryOne($sql, 'prev');
 
         $sql = 
-            "SELECT MIN(a.id) AS next
-            FROM (
-                SELECT DISTINCT id
+            "SELECT id AS next
+            FROM {$this->tables['message']}
+            WHERE $this->orderBy = (
+                SELECT MIN($this->orderBy)
                 FROM {$this->tables['message']} m
+                $m_lm_join
                 WHERE m.status = 'sent'
-                AND id > $msgID
-                $m_lm_exists
+                AND $this->orderBy > (
+                    SELECT $this->orderBy
+                    FROM {$this->tables['message']}
+                    WHERE id = $msgID
+                )
                 $owner_and
-            ) AS a";
+            )";
 
         $next = $this->dbCommand->queryOne($sql, 'next');
 
@@ -228,7 +241,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             WHERE m.status = 'sent'
             $m_lm_exists
             $owner_and
-            ORDER BY id $order
+            ORDER BY m.$this->orderBy $order
             $limitClause";
 
         return $this->dbCommand->queryAll($sql);
