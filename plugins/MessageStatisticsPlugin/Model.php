@@ -45,13 +45,13 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         'type' => 'messages',
         'listid' => null,
         'msgid' => null,
-        'chartID' => null,
         'forwardid' => null,
         'selectedAttrs' => array(),
         'searchTerm' => null,
         'searchBy' => null,
     );
     protected $persist = array(
+        'listid' => '',
         'selectedAttrs' => '',
         'searchTerm' => '',
         'searchBy' => ''
@@ -96,12 +96,15 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 
     public function validateProperties()
     {
-         if (!(isset($this->properties['listid']) && ctype_digit($this->properties['listid'])))
+        if (!(isset($this->properties['listid']) && ctype_digit($this->properties['listid']))) {
             $this->listid = null;
-         if (!(isset($this->properties['msgid']) && ctype_digit($this->properties['msgid'])))
-            $this->msgid = null;
+        }
 
-         switch ($this->type) {
+        if (!(isset($this->properties['msgid']) && ctype_digit($this->properties['msgid']))) {
+            $this->msgid = null;
+        }
+
+        switch ($this->type) {
             case 'lists':
                 break;
             case 'messages':
@@ -135,7 +138,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 
                     if ($this->owner && $message['owner'] != $this->owner) {
                         throw new MessageStatisticsPlugin_NotAuthorisedException($this->msgid);
-                }
+                    }
                 }
                 $this->msgSubject = $message['subject'];
 
