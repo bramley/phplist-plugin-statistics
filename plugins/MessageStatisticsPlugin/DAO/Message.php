@@ -35,6 +35,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
      * Private methods
      */
     private $orderBy = 'sent';
+    private $selectStatus = "'sent', 'inprocess', 'suspended'";
 
     private function xx_lu_exists($field, $listid)
     {
@@ -115,7 +116,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                 FROM {$this->tables['listmessage']} lm
                 JOIN {$this->tables['message']} m ON lm.messageid = m.id
                 JOIN {$this->tables['usermessage']} um ON um.messageid = m.id 
-                WHERE m.status = 'sent' $owner $list
+                WHERE m.status IN ($this->selectStatus) $owner $list
             )";
 
         return $this->dbCommand->queryOne($sql, 'id');
@@ -135,7 +136,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                 SELECT MAX($this->orderBy)
                 FROM {$this->tables['message']} m
                 $m_lm_join
-                WHERE m.status = 'sent'
+                WHERE m.status IN ($this->selectStatus)
                 AND $this->orderBy < (
                     SELECT $this->orderBy
                     FROM {$this->tables['message']}
@@ -153,7 +154,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                 SELECT MIN($this->orderBy)
                 FROM {$this->tables['message']} m
                 $m_lm_join
-                WHERE m.status = 'sent'
+                WHERE m.status IN ($this->selectStatus)
                 AND $this->orderBy > (
                     SELECT $this->orderBy
                     FROM {$this->tables['message']}
@@ -238,7 +239,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                 $umf_lu_exists
             ) AS forwardcount
             FROM {$this->tables['message']} m
-            WHERE m.status = 'sent'
+            WHERE m.status IN ($this->selectStatus)
             $m_lm_exists
             $owner_and
             ORDER BY m.$this->orderBy $order
@@ -322,7 +323,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             ) AS forwardcount
 
             FROM {$this->tables['message']} m
-            WHERE m.status = 'sent'
+            WHERE m.status IN ($this->selectStatus)
             AND m.id = $msgId
             $m_lm_exists";
 
@@ -341,7 +342,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $sql = 
             "SELECT COUNT(m.id) AS t
             FROM {$this->tables['message']} m
-            WHERE m.status = 'sent' 
+            WHERE m.status IN ($this->selectStatus) 
             $lm_exists
             $owner_and";
 
