@@ -80,12 +80,13 @@ class MessageStatisticsPlugin_Controller_Links
         );
 
         foreach ($resultSet as $row) {
-            $key = preg_replace('%^(http|https)://%', '', $row['url']);
+            $key = preg_replace('%^(http|https)://%i', '', $row['url']);
 
             if (strlen($key) > 39) {
-                $key = substr_replace($key, '&nbsp;...&nbsp;', 22, strlen($key) - (22 + 12));
+                $key = htmlspecialchars(substr($key, 0, 22)) . '&nbsp;...&nbsp;' . htmlspecialchars(substr($key, -12));
             }
 
+            $key = sprintf('<span title="%s">%s</span>', htmlspecialchars($row['url']), $key);
             $query['forwardid'] = $row['forwardid'];
             $w->addElement($key, new CommonPlugin_PageURL(null, $query));
             $w->addColumn($key, $this->i18n->get('clicks'), $row['numclicks']);
