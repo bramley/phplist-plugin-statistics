@@ -32,6 +32,14 @@
 
 class MessageStatisticsPlugin_DAO_List extends CommonPlugin_DAO_List
 {
+    private $selectStatus;
+
+    public function __construct($db)
+    {
+        parent::__construct($db);
+        $this->selectStatus = MessageStatisticsPlugin_DAO_Message::MESSAGE_SELECT;
+    }
+
     /*
      *
      */
@@ -41,10 +49,10 @@ class MessageStatisticsPlugin_DAO_List extends CommonPlugin_DAO_List
         $limitClause = is_null($start) ? '' : "LIMIT $start, $limit";
         $sql = 
             "SELECT l.id, REPLACE(l.name, '&amp;', '&') as name, l.description, l.active,
-                count(lm.messageid) as count, max(lm.messageid) as max
+                count(lm.messageid) as count
             FROM {$this->tables['list']} l
             LEFT OUTER JOIN ({$this->tables['listmessage']} lm, {$this->tables['message']} m)
-                ON (l.id = lm.listid AND lm.messageid = m.id AND m.status='sent')
+                ON (l.id = lm.listid AND lm.messageid = m.id AND m.status IN ($this->selectStatus))
             $owner
             GROUP BY l.id
             ORDER BY listorder

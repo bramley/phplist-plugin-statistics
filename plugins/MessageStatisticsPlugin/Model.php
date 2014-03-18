@@ -236,9 +236,9 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
             $this->msgid, $this->listid, $this->attributes, $this->searchTerm, $this->searchBy
         );
     }
-    public function latestMessage()
+    public function latestMessage($listid = null)
     {
-        return $this->messageDAO->latestMessage($this->owner, $this->listid);
+        return $this->messageDAO->latestMessage($this->owner, $listid ? $listid : $this->listid);
     }
     public function prevNextForwardId()
     {

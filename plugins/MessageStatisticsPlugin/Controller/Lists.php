@@ -59,22 +59,23 @@ class MessageStatisticsPlugin_Controller_Lists
 
         if (!($start == 0 && $limit == 1)) {
             $rows[] = array('id' => '', 'name' => $this->i18n->get('All lists'), 'description' => '',
-                'active' => '', 'count' => '', 'max' => $this->model->latestMessage()
+                'active' => '', 'count' => ''
             );
         }
 
         foreach ($rows as $row) {
             $key = "{$row['id']} | {$row['name']}";
+            $latest = $this->model->latestMessage($row['id']);
             $w->addElement($key,
-                $row['max']
+                $latest
                     ? new CommonPlugin_PageURL(null, array('type' => 'messages', 'listid' => $row['id']))
                     : ''
             );
             $w->addColumn($key, $this->i18n->get('active'), $row['active']);
             $w->addColumn($key, $this->i18n->get('total sent'), $row['count']);
-            $w->addColumn($key, $this->i18n->get('latest'), $row['max'],
-                $row['max']
-                    ? new CommonPlugin_PageURL(null, array('listid' => $row['id'], 'msgid' => $row['max']))
+            $w->addColumn($key, $this->i18n->get('latest'), $latest,
+                $latest
+                    ? new CommonPlugin_PageURL(null, array('listid' => $row['id'], 'msgid' => $latest))
                     : ''
             );
         }
