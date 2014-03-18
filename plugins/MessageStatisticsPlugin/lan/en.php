@@ -97,4 +97,5 @@ $lan = array(
     'no_messages' => 'No campaigns found for the current user.',
     'no_access' => 'You do not have access to this page.',
 //    view.tpl.php
+    'plugin_title' => 'Advanced Statistics Plugin',
 );
