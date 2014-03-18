@@ -31,11 +31,12 @@
  
 class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 {
+    const MESSAGE_SELECT = "'sent', 'inprocess', 'suspended'";
     /**
      * Private methods
      */
     private $orderBy = 'sent';
-    private $selectStatus = "'sent', 'inprocess', 'suspended'";
+    private $selectStatus;
 
     private function xx_lu_exists($field, $listid)
     {
@@ -101,6 +102,12 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
     /**
      * Public methods
      */
+    public function __construct($db)
+    {
+        parent::__construct($db);
+        $this->selectStatus = self::MESSAGE_SELECT;
+    }
+
     /*
      * Methods for messages
      */
@@ -342,7 +349,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $sql = 
             "SELECT COUNT(m.id) AS t
             FROM {$this->tables['message']} m
-            WHERE m.status IN ($this->selectStatus) 
+            WHERE m.status IN ($this->selectStatus)
             $lm_exists
             $owner_and";
 
