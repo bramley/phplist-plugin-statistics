@@ -1,3 +1,11 @@
+version 2014-03-18
+      Persist list id
+      Correct problem of Lists tab not showing the correct latest message
+      Make message status values available as a constant
+      Correct problem on Lists tab of Latest not linking to the Opened tab
+      Select messages with sent, inprocess or suspended status
+      Fix problem when different links are shortened to the same value
+
 version 2014-01-27
       On Messages tab order by the sent date instead of message id
 

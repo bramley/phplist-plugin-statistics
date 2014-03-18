@@ -75,7 +75,7 @@ class MessageStatisticsPlugin_Controller_Lists
             $w->addColumn($key, $this->i18n->get('total sent'), $row['count']);
             $w->addColumn($key, $this->i18n->get('latest'), $latest,
                 $latest
-                    ? new CommonPlugin_PageURL(null, array('listid' => $row['id'], 'msgid' => $latest))
+                    ? new CommonPlugin_PageURL(null, array('type' => 'opened', 'listid' => $row['id'], 'msgid' => $latest))
                     : ''
             );
         }
