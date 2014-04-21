@@ -19,8 +19,8 @@ The benefit of this is that plugins will not be affected when you upgrade phplis
 ### Install through phplist ###
 The recommended way to install is through the Plugins page (menu Config > Plugins) using the package URL `https://github.com/bramley/phplist-plugin-statistics/archive/master.zip`.
 
-There is a bug that can cause a plugin to be incompletely installed on some configurations (<https://mantis.phplist.com/view.php?id=16865>). 
-Check that these files are in the plugin directory. If not then you will need to install manually.
+In phplist releases 3.0.5 and earlier there is a bug that can cause a plugin to be incompletely installed on some configurations (<https://mantis.phplist.com/view.php?id=16865>). 
+Check that these files are in the plugin directory. If not then you will need to install manually. The bug has been fixed in release 3.0.6.
 
 * the file MessageStatisticsPlugin.php
 * the directory MessageStatisticsPlugin
