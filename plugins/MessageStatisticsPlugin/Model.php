@@ -234,7 +234,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
     }
     public function latestMessage($listid = null)
     {
-        return $this->messageDAO->latestMessage($this->owner, $listid ? $listid : $this->listid);
+        return $this->messageDAO->latestMessage($this->owner, is_null($listid) ? $this->listid : $listid);
     }
     public function prevNextForwardId()
     {

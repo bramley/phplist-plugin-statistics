@@ -43,6 +43,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2014-04-22  Fix problem of 'no campaigns found' after deleting list
     2014-01-27  Fix for Lists tab not showing correct latest campaign
                 Select messages with sent, inprocess or suspended status 
     2014-01-27  On Messages tab order by sent date

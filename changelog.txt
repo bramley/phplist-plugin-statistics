@@ -1,3 +1,6 @@
+version 2014-04-22
+      Display messages tab when there are no messages
+
 version 2014-03-18
       Persist list id
       Correct problem of Lists tab not showing the correct latest message
