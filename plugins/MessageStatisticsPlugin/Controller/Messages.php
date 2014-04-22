@@ -156,6 +156,9 @@ class MessageStatisticsPlugin_Controller_Messages
 
     protected function createChart($chartDiv)
     {
+        if (count($this->messageResults) == 0) {
+            return '';
+        }
         $chart = new Chart('ComboChart');
         $data = array();
         
