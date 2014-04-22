@@ -108,10 +108,6 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
             case 'lists':
                 break;
             case 'messages':
-                if ($this->messageDAO->totalMessages($this->listid, $this->owner) == 0) {
-                    throw new MessageStatisticsPlugin_NoMessagesException();
-                }
-                
                 if ($this->listid) {
                     $row = $this->listDAO->listById($this->listid);
                     $this->listNames = array($row['name']);
@@ -238,7 +234,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
     }
     public function latestMessage($listid = null)
     {
-        return $this->messageDAO->latestMessage($this->owner, is_null($listid) ? $this->listid : $listid);
+        return $this->messageDAO->latestMessage($this->owner, $listid ? $listid : $this->listid);
     }
     public function prevNextForwardId()
     {
