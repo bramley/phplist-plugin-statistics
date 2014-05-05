@@ -119,7 +119,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
                 if (is_null($this->msgid)) {
                     $msgid = $this->messageDAO->latestMessage($this->owner, $this->listid);
 
-                    if (!isset($msgid)) {
+                    if (!$msgid) {
                         throw new MessageStatisticsPlugin_NoMessagesException();
                     }
 
