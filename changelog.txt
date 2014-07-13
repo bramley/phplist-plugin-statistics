@@ -1,3 +1,9 @@
+version 2014-07-13
+      Correct use of listid
+      Corrected line endings
+      Simplify test for common plugin
+      Correct test for message id
+
 version 2014-04-22
       Display messages tab when there are no messages
 
