@@ -130,23 +130,6 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         return $this->dbCommand->queryOne($sql, 'id');
     }
 
-    public function latestMessage2($loginid, $listid)
-    {
-        $owner = $loginid ? "AND m.owner = $loginid" : '';
-        $list = $listid ? "AND lm.listid = $listid" : '';
-        $sql = 
-            "SELECT id
-            FROM {$this->tables['message']} 
-            WHERE $this->orderBy = (
-                SELECT MAX($this->orderByAlias) AS latest
-                FROM {$this->tables['message']} m
-                JOIN {$this->tables['listmessage']} lm ON lm.messageid = m.id
-                WHERE m.status IN ($this->selectStatus) $owner $list
-            )";
-
-        return $this->dbCommand->queryOne($sql, 'id');
-    }
-
     public function prevNextMessage($listId, $msgID, $loginid)
     {
         $owner_and = $loginid ? "AND owner = $loginid" : '';
@@ -162,7 +145,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $ref = $this->dbCommand->queryOne($sql, 'ref');
 
         $sql = 
-            "SELECT id AS prev
+            "SELECT m.id AS prev
             FROM {$this->tables['message']} m
             $m_lm_join
             WHERE m.status IN ($this->selectStatus)
@@ -174,7 +157,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $prev = $this->dbCommand->queryOne($sql, 'prev');
 
         $sql = 
-            "SELECT  id AS next
+            "SELECT m.id AS next
             FROM {$this->tables['message']} m
             $m_lm_join
             WHERE m.status IN ($this->selectStatus)
@@ -182,51 +165,6 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             $owner_and
             ORDER BY $this->orderByAlias ASC
             LIMIT 1";
-
-        $next = $this->dbCommand->queryOne($sql, 'next');
-
-        return array($prev, $next);
-    }
-
-    public function prevNextMessage2($listId, $msgID, $loginid)
-    {
-        $owner_and = $loginid ? "AND owner = $loginid" : '';
-        $m_lm_join = $listId
-            ? "JOIN {$this->tables['listmessage']} lm ON m.id = lm.messageid AND lm.listid = $listId"
-            : "";
-
-        $sql =
-            "SELECT $this->orderBy AS ref
-            FROM {$this->tables['message']}
-            WHERE id = $msgID";
-
-        $ref = $this->dbCommand->queryOne($sql, 'ref');
-
-        $sql = 
-            "SELECT id AS prev
-            FROM {$this->tables['message']}
-            WHERE $this->orderBy = (
-                SELECT MAX($this->orderByAlias)
-                FROM {$this->tables['message']} m
-                $m_lm_join
-                WHERE m.status IN ($this->selectStatus)
-                AND $this->orderByAlias < '$ref'
-                $owner_and
-            )";
-
-        $prev = $this->dbCommand->queryOne($sql, 'prev');
-
-        $sql = 
-            "SELECT id AS next
-            FROM {$this->tables['message']}
-            WHERE $this->orderBy = (
-                SELECT MIN($this->orderByAlias)
-                FROM {$this->tables['message']} m
-                $m_lm_join
-                WHERE m.status IN ($this->selectStatus)
-                AND $this->orderByAlias > '$ref'
-                $owner_and
-            )";
 
         $next = $this->dbCommand->queryOne($sql, 'next');
 

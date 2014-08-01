@@ -1,3 +1,6 @@
+version 2014-08-01
+      Fix sql error when displaying tabs for one list
+
 version 2014-07-26
       Order by modified when sent is null
 

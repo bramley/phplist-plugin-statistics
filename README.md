@@ -43,6 +43,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2014-08-01  Fix sql error when viewing tabs for one list
     2014-07-26  Display active campaigns on the Campaigns tab
     2014-07-13  Accumulated minor changes
     2014-04-22  Fix problem of 'no campaigns found' after deleting list
