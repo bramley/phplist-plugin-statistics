@@ -1,3 +1,6 @@
+version 2014-11-19
+      Correct url for exporting link clicks
+
 version 2014-09-04
       Order by sendstart when sent is null
 

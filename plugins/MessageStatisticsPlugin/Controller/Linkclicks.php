@@ -54,7 +54,7 @@ class MessageStatisticsPlugin_Controller_Linkclicks
         return parent::exportFileName() . '_' .  preg_replace(
             array('|^http://|i', '/[^\w]/'),
             array('', '_'),
-            $this->model->url
+            $this->model->linkUrl()
         );
     }
 

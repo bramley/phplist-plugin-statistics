@@ -41,6 +41,10 @@ phplist 3.0.9 had a change that stopped the plugin export working. Instead the m
 
 To fix this problem upgrade to the latest version of CommonPlugin.
 
+## Support ##
+
+Questions and problems can be reported in the phplist user forum topic <https://forums.phplist.com/viewtopic.php?f=7&t=35427>.
+
 ## Donation ##
 
 This plugin is free but if you install and find it useful then a donation to support further development is greatly appreciated.
@@ -50,6 +54,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2014-11-19  Fix error when exporting link clicks
     2014-09-04  Change to ordering on Campaigns tab
     2014-08-01  Fix sql error when viewing tabs for one list
     2014-07-26  Display active campaigns on the Campaigns tab

@@ -138,6 +138,7 @@
                 'listid' => $this->model->listid,
                 'msgid' => $this->model->msgid,
                 'type' => $this->model->type,
+                'forwardid' => $this->model->forwardid,
             );
 
             if (isset($_POST['SearchForm'])) {
