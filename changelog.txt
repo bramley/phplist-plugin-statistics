@@ -1,3 +1,6 @@
+version 2015-01-24
+      Display whether a URL is personalised
+
 version 2014-11-19
       Correct url for exporting link clicks
 

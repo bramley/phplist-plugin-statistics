@@ -54,6 +54,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2015-01-24  On Links tab show whether a URL is personalised
     2014-11-19  Fix error when exporting link clicks
     2014-09-04  Change to ordering on Campaigns tab
     2014-08-01  Fix sql error when viewing tabs for one list

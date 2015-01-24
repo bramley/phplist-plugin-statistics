@@ -89,6 +89,10 @@ class MessageStatisticsPlugin_Controller_Links
             $key = sprintf('<span title="%s">%s</span>', htmlspecialchars($row['url']), $key);
             $query['forwardid'] = $row['forwardid'];
             $w->addElement($key, new CommonPlugin_PageURL(null, $query));
+            $w->addColumnHtml($key, $this->i18n->get('pers.'), $row['personalise'] 
+                ? new CommonPlugin_ImageTag('user.png', 'URL is personalised')
+                : ''
+            );
             $w->addColumn($key, $this->i18n->get('clicks'), $row['numclicks']);
             $w->addColumn($key, $this->i18n->get('users'),
                 $row['usersclicked'] > 0 
