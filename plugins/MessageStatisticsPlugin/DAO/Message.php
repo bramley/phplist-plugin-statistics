@@ -655,6 +655,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             "SELECT
                 fw.url,
                 fw.id AS forwardid,
+                fw.personalise,
                 DATE_FORMAT(MIN(uml.firstclick), '%Y-%m-%d %H:%i') AS firstclick,
                 DATE_FORMAT(MAX(uml.latestclick), '%Y-%m-%d %H:%i') AS latestclick,
                 COALESCE(SUM(uml.clicked), 0) AS numclicks,
