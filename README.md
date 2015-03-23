@@ -8,7 +8,7 @@ This plugin is for phplist 3.0.0 and later.
 
 Requires php version 5.2 or later.
 
-Requires the Common Plugin to be installed. 
+Requires the Common Plugin version 2015-03-23 or later to be installed. You should install or upgrade to the latest version.
 
 See <https://github.com/bramley/phplist-plugin-common>
 
@@ -54,6 +54,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2015-03-23  Change to autoload approach
     2015-01-24  On Links tab show whether a URL is personalised
     2014-11-19  Fix error when exporting link clicks
     2014-09-04  Change to ordering on Campaigns tab

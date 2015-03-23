@@ -1,3 +1,6 @@
+version 2015-03-23
+      Autoloader now created in CommonPlugin
+
 version 2015-01-24
       Display whether a URL is personalised
 
