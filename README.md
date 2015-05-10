@@ -4,13 +4,11 @@
 
 ### Dependencies ###
 
-This plugin is for phplist 3.0.0 and later.
+This plugin is for phplist 3.
 
-Requires php version 5.2 or later.
+Requires php version 5.3 or later.
 
-Requires the Common Plugin version 2015-03-23 or later to be installed. You should install or upgrade to the latest version.
-
-See <https://github.com/bramley/phplist-plugin-common>
+Requires the Common Plugin version 2015-03-23 or later to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
 
 ### Set the plugin directory ###
 You can use a directory outside of the web root by changing the definition of `PLUGIN_ROOTDIR` in config.php.
