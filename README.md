@@ -52,6 +52,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2015-05-10  Add dependency checks
     2015-03-23  Change to autoload approach
     2015-01-24  On Links tab show whether a URL is personalised
     2014-11-19  Fix error when exporting link clicks
