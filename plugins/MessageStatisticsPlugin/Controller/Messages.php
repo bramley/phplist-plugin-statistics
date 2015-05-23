@@ -180,7 +180,8 @@ class MessageStatisticsPlugin_Controller_Messages
             'hAxis' => array('title' => 'Campaign'),
             'seriesType' => 'line',
             'series' => array(0 => array('type' => 'bars')),
-            'legend' => array('position' => 'bottom')
+            'legend' => array('position' => 'bottom'),
+            'colors' => array('blue', 'green', 'yellow', 'red')
         );
         $result = $chart->draw($chartDiv, $options);
         return $result;
