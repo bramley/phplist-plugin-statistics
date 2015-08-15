@@ -8,7 +8,7 @@ This plugin is for phplist 3.
 
 Requires php version 5.3 or later.
 
-Requires the Common Plugin version 2015-03-23 or later to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
+Requires the Common Plugin version 3 to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
 
 ### Set the plugin directory ###
 You can use a directory outside of the web root by changing the definition of `PLUGIN_ROOTDIR` in config.php.
@@ -52,22 +52,22 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
-    2015-05-23  Alter colours used for overlays
-    2015-05-10  Add dependency checks
-    2015-03-23  Change to autoload approach
-    2015-01-24  On Links tab show whether a URL is personalised
-    2014-11-19  Fix error when exporting link clicks
-    2014-09-04  Change to ordering on Campaigns tab
-    2014-08-01  Fix sql error when viewing tabs for one list
-    2014-07-26  Display active campaigns on the Campaigns tab
-    2014-07-13  Accumulated minor changes
-    2014-04-22  Fix problem of 'no campaigns found' after deleting list
-    2014-01-27  Fix for Lists tab not showing correct latest campaign
-                Select messages with sent, inprocess or suspended status 
-    2014-01-27  On Messages tab order by sent date
-    2014-01-25  Use Google Charts instead of Chart API
-    2013-12-10  GitHub issue #3
-    2013-08-26  Accumulated minor changes
-    2013-04-22  Added README, changes to use the latest Common Plugin 
-    2013-03-29  Initial version for phplist 2.11.x releases
-
+    2.0.0+20150815  Update dependencies
+    2015-05-23      Alter colours used for overlays
+    2015-05-10      Add dependency checks
+    2015-03-23      Change to autoload approach
+    2015-01-24      On Links tab show whether a URL is personalised
+    2014-11-19      Fix error when exporting link clicks
+    2014-09-04      Change to ordering on Campaigns tab
+    2014-08-01      Fix sql error when viewing tabs for one list
+    2014-07-26      Display active campaigns on the Campaigns tab
+    2014-07-13      Accumulated minor changes
+    2014-04-22      Fix problem of 'no campaigns found' after deleting list
+    2014-01-27      Fix for Lists tab not showing correct latest campaign
+                    Select messages with sent, inprocess or suspended status 
+    2014-01-27      On Messages tab order by sent date
+    2014-01-25      Use Google Charts instead of Chart API
+    2013-12-10      GitHub issue #3
+    2013-08-26      Accumulated minor changes
+    2013-04-22      Added README, changes to use the latest Common Plugin 
+    2013-03-29      Initial version for phplist 2.11.x releases
