@@ -149,13 +149,6 @@
             }
 
             $params = array();
-            $toolbar = new CommonPlugin_Toolbar($this);
-
-            if ($this instanceof CommonPlugin_IExportable) {
-                $toolbar->addExportButton($query);
-            }
-            $toolbar->addHelpButton($this->model->type);
-            $params['toolbar'] = $toolbar->display();
             $params['tabs'] = $this->navigation()->display();
             $params['caption'] = $this->caption();
 
@@ -181,6 +174,19 @@
                 $params['chart_div'] = 'chart_div';
                 $params['chart'] = $this->createChart($params['chart_div']);
             }
+            $toolbar = new CommonPlugin_Toolbar($this);
+
+            if ($this instanceof CommonPlugin_IExportable) {
+                if ($this instanceof MessageStatisticsPlugin_Controller_Messages
+                    && !getConfig('statistics_export_all_messages')) {
+                    list($start, $limit) = $listing->pager->range();
+                } else {
+                    $start = $limit = null;
+                }
+                $toolbar->addExportButton($query + array('start' => $start, 'limit' => $limit));
+            }
+            $toolbar->addHelpButton($this->model->type);
+            $params['toolbar'] = $toolbar->display();
         } catch (Exception $e) {
             $params['exception'] = $e->getMessage();
         }

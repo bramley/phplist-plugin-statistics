@@ -61,6 +61,15 @@ class MessageStatisticsPlugin extends phplistPlugin
         $this->version = (is_file($f = $this->coderoot . self::VERSION_FILE))
             ? file_get_contents($f)
             : '';
+        $this->settings = array(
+            'statistics_export_all_messages' => array (
+                'value' => true,
+                'description' => s("On the Campaigns tab, whether to export all campaigns. If 'No' then only those currently listed will be exported."),
+                'type' => 'boolean',
+                'allowempty' => true,
+                'category'=> 'Campaign Statistics',
+            )
+        );
         parent::__construct();
     }
 

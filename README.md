@@ -1,5 +1,9 @@
-# Message Statistics Plugin #
+# Campaign Statistics Plugin #
 
+## Description ##
+
+This plugin provides comprehensive statistics on campaigns.
+It provides a multi-tabbed page that shows opens, clicks, bounces and forwards for each campaign.
 ## Installation ##
 
 ### Dependencies ###
@@ -11,6 +15,8 @@ Requires php version 5.3 or later.
 Requires the Common Plugin version 3 to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
 
 ### Set the plugin directory ###
+The default plugin directory is `plugins` within the admin directory.
+
 You can use a directory outside of the web root by changing the definition of `PLUGIN_ROOTDIR` in config.php.
 The benefit of this is that plugins will not be affected when you upgrade phplist.
 
@@ -39,9 +45,13 @@ phplist 3.0.9 had a change that stopped the plugin export working. Instead the m
 
 To fix this problem upgrade to the latest version of CommonPlugin.
 
+##Usage##
+
+For guidance on using the plugin see the plugin's page within the phplist documentation site <https://resources.phplist.com/plugin/messagestatistics>
+
 ## Support ##
 
-Questions and problems can be reported in the phplist user forum topic <https://forums.phplist.com/viewtopic.php?f=7&t=35427>.
+Please raise any questions or problems in the user forum <https://discuss.phplist.org/>.
 
 ## Donation ##
 
@@ -52,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.0+20150826  Export either all campaigns or only those currently displayed
     2.0.0+20150815  Update dependencies
     2015-05-23      Alter colours used for overlays
     2015-05-10      Add dependency checks

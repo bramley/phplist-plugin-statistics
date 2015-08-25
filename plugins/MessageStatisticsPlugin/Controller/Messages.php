@@ -198,9 +198,23 @@ class MessageStatisticsPlugin_Controller_Messages
         ));
     }
 
+     /**
+     * Return the rows to be exported
+     * If the page url includes the start parameter then only the current page is to be exported
+     * Otherwise all rows are to be exported
+     * @return Iterator 
+     */
     public function exportRows()
     {
-        return $this->model->fetchMessages(true);
+        if (isset($_GET['start'])) {
+            $start = $_GET['start'];
+            $limit = $_GET['limit'];
+            $asc = false;
+        } else {
+            $start = $limit = null;
+            $asc = true;
+        }
+        return $this->model->fetchMessages($asc, $start, $limit);
     }
 
     public function exportValues(array $row)

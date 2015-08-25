@@ -1,3 +1,6 @@
+version 2.1.0+20150826
+      Export either all campaigns or only those currently displayed
+
 version 2.0.0+20150815
       Updated dependencies
 
