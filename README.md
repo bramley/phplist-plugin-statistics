@@ -12,7 +12,7 @@ This plugin is for phplist 3.
 
 Requires php version 5.3 or later.
 
-Requires the Common Plugin version 3 to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
+Requires the Common Plugin version 3.0.3 or later to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
 
 ### Set the plugin directory ###
 The default plugin directory is `plugins` within the admin directory.
@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.1+20150828  Update dependencies
     2.1.0+20150826  Export either all campaigns or only those currently displayed
     2.0.0+20150815  Update dependencies
     2015-05-23      Alter colours used for overlays
