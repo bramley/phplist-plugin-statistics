@@ -189,8 +189,9 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $umf_lu_exists = $this->xx_lu_exists('umf.user', $listId);
 
         $sql =
-            "SELECT m.id, fromfield AS 'from', subject, viewed, owner,
+            "SELECT m.id, fromfield AS 'from', viewed, owner,
             date_format(m.sent,'%e %b %Y') AS end, date_format(m.sendstart,'%e %b %Y') AS start,
+            md.data As subject, md2.data AS campaigntitle,
             (SELECT COUNT(viewed)
                 FROM {$this->tables['usermessage']} um
                 WHERE messageid = m.id 
@@ -242,6 +243,8 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                 $umf_lu_exists
             ) AS forwardcount
             FROM {$this->tables['message']} m
+            JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
+            JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
             WHERE m.status IN ($this->selectStatus)
             $m_lm_exists
             $owner_and
@@ -266,8 +269,9 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listId);
 
         $sql =
-            "SELECT m.id, fromfield AS 'from', subject, viewed, owner,
+            "SELECT m.id, fromfield AS 'from', viewed, owner,
             date_format(m.sent,'%e %b %Y') AS end, date_format(m.sendstart,'%e %b %Y') AS start,
+            md.data As subject, md2.data AS campaigntitle,
             (SELECT COUNT(viewed)
                 FROM {$this->tables['usermessage']} um
                 WHERE messageid = m.id 
@@ -326,6 +330,8 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             ) AS forwardcount
 
             FROM {$this->tables['message']} m
+            JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
+            JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
             WHERE m.status IN ($this->selectStatus)
             AND m.id = $msgId
             $m_lm_exists";

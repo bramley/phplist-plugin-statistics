@@ -1,3 +1,6 @@
+version 2.1.2+20160316
+      Ensure campaign subject is displayed instead of campaign title
+
 version 2.1.1+20150828
       Updated dependencies
 
