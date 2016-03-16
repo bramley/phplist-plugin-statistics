@@ -1,3 +1,6 @@
+version 2.1.3+20160316
+      rationalise options, default encoding of utf-8
+
 version 2.1.2+20160316
       Ensure campaign subject is displayed instead of campaign title
 

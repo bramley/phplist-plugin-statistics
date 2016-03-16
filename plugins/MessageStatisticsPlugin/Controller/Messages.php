@@ -115,18 +115,17 @@ class MessageStatisticsPlugin_Controller_Messages
 
         $w = new CommonPlugin_HtmlToPdf();
         $fileName = preg_replace('/[^\w]+/', '_', $fields['subject']) . '.pdf';
-        $options = array(
-            'bin' => $wkhtmltopdfOptions['bin'],
-            'tmp' => isset($wkhtmltopdfOptions['tmp']) ? $wkhtmltopdfOptions['tmp'] : $tmpdir,
-            'enableEscaping' => isset($wkhtmltopdfOptions['enableEscaping']) ? $wkhtmltopdfOptions['enableEscaping'] : false,
+
+        $defaultOptions = array(
+            'tmp' => $tmpdir,
+            'enableEscaping' => false,
             'header-spacing' => 5,
             'footer-spacing' => 2,
             'margin-top' => 30,
+            'encoding' => 'utf-8',
         );
 
-        if (isset($wkhtmltopdfOptions['options'])) {
-            $options = $wkhtmltopdfOptions['options'] + $options;
-        }
+        $options = $wkhtmltopdfOptions + $defaultOptions;
 
         $w->setOptions($options);
         $w->headerHtml($this->render(dirname(__FILE__) . '/../printheader.tpl.php', array()));
@@ -135,7 +134,7 @@ class MessageStatisticsPlugin_Controller_Messages
 
         $content = ob_get_clean();
 
-        if ((isset($wkhtmltopdfOptions['mode']) && $wkhtmltopdfOptions['mode'] == 'E') ? $w->send() : $w->send($fileName)) {
+        if ($w->send($fileName)) {
             exit;
         }
         echo $content;
