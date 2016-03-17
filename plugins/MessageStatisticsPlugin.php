@@ -47,6 +47,7 @@ class MessageStatisticsPlugin extends phplistPlugin
     public $pageTitles = array(
         'main' => 'Advanced Statistics',
     );
+    public $documentationUrl = 'https://resources.phplist.com/plugin/campaignstatistics';
 
     public function adminmenu()
     {
