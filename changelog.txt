@@ -1,3 +1,7 @@
+version 2.1.4+20160424
+      Add link to documentation
+      Fix bug with older messages not having campaign title
+
 version 2.1.3+20160316
       rationalise options, default encoding of utf-8
 

@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.4+20160424  Fix for bug of not listing all campaigns
     2.1.3+20160316  Internal changes
     2.1.2+20160316  Ensure campaign subject is displayed instead of campaign title
     2.1.1+20150828  Update dependencies

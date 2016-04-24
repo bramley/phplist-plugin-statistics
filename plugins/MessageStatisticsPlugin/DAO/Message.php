@@ -244,7 +244,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             ) AS forwardcount
             FROM {$this->tables['message']} m
             JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
-            JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
+            LEFT JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
             WHERE m.status IN ($this->selectStatus)
             $m_lm_exists
             $owner_and
@@ -331,7 +331,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 
             FROM {$this->tables['message']} m
             JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
-            JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
+            LEFT JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
             WHERE m.status IN ($this->selectStatus)
             AND m.id = $msgId
             $m_lm_exists";
