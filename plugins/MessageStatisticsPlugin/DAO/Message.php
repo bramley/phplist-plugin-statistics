@@ -191,7 +191,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $sql =
             "SELECT m.id, fromfield AS 'from', viewed, owner,
             date_format(m.sent,'%e %b %Y') AS end, date_format(m.sendstart,'%e %b %Y') AS start,
-            md.data As subject, md2.data AS campaigntitle,
+            COALESCE(md.data, subject) AS subject, md2.data AS campaigntitle,
             (SELECT COUNT(viewed)
                 FROM {$this->tables['usermessage']} um
                 WHERE messageid = m.id 
@@ -243,7 +243,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                 $umf_lu_exists
             ) AS forwardcount
             FROM {$this->tables['message']} m
-            JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
+            LEFT JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
             LEFT JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
             WHERE m.status IN ($this->selectStatus)
             $m_lm_exists
@@ -271,7 +271,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $sql =
             "SELECT m.id, fromfield AS 'from', viewed, owner,
             date_format(m.sent,'%e %b %Y') AS end, date_format(m.sendstart,'%e %b %Y') AS start,
-            md.data As subject, md2.data AS campaigntitle,
+            COALESCE(md.data, subject) AS subject, md2.data AS campaigntitle,
             (SELECT COUNT(viewed)
                 FROM {$this->tables['usermessage']} um
                 WHERE messageid = m.id 
@@ -330,7 +330,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             ) AS forwardcount
 
             FROM {$this->tables['message']} m
-            JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
+            LEFT JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
             LEFT JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
             WHERE m.status IN ($this->selectStatus)
             AND m.id = $msgId

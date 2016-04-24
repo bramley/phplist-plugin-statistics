@@ -1,3 +1,6 @@
+version 2.1.5+20160424
+      Fix another problem with subject
+
 version 2.1.4+20160424
       Add link to documentation
       Fix bug with older messages not having campaign title
