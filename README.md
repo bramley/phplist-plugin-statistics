@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.6+20160527  Add class map for autoloading
     2.1.5+20160424  Fix another problem with not listing all campaigns
     2.1.4+20160424  Fix for bug of not listing all campaigns
     2.1.3+20160316  Internal changes
