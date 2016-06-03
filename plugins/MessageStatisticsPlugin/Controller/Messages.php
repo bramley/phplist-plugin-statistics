@@ -192,7 +192,7 @@ class MessageStatisticsPlugin_Controller_Messages
     public function exportFieldNames()
     {
         return $this->i18n->get(array(
-            'ID', 'subject', 'date', 'sent', 'opened', 'opened %',
+            'id', 'subject', 'date', 'sent', 'opened', 'opened %',
             'clicked', 'clicked %', 'clicks_total', 'click_open', 'bounced', 'bounced %', 'total views', 'avg views'
         ));
     }
