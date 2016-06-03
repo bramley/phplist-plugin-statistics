@@ -69,7 +69,7 @@ $lan = array(
 //    Messages.php
     'Messages sent to %s' => 'Mensajes enviados a %s',
     'All sent messages' => 'Todos los mensajes enviados',
-    'ID' => 'ID',
+    'id' => 'id',
     'Subject' => 'Asunto',
     'date' => 'Fecha',
     'clicks_total' => 'Clicks totales',

@@ -1,3 +1,6 @@
+version 2.1.7+20160603
+      Avoid Excel problem with ID in first column
+
 version 2.1.6+20160527
       Add class map
 
