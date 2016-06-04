@@ -60,7 +60,7 @@ $lan = array(
     'clicked' => '點擊',
 //    Forwarded.php
 //    Lists.php
-    'ID' => '編號ID',
+    'id' => '編號ID',
     'All lists' => '全部群組',
     'name' => '群組名稱',
     'description' => '備註描述',
@@ -69,7 +69,7 @@ $lan = array(
 //    Messages.php
     'Messages sent to %s' => '電子報寄往 %s',
     'All sent messages' => '所有已寄電子報',
-    'ID' => '信件編號',
+    'id' => '信件編號',
     'Subject' => '信件主旨',
     'date' => '發送日期',
     'clicks_total' => '總點擊數',

@@ -66,7 +66,7 @@ $lan = array(
     'clicked' => 'Klicks',
 //    Forwarded.php
 //    Lists.php
-    'ID' => 'Nr.',
+    'id' => 'Nr.',
     'All lists' => 'Alle Listen',
     'name' => 'Name',
     'active' => 'Aktiv',
@@ -75,7 +75,7 @@ $lan = array(
 //    Messages.php
     'Messages sent to %s' => 'Nachrichten an die Liste %s',
     'All sent messages' => 'Alle gesendeten Nachrichten',
-    'ID' => 'Nr.',
+    'id' => 'Nr.',
     'Subject' => 'Betreff',
     'date' => 'Datum',
     'clicks_total' => 'Anzahl der Klicks',

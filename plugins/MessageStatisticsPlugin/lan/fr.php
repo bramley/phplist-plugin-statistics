@@ -60,7 +60,7 @@ $lan = array(
     'clicked' => 'Cliqués',
 //    Forwarded.php
 //    Lists.php
-    'ID' => 'N°',
+    'id' => 'N°',
     'All lists' => 'Toutes les listes',
     'name' => 'Nom',
     'active' => 'Actif',
@@ -69,7 +69,7 @@ $lan = array(
 //    Messages.php
     'Messages sent to %s' => 'Les messages envoyés à %s',
     'All sent messages' => 'Tous les messages envoyés',
-    'ID' => 'N°',
+    'id' => 'N°',
     'Subject' => 'Sujet',
     'date' => 'Date',
     'bounced' => 'Rejetés',

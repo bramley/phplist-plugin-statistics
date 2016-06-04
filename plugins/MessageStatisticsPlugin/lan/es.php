@@ -60,7 +60,7 @@ $lan = array(
     'clicked' => 'Clickeado',
 //    Forwarded.php
 //    Lists.php
-    'ID' => 'ID',
+    'id' => 'id',
     'All lists' => 'Todas las listas',
     'name' => 'Nombre',
     'active' => 'Activo',

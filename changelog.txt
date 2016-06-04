@@ -1,3 +1,6 @@
+version 2.1.8+20160604
+      Revise translations
+
 version 2.1.7+20160603
       Avoid Excel problem with ID in first column
 

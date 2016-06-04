@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.8+20160604  Revise translations
     2.1.7+20160603  Avoid Excel problem with exporting campaigns
     2.1.6+20160527  Add class map for autoloading
     2.1.5+20160424  Fix another problem with not listing all campaigns
