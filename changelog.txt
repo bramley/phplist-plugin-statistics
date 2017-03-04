@@ -1,3 +1,6 @@
+version 2.1.9+20170304
+      Add pageaction page to work with phplist help
+
 version 2.1.8+20160604
       Revise translations
 
