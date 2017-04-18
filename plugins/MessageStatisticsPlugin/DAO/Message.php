@@ -1,7 +1,8 @@
-<?php 
+<?php
+
 /**
- * MessageStatisticsPlugin for phplist
- * 
+ * MessageStatisticsPlugin for phplist.
+ *
  * This file is a part of MessageStatisticsPlugin.
  *
  * This plugin is free software: you can redistribute it and/or modify
@@ -12,28 +13,24 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
+ *
  * @author    Duncan Cameron
- * @copyright 2011-2012 Duncan Cameron
+ * @copyright 2011-2017 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
- * @version   SVN: $Id$
- * @link      http://forums.phplist.com/viewtopic.php?f=7&t=35427
  */
 
 /**
- * This class provides database access to the message, usermessage and related tables
- * 
+ * This class provides database access to the message, usermessage and related tables.
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
  */
- 
 class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 {
     const MESSAGE_SELECT = "'sent', 'inprocess', 'suspended'";
     /**
-     * Private methods
+     * Private methods.
      */
     private $orderByAlias = 'COALESCE(m.sent, m.sendstart, m.modified)';
     private $orderBy = 'COALESCE(sent, sendstart, modified)';
@@ -44,22 +41,22 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         return $listid
             ? "AND EXISTS (
                 SELECT 1 FROM {$this->tables['listuser']} lu
-                WHERE $field = lu.userid AND lu.listid = $listid)"    
+                WHERE $field = lu.userid AND lu.listid = $listid)"
             : '';
     }
-    
+
     private function u_lu_join($listid)
     {
         return $listid
-            ? "JOIN {$this->tables['listuser']} lu ON lu.userid = u.id AND lu.listid = $listid"    
+            ? "JOIN {$this->tables['listuser']} lu ON lu.userid = u.id AND lu.listid = $listid"
             : '';
     }
-    
+
     private function limitClause($start, $limit)
     {
-        return is_null($start) ? ''    : "LIMIT $start, $limit";
+        return is_null($start) ? '' : "LIMIT $start, $limit";
     }
-    
+
     private function userAttributeJoin($attributes, $searchTerm, $searchAttr)
     {
         global $tables;
@@ -76,13 +73,13 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             $joinType = ($searchTerm && $searchAttr == $id) ? 'JOIN' : 'LEFT JOIN';
             $thisJoin = "
                 $joinType {$this->tables['user_attribute']} ua{$id} ON ua{$id}.userid = u.id AND ua{$id}.attributeid = {$id} ";
-            
+
             switch ($attr['type']) {
             case 'radio':
             case 'select':
                 $thisJoin .= "
                 $joinType {$tableName} la{$id} ON la{$id}.id = ua{$id}.value ";
-                
+
                 if ($searchTerm && $searchAttr == $id) {
                     $thisJoin .= "AND la{$id}.name LIKE '%$searchTerm%' ";
                 }
@@ -97,11 +94,12 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             }
             $attr_join .= $thisJoin;
         }
+
         return array($attr_join, $attr_fields);
     }
 
     /**
-     * Public methods
+     * Public methods.
      */
     public function __construct($db)
     {
@@ -117,7 +115,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $owner = $loginid ? "AND m.owner = $loginid" : '';
         $list = $listid ? "AND lm.listid = $listid" : '';
 
-        $sql = 
+        $sql =
             "SELECT m.id AS id
             FROM {$this->tables['message']} m
             JOIN {$this->tables['listmessage']} lm ON lm.messageid = m.id
@@ -135,7 +133,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $owner_and = $loginid ? "AND owner = $loginid" : '';
         $m_lm_join = $listId
             ? "JOIN {$this->tables['listmessage']} lm ON m.id = lm.messageid AND lm.listid = $listId"
-            : "";
+            : '';
 
         $sql =
             "SELECT $this->orderBy AS ref
@@ -144,7 +142,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 
         $ref = $this->dbCommand->queryOne($sql, 'ref');
 
-        $sql = 
+        $sql =
             "SELECT m.id AS prev
             FROM {$this->tables['message']} m
             $m_lm_join
@@ -156,7 +154,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 
         $prev = $this->dbCommand->queryOne($sql, 'prev');
 
-        $sql = 
+        $sql =
             "SELECT m.id AS next
             FROM {$this->tables['message']} m
             $m_lm_join
@@ -175,13 +173,13 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
     {
         $order = $ascOrder ? 'ASC' : 'DESC';
         $owner_and = $loginid ? "AND owner = $loginid" : '';
-        $limitClause = is_null($start) ? ''    : "LIMIT $start, $limit";
-        
+        $limitClause = is_null($start) ? '' : "LIMIT $start, $limit";
+
         $m_lm_exists = $listId
             ? "AND EXISTS (
                 SELECT 1 FROM {$this->tables['listmessage']} lm
                 WHERE m.id = lm.messageid AND lm.listid = $listId)"
-            : "";
+            : '';
 
         $um_lu_exists = $this->xx_lu_exists('um.userid', $listId);
         $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listId);
@@ -267,7 +265,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             ? "AND EXISTS (
                 SELECT 1 FROM {$this->tables['listmessage']} lm
                 WHERE m.id = lm.messageid AND lm.listid = $listId)"
-            : "";
+            : '';
 
         $um_lu_exists = $this->xx_lu_exists('um.userid', $listId);
         $umb_lu_exists = $this->xx_lu_exists('umb.user', $listId);
@@ -358,9 +356,9 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             ? "AND EXISTS (
                 SELECT * FROM {$this->tables['listmessage']} lm
                 WHERE lm.messageid =  m.id AND lm.listid = $listId)"
-            : "";
+            : '';
 
-        $sql = 
+        $sql =
             "SELECT COUNT(m.id) AS t
             FROM {$this->tables['message']} m
             WHERE m.status IN ($this->selectStatus)
@@ -369,10 +367,11 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 
         return $this->dbCommand->queryOne($sql, 't');
     }
+
     /*
      * Methods for message views
      */
-    public function fetchMessageOpens($opened, $msgid, $listid, 
+    public function fetchMessageOpens($opened, $msgid, $listid,
         $attributes, $searchTerm, $searchAttr,
         $start = null, $limit = null)
     {
@@ -388,7 +387,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             $order = 'u.email';
         }
 
-        $sql = 
+        $sql =
             "SELECT u.email, um.userid, um.entered, um.viewed $attr_fields
             FROM {$this->tables['usermessage']} um
             JOIN {$this->tables['user']} u ON um.userid = u.id
@@ -399,10 +398,11 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             $u_lu_exists
             ORDER BY $order
             $limitClause";
+
         return $this->dbCommand->queryAll($sql);
     }
 
-    public function totalMessageOpens($opened, $msgid, $listid,    $attributes, $searchTerm, $searchAttr)
+    public function totalMessageOpens($opened, $msgid, $listid, $attributes, $searchTerm, $searchAttr)
     {
         if ($opened) {
             $isOpened = 'NOT NULL';
@@ -417,7 +417,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         }
 
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
-        $sql = 
+        $sql =
             "SELECT COUNT(*) AS t
             FROM {$this->tables['usermessage']} um
             JOIN {$this->tables['user']} u ON um.userid = u.id
@@ -427,8 +427,10 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             AND um.viewed IS $isOpened
             $u_lu_exists
             ";
+
         return $this->dbCommand->queryOne($sql, 't');
     }
+
     /*
      * Methods for message clicks
      */
@@ -455,6 +457,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 
         return $this->dbCommand->queryAll($sql);
     }
+
     public function totalMessageClicks($msgid, $listid, $attributes, $searchTerm, $searchAttr)
     {
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
@@ -476,18 +479,20 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                 WHERE um.userid = uml.userid AND uml.messageid = um.messageid
             )
             $u_lu_exists";
+
         return $this->dbCommand->queryOne($sql, 't');
     }
+
     /*
      * Methods for message bounces
      */
      public function fetchMessageBounces($mid, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
      {
-        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-        $umb_lu_exists = $this->xx_lu_exists('umb.user', $listid);
-        $limitClause = $this->limitClause($start, $limit);
+         list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
+         $umb_lu_exists = $this->xx_lu_exists('umb.user', $listid);
+         $limitClause = $this->limitClause($start, $limit);
 
-        $sql = 
+         $sql =
            "SELECT u.email, umb.user, umb.bounce $attr_fields
             FROM {$this->tables['user_message_bounce']} AS umb
             JOIN {$this->tables['user']} AS u ON umb.user = u.id
@@ -499,8 +504,9 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             )
             $umb_lu_exists
             $limitClause";
-        return $this->dbCommand->queryAll($sql);
-    }
+
+         return $this->dbCommand->queryAll($sql);
+     }
 
     public function totalMessageBounces($mid, $listid, $attributes, $searchTerm, $searchAttr)
     {
@@ -512,7 +518,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             $attr_join = '';
         }
 
-        $sql = 
+        $sql =
            "SELECT COUNT(umb.user) AS t
             FROM {$this->tables['user_message_bounce']} AS umb
             JOIN {$this->tables['user']} AS u ON umb.user = u.id
@@ -526,16 +532,17 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 
         return $this->dbCommand->queryOne($sql, 't');
     }
+
     /*
      * Methods for message forwards
      */
      public function fetchMessageForwards($mid, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
      {
-        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-        $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
-        $limitClause = $this->limitClause($start, $limit);
+         list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
+         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
+         $limitClause = $this->limitClause($start, $limit);
 
-        $sql = 
+         $sql =
            "SELECT u.email, u.id, COUNT(umf.id) AS count $attr_fields
             FROM {$this->tables['user_message_forward']} AS umf
             JOIN {$this->tables['user']} AS u ON umf.user = u.id
@@ -548,8 +555,9 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             $u_lu_exists
             GROUP BY umf.user
             $limitClause";
-        return $this->dbCommand->queryAll($sql);
-    }
+
+         return $this->dbCommand->queryAll($sql);
+     }
 
     public function totalMessageForwards($mid, $listid, $attributes, $searchTerm, $searchAttr)
     {
@@ -561,7 +569,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             $attr_join = '';
         }
 
-        $sql = 
+        $sql =
            "SELECT COUNT(DISTINCT umf.user) AS t
             FROM {$this->tables['user_message_forward']} AS umf
             JOIN {$this->tables['user']} AS u ON umf.user = u.id
@@ -575,6 +583,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 
         return $this->dbCommand->queryOne($sql, 't');
     }
+
     /*
      * Methods for domains
      */
@@ -619,6 +628,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 
         return $this->dbCommand->queryOne($sql, 't');
     }
+
     /*
      * Methods for links
      */
@@ -669,7 +679,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $um_lu_exists = $this->xx_lu_exists('um.userid', $listid);
         $limitClause = $this->limitClause($start, $limit);
 
-        $sql = 
+        $sql =
             "SELECT
                 fw.url,
                 fw.id AS forwardid,
@@ -716,7 +726,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listid);
         $limitClause = $this->limitClause($start, $limit);
 
-        $sql = 
+        $sql =
             "SELECT u.email, u.id,
             fw.url,
             DATE_FORMAT(uml.firstclick, '%Y-%m-%d %H:%i') as firstclick,
@@ -764,6 +774,6 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             FROM {$this->tables['linktrack_forward']} fw
             WHERE id = $forwardid";
 
-            return $this->dbCommand->queryOne($sql, 'url');
+        return $this->dbCommand->queryOne($sql, 'url');
     }
 }

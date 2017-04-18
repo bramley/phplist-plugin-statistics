@@ -1,3 +1,8 @@
+version 2.1.10+20170418
+      Ensure that Campaigns tab always shows a date value
+      Coding standards changes
+      Update copyright year
+
 version 2.1.9+20170304
       Add pageaction page to work with phplist help
 

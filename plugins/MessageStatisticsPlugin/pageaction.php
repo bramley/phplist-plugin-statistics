@@ -1,8 +1,8 @@
 <?php
 
 /**
- * MessageStatisticsPlugin for phplist
- * 
+ * MessageStatisticsPlugin for phplist.
+ *
  * This file is a part of MessageStatisticsPlugin.
  *
  * SubscribersPlugin is free software: you can redistribute it and/or modify

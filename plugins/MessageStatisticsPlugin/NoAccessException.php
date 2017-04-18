@@ -1,7 +1,8 @@
-<?php 
+<?php
+
 /**
- * MessageStatisticsPlugin for phplist
- * 
+ * MessageStatisticsPlugin for phplist.
+ *
  * This file is a part of MessageStatisticsPlugin.
  *
  * This plugin is free software: you can redistribute it and/or modify
@@ -12,24 +13,19 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
+ *
  * @author    Duncan Cameron
- * @copyright 2011-2012 Duncan Cameron
+ * @copyright 2011-2017 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
- * @version   SVN: $Id: NoAccessException.php 574 2012-02-02 14:01:11Z Duncan $
- * @link      http://forums.phplist.com/viewtopic.php?f=7&t=35427
  */
-
 
 /**
- * This exception is thrown when a user does not have access to the page
- * 
+ * This exception is thrown when a user does not have access to the page.
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
  */
- 
 class MessageStatisticsPlugin_NoAccessException extends CommonPlugin_Exception
 {
     /*

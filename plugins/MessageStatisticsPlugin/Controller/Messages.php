@@ -1,7 +1,8 @@
-<?php 
+<?php
+
 /**
- * MessageStatisticsPlugin for phplist
- * 
+ * MessageStatisticsPlugin for phplist.
+ *
  * This file is a part of MessageStatisticsPlugin.
  *
  * This plugin is free software: you can redistribute it and/or modify
@@ -12,27 +13,21 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
+ *
  * @author    Duncan Cameron
- * @copyright 2011-2012 Duncan Cameron
+ * @copyright 2011-2017 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
- * @version   SVN: $Id: Messages.php 1235 2013-03-17 15:45:44Z Duncan $
- * @link      http://forums.phplist.com/viewtopic.php?f=7&t=35427
  */
 
 /**
- * Sub-class that provides the populator and exportable functions 
- * for messages
- * 
+ * Sub-class that provides the populator and exportable functions
+ * for messages.
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
  */
-
-class MessageStatisticsPlugin_Controller_Messages 
-    extends MessageStatisticsPlugin_Controller
-    implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
     const IMAGE_HEIGHT = 300;
     const EXCLUDE_REGEX = 'p=preferences|p=unsubscribe|phplist.com';
@@ -85,7 +80,7 @@ class MessageStatisticsPlugin_Controller_Messages
 
         $this->model->validateProperties();
         $listNames = $this->model->listid ? $this->model->listNames[0] : implode(', ', $this->model->listsForMessage());
-        $regex = isset($wkhtmltopdfOptions['exclude']) 
+        $regex = isset($wkhtmltopdfOptions['exclude'])
             ? ($wkhtmltopdfOptions['exclude']
                 ? $wkhtmltopdfOptions['exclude']
                 : uniqid())
@@ -160,16 +155,16 @@ class MessageStatisticsPlugin_Controller_Messages
         }
         $chart = new Chart('ComboChart');
         $data = array();
-        
+
         foreach ($this->messageResults as $row) {
             $data[] = array(
                 'ID' => $row['id'],
                 'Sent' => (int) $row['sent'],
                 'Opened' => (int) $row['openUsers'],
                 'Clicked' => (int) $row['clickUsers'],
-                'Bounced' => (int) $row['bouncecount']
+                'Bounced' => (int) $row['bouncecount'],
             );
-        };
+        }
 
         $chart->load($data, 'array');
         $options = array(
@@ -180,9 +175,10 @@ class MessageStatisticsPlugin_Controller_Messages
             'seriesType' => 'line',
             'series' => array(0 => array('type' => 'bars')),
             'legend' => array('position' => 'bottom'),
-            'colors' => array('blue', 'green', 'yellow', 'red')
+            'colors' => array('blue', 'green', 'yellow', 'red'),
         );
         $result = $chart->draw($chartDiv, $options);
+
         return $result;
     }
 
@@ -193,15 +189,16 @@ class MessageStatisticsPlugin_Controller_Messages
     {
         return $this->i18n->get(array(
             'id', 'subject', 'date', 'sent', 'opened', 'opened %',
-            'clicked', 'clicked %', 'clicks_total', 'click_open', 'bounced', 'bounced %', 'total views', 'avg views'
+            'clicked', 'clicked %', 'clicks_total', 'click_open', 'bounced', 'bounced %', 'total views', 'avg views',
         ));
     }
 
-     /**
+    /**
      * Return the rows to be exported
      * If the page url includes the start parameter then only the current page is to be exported
-     * Otherwise all rows are to be exported
-     * @return Iterator 
+     * Otherwise all rows are to be exported.
+     *
+     * @return Iterator
      */
     public function exportRows()
     {
@@ -213,16 +210,18 @@ class MessageStatisticsPlugin_Controller_Messages
             $start = $limit = null;
             $asc = true;
         }
+
         return $this->model->fetchMessages($asc, $start, $limit);
     }
 
     public function exportValues(array $row)
     {
         $row = $this->messageStats($row);
+
         return array(
             $row['id'], $row['subject'], $row['datesent'], $row['sent'], $row['opens'], $row['openrate'],
             $row['clickUsers'], $row['clickrate'], $row['totalClicks'], $row['clickopenrate'],
-            $row['bouncecount'], $row['bouncerate'], $row['viewed'], $row['avgviews']
+            $row['bouncecount'], $row['bouncerate'], $row['viewed'], $row['avgviews'],
         );
     }
 
@@ -246,7 +245,7 @@ class MessageStatisticsPlugin_Controller_Messages
             $fields = $this->messageStats($row);
             $query['msgid'] = $fields['id'];
             $key = "$fields[id] | $fields[subject]";
-            $w->addElement($key,  new CommonPlugin_PageURL(null, $query));
+            $w->addElement($key, new CommonPlugin_PageURL(null, $query));
             $w->addColumn($key, $this->i18n->get('date'), $fields['datesent']);
             $w->addColumn($key, $this->i18n->get('sent'), $fields['sent'], '');
             $w->addColumn($key, $this->i18n->get('opened'), "{$fields['openrate']}% ({$fields['opens']})");

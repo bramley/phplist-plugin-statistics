@@ -1,49 +1,46 @@
-<?php 
-/**
- * MessageStatisticsPlugin for phplist
- * 
- * This file is a part of MessageStatisticsPlugin.
- *
- * This plugin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * This plugin is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * @category  phplist
- * @package   MessageStatisticsPlugin
- * @author    Duncan Cameron
- * @copyright 2011-2012 Duncan Cameron
- * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
- * @version   SVN: $Id: Controller.php 1232 2013-03-16 10:17:11Z Duncan $
- * @link      http://forums.phplist.com/viewtopic.php?f=7&t=35427
- */
+<?php
 
-/**
- * This class is the controller for message statistics.
- * It is a base class providing common processing.
- * Sub-classes provide the populator and exportable functions for each type
- * 
- * @category  phplist
- * @package   MessageStatisticsPlugin
- */
- 
- abstract class MessageStatisticsPlugin_Controller
-    extends CommonPlugin_Controller
-{
-    /*
+ /**
+  * MessageStatisticsPlugin for phplist.
+  *
+  * This file is a part of MessageStatisticsPlugin.
+  *
+  * This plugin is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  * This plugin is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @category  phplist
+  *
+  * @author    Duncan Cameron
+  * @copyright 2011-2017 Duncan Cameron
+  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
+  */
+
+ /**
+  * This class is the controller for message statistics.
+  * It is a base class providing common processing.
+  * Sub-classes provide the populator and exportable functions for each type.
+  *
+  * @category  phplist
+  */
+ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controller
+ {
+     /*
      *    Protected attributes
      *     Read by sub-classes
-     */    
+     */
     protected $model;
     /*
      *     Written by sub-classes
-     */    
+     */
     protected $showAttributeForm = false;
-    protected $itemsPerPage = null;
+     protected $itemsPerPage = null;
+
     /*
      *    Private methods
      */
@@ -66,18 +63,18 @@
         /*
          * Settings tab
          */
-        $tabs->addTab($types['settings'],  new CommonPlugin_PageURL(null, array('type' => 'settings')));
+        $tabs->addTab($types['settings'], new CommonPlugin_PageURL(null, array('type' => 'settings')));
         /*
          * Lists tab
          */
-        $tabs->addTab($types['lists'],  new CommonPlugin_PageURL(null, array('type' => 'lists')));
+        $tabs->addTab($types['lists'], new CommonPlugin_PageURL(null, array('type' => 'lists')));
         /*
          * Messages tab
          */
         $query = array();
         $query['listid'] = $this->model->listid;
         $query['type'] = 'messages';
-        $tabs->addTab($types['messages'],  new CommonPlugin_PageURL(null, $query));
+        $tabs->addTab($types['messages'], new CommonPlugin_PageURL(null, $query));
         /*
          * Opened -> Links tabs
          */
@@ -92,106 +89,110 @@
         if ($this->model->type == 'linkclicks') {
             $query['forwardid'] = $this->model->forwardid;
             $query['type'] = 'linkclicks';
-            $tabs->addTab($types['linkclicks'],  new CommonPlugin_PageURL(null, $query));
+            $tabs->addTab($types['linkclicks'], new CommonPlugin_PageURL(null, $query));
         }
         $tabs->setCurrent($types[$this->model->type]);
+
         return $tabs;
     }
+
     /*
      *    Protected methods
      */
-     /**
+
+    /**
      * Generate default caption
-     * Intended to be overridden by subclasses
-     * @return string 
-     * @access protected
+     * Intended to be overridden by subclasses.
+     *
+     * @return string
      */
     protected function caption()
     {
         return $this->i18n->get(
-            'message %s sent to %s', 
-            $this->model->msgid  . ' ' . '"' . $this->model->msgSubject . '"', 
+            'message %s sent to %s',
+            $this->model->msgid  . ' ' . '"' . $this->model->msgSubject . '"',
             '"' . implode('", "', $this->model->listNames) . '"'
         );
     }
 
-     /**
+    /**
      * Create prev and next message values
-     * Intended to be overridden by subclasses
+     * Intended to be overridden by subclasses.
+     *
      * @return array [0] parameter, [1] previous item, [2] next item
-     * @access protected
      */
     protected function prevNext()
     {
         list($prev, $next) = $this->model->prevNextMessage();
+
         return array('msgid', $prev, $next);
     }
 
-    protected function actionDefault()
-    {
-        try {
-            if ($this->model->access == 'none') 
-                throw new MessageStatisticsPlugin_NoAccessException();
-
-            $this->model->validateProperties();
-            $query = array(
+     protected function actionDefault()
+     {
+         try {
+             if ($this->model->access == 'none') {
+                 throw new MessageStatisticsPlugin_NoAccessException();
+             }
+             $this->model->validateProperties();
+             $query = array(
                 'listid' => $this->model->listid,
                 'msgid' => $this->model->msgid,
                 'type' => $this->model->type,
                 'forwardid' => $this->model->forwardid,
             );
 
-            if (isset($_POST['SearchForm'])) {
-                $this->model->setProperties($_POST['SearchForm'], true);
-                $redirect = new CommonPlugin_PageURL(null, $query);
-                header("Location: $redirect");
-                exit;
-            }
+             if (isset($_POST['SearchForm'])) {
+                 $this->model->setProperties($_POST['SearchForm'], true);
+                 $redirect = new CommonPlugin_PageURL(null, $query);
+                 header("Location: $redirect");
+                 exit;
+             }
 
-            $params = array();
-            $params['tabs'] = $this->navigation()->display();
-            $params['caption'] = $this->caption();
+             $params = array();
+             $params['tabs'] = $this->navigation()->display();
+             $params['caption'] = $this->caption();
 
-            if ($this instanceof CommonPlugin_IPopulator) {
-            
-                $listing = new CommonPlugin_Listing($this, $this);
+             if ($this instanceof CommonPlugin_IPopulator) {
+                 $listing = new CommonPlugin_Listing($this, $this);
 
-                if ($this->itemsPerPage) {
-                    $listing->pager->setItemsPerPage($this->itemsPerPage[0], $this->itemsPerPage[1]);
-                }
+                 if ($this->itemsPerPage) {
+                     $listing->pager->setItemsPerPage($this->itemsPerPage[0], $this->itemsPerPage[1]);
+                 }
 
-                if ($r = $this->prevNext()) {
-                    $listing->pager->setPrevNext($r[0], $r[1], $r[2]);
-                }
-                $params['listing'] = $listing->display();
-            }
+                 if ($r = $this->prevNext()) {
+                     $listing->pager->setPrevNext($r[0], $r[1], $r[2]);
+                 }
+                 $params['listing'] = $listing->display();
+             }
 
-            if ($this->showAttributeForm && count($this->model->attributes) > 0) {
-                $params['form'] = CommonPlugin_Widget::attributeForm($this, $this->model, false, true);
-            }
+             if ($this->showAttributeForm && count($this->model->attributes) > 0) {
+                 $params['form'] = CommonPlugin_Widget::attributeForm($this, $this->model, false, true);
+             }
 
-            if ($this instanceof MessageStatisticsPlugin_Controller_Messages) {
-                $params['chart_div'] = 'chart_div';
-                $params['chart'] = $this->createChart($params['chart_div']);
-            }
-            $toolbar = new CommonPlugin_Toolbar($this);
+             if ($this instanceof MessageStatisticsPlugin_Controller_Messages) {
+                 $params['chart_div'] = 'chart_div';
+                 $params['chart'] = $this->createChart($params['chart_div']);
+             }
+             $toolbar = new CommonPlugin_Toolbar($this);
 
-            if ($this instanceof CommonPlugin_IExportable) {
-                if ($this instanceof MessageStatisticsPlugin_Controller_Messages
+             if ($this instanceof CommonPlugin_IExportable) {
+                 if ($this instanceof MessageStatisticsPlugin_Controller_Messages
                     && !getConfig('statistics_export_all_messages')) {
-                    list($start, $limit) = $listing->pager->range();
-                } else {
-                    $start = $limit = null;
-                }
-                $toolbar->addExportButton($query + array('start' => $start, 'limit' => $limit));
-            }
-            $toolbar->addHelpButton($this->model->type);
-            $params['toolbar'] = $toolbar->display();
-        } catch (Exception $e) {
-            $params['exception'] = $e->getMessage();
-        }
-        print $this->render(dirname(__FILE__) . '/view.tpl.php', $params);
-    }
+                     list($start, $limit) = $listing->pager->range();
+                 } else {
+                     $start = $limit = null;
+                 }
+                 $toolbar->addExportButton($query + array('start' => $start, 'limit' => $limit));
+             }
+             $toolbar->addHelpButton($this->model->type);
+             $params['toolbar'] = $toolbar->display();
+         } catch (Exception $e) {
+             $params['exception'] = $e->getMessage();
+         }
+         echo $this->render(dirname(__FILE__) . '/view.tpl.php', $params);
+     }
+
     /*
      *    Public methods
      */
@@ -202,11 +203,12 @@
         $this->model->setProperties($_REQUEST);
     }
 
-    public function exportFileName()
-    {
-        $msgid = $this->model->msgid;
-        return isset($msgid)
+     public function exportFileName()
+     {
+         $msgid = $this->model->msgid;
+
+         return isset($msgid)
             ? "message_{$msgid}_{$this->model->type}"
             : $this->model->type;
-    }
-}
+     }
+ }

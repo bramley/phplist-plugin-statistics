@@ -1,7 +1,8 @@
-<?php 
+<?php
+
 /**
- * MessageStatisticsPlugin for phplist
- * 
+ * MessageStatisticsPlugin for phplist.
+ *
  * This file is a part of MessageStatisticsPlugin.
  *
  * This plugin is free software: you can redistribute it and/or modify
@@ -12,27 +13,21 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
+ *
  * @author    Duncan Cameron
- * @copyright 2011-2012 Duncan Cameron
+ * @copyright 2011-2017 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
- * @version   SVN: $Id: Clicked.php 574 2012-02-02 14:01:11Z Duncan $
- * @link      http://forums.phplist.com/viewtopic.php?f=7&t=35427
  */
 
 /**
- * Sub-class that provides the populator and exportable functions 
- * for clicked messages
- * 
+ * Sub-class that provides the populator and exportable functions
+ * for clicked messages.
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
  */
- 
-class MessageStatisticsPlugin_Controller_Clicked 
-    extends MessageStatisticsPlugin_Controller
-    implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+class MessageStatisticsPlugin_Controller_Clicked extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
     /*
      * Implementation of CommonPlugin_IExportable
@@ -46,11 +41,13 @@ class MessageStatisticsPlugin_Controller_Clicked
     {
         $fields = array($this->i18n->get('User email'));
 
-        foreach ($this->model->selectedAttrs as $attr)
+        foreach ($this->model->selectedAttrs as $attr) {
             $fields[] = $this->model->attributes[$attr]['name'];
+        }
 
         $fields[] = $this->i18n->get('links clicked');
         $fields[] = $this->i18n->get('clicks_total');
+
         return $fields;
     }
 
@@ -58,10 +55,12 @@ class MessageStatisticsPlugin_Controller_Clicked
     {
         $values = array($row['email']);
 
-        foreach ($this->model->selectedAttrs as $attr)
+        foreach ($this->model->selectedAttrs as $attr) {
             $values[] = $row["attr{$attr}"];
+        }
         $values[] = $row['links'];
         $values[] = $row['clicks'];
+
         return $values;
     }
 

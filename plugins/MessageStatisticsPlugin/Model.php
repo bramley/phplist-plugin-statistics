@@ -1,7 +1,8 @@
-<?php 
+<?php
+
 /**
- * MessageStatisticsPlugin for phplist
- * 
+ * MessageStatisticsPlugin for phplist.
+ *
  * This file is a part of MessageStatisticsPlugin.
  *
  * This plugin is free software: you can redistribute it and/or modify
@@ -12,22 +13,18 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
+ *
  * @author    Duncan Cameron
- * @copyright 2011-2012 Duncan Cameron
+ * @copyright 2011-2017 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
- * @version   SVN: $Id: Model.php 1235 2013-03-17 15:45:44Z Duncan $
- * @link      http://forums.phplist.com/viewtopic.php?f=7&t=35427
  */
 
-
 /**
- * This class provides the model in MVC
- * 
+ * This class provides the model in MVC.
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
  */
 class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 {
@@ -54,7 +51,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         'listid' => '',
         'selectedAttrs' => '',
         'searchTerm' => '',
-        'searchBy' => ''
+        'searchBy' => '',
     );
     /*
      *    Public variables
@@ -63,6 +60,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
     public $access;
     public $listNames;
     public $attributes = array();
+
     /*
      *    Private methods
      */
@@ -73,12 +71,13 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 
     private function verifySelectedAttributes()
     {
-        /*         
+        /*
          * remove selected attributes that no longer exist
-         */    
+         */
         $this->properties['selectedAttrs'] =
             array_values(array_filter($this->properties['selectedAttrs'], array($this, 'accept')));
     }
+
     /*
      *    Public methods
      */
@@ -154,19 +153,22 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
             $this->searchTerm, $this->searchBy, $start, $limit
         );
     }
+
     public function totalMessageOpens($isOpened)
     {
         return $this->messageDAO->totalMessageOpens(
             $isOpened, $this->msgid, $this->listid, $this->attributes, $this->searchTerm, $this->searchBy
         );
     }
+
     public function fetchMessageClicks($start = null, $limit = null)
     {
         return $this->messageDAO->fetchMessageClicks(
             $this->msgid, $this->listid, $this->attributes,
-            $this->searchTerm, $this->searchBy,    $start, $limit
+            $this->searchTerm, $this->searchBy, $start, $limit
         );
     }
+
     public function totalMessageClicks($msgID = null)
     {
         return $this->messageDAO->totalMessageClicks(
@@ -174,6 +176,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
             $this->searchTerm, $this->searchBy
         );
     }
+
     public function fetchMessageBounces($start = null, $limit = null)
     {
         return $this->messageDAO->fetchMessageBounces(
@@ -181,44 +184,54 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
             $start, $limit
         );
     }
+
     public function totalMessageBounces()
     {
         return $this->messageDAO->totalMessageBounces(
             $this->msgid, $this->listid, $this->attributes, $this->searchTerm, $this->searchBy
         );
     }
+
     public function fetchMessage($excludeRegex)
     {
         return $this->messageDAO->fetchMessage($this->msgid, $this->listid, $excludeRegex);
     }
+
     public function fetchMessages($ascOrder = false, $start = null, $limit = null)
     {
         return $this->messageDAO->fetchMessages($this->listid, $this->owner, $ascOrder, $start, $limit);
     }
+
     public function totalMessages()
     {
         return $this->messageDAO->totalMessages($this->listid, $this->owner);
     }
+
     public function prevNextMessage()
     {
         return $this->messageDAO->prevNextMessage($this->listid, $this->msgid, $this->owner);
     }
+
     public function fetchLists($start = null, $limit = null)
     {
         return $this->listDAO->fetchLists($this->owner, $start, $limit);
     }
+
     public function totalLists()
     {
         return $this->listDAO->totalLists($this->owner);
     }
+
     public function messageByDomain($start = null, $limit = null)
     {
         return $this->messageDAO->messageByDomain($this->msgid, $this->listid, $start, $limit);
     }
+
     public function totalMessageByDomain()
     {
         return $this->messageDAO->totalMessageByDomain($this->msgid, $this->listid);
     }
+
     public function fetchMessageForwards($start = null, $limit = null)
     {
         return $this->messageDAO->fetchMessageForwards(
@@ -226,44 +239,52 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
             $start, $limit
         );
     }
+
     public function totalMessageForwards()
     {
         return $this->messageDAO->totalMessageForwards(
             $this->msgid, $this->listid, $this->attributes, $this->searchTerm, $this->searchBy
         );
     }
+
     public function latestMessage($listid = null)
     {
         return $this->messageDAO->latestMessage($this->owner, is_null($listid) ? $this->listid : $listid);
     }
+
     public function prevNextForwardId()
     {
         return $this->messageDAO->prevNextForwardId($this->msgid, $this->forwardid);
     }
+
     public function links($start = null, $limit = null)
     {
         return $this->messageDAO->links($this->msgid, $this->listid, $start, $limit);
     }
+
     public function totalLinks()
     {
         return $this->messageDAO->totalLinks($this->msgid, $this->listid);
     }
+
     public function linkClicks($start = null, $limit = null)
     {
         return $this->messageDAO->linkClicks($this->forwardid, $this->msgid, $this->listid,
             $this->attributes, $this->searchTerm, $this->searchBy, $start, $limit);
     }
+
     public function totalLinkClicks()
     {
         return $this->messageDAO->totalLinkClicks($this->forwardid, $this->msgid, $this->listid,
             $this->attributes, $this->searchTerm, $this->searchBy
         );
     }
+
     public function linkUrl()
     {
         return $this->messageDAO->linkUrl($this->forwardid);
     }
-    
+
     public function listsForMessage()
     {
         return $this->listDAO->listsForMessage($this->msgid);

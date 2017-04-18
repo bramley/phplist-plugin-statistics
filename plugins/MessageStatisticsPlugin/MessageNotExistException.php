@@ -1,7 +1,8 @@
-<?php 
+<?php
+
 /**
- * MessageStatisticsPlugin for phplist
- * 
+ * MessageStatisticsPlugin for phplist.
+ *
  * This file is a part of MessageStatisticsPlugin.
  *
  * This plugin is free software: you can redistribute it and/or modify
@@ -12,31 +13,26 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
+ *
  * @author    Duncan Cameron
- * @copyright 2011-2012 Duncan Cameron
+ * @copyright 2011-2017 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
- * @version   SVN: $Id: MessageNotExistException.php 574 2012-02-02 14:01:11Z Duncan $
- * @link      http://forums.phplist.com/viewtopic.php?f=7&t=35427
  */
-
 
 /**
- * This exception is thrown when a message does not exist
- * 
+ * This exception is thrown when a message does not exist.
+ *
  * @category  phplist
- * @package   MessageStatisticsPlugin
  */
- 
 class MessageStatisticsPlugin_MessageNotExistException extends CommonPlugin_Exception
 {
     /*
      *    Public methods
      */
         public function __construct($msgid)
-    {
-        parent::__construct('Message %d does not exist', 0, $msgid);
-    }
+        {
+            parent::__construct('Message %d does not exist', 0, $msgid);
+        }
 }
