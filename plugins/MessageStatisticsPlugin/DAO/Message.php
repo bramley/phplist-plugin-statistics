@@ -189,9 +189,15 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $umf_lu_exists = $this->xx_lu_exists('umf.user', $listId);
 
         $sql =
-            "SELECT m.id, fromfield AS 'from', viewed, owner,
-            date_format(m.sent,'%e %b %Y') AS end, date_format(m.sendstart,'%e %b %Y') AS start,
-            COALESCE(md.data, subject) AS subject, md2.data AS campaigntitle,
+            "SELECT
+            m.id,
+            fromfield AS 'from',
+            viewed,
+            owner,
+            DATE_FORMAT($this->orderByAlias, '%e %b %Y') AS end,
+            DATE_FORMAT(m.sendstart, '%e %b %Y') AS start,
+            COALESCE(md.data, subject) AS subject,
+            md2.data AS campaigntitle,
             (SELECT COUNT(viewed)
                 FROM {$this->tables['usermessage']} um
                 WHERE messageid = m.id 
@@ -269,9 +275,15 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listId);
 
         $sql =
-            "SELECT m.id, fromfield AS 'from', viewed, owner,
-            date_format(m.sent,'%e %b %Y') AS end, date_format(m.sendstart,'%e %b %Y') AS start,
-            COALESCE(md.data, subject) AS subject, md2.data AS campaigntitle,
+            "SELECT
+            m.id,
+            fromfield AS 'from',
+            viewed,
+            owner,
+            DATE_FORMAT($this->orderByAlias, '%e %b %Y') AS end,
+            DATE_FORMAT(m.sendstart,'%e %b %Y') AS start,
+            COALESCE(md.data, subject) AS subject,
+            md2.data AS campaigntitle,
             (SELECT COUNT(viewed)
                 FROM {$this->tables['usermessage']} um
                 WHERE messageid = m.id 
