@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.11+20170510 On Opened tab use correct caption for first vew
     2.1.10+20170418 Ensure date is always displayed on Campaigns tab
     2.1.9+20170304  Use core phplist help dialog
     2.1.8+20160604  Revise translations
