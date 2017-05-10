@@ -46,7 +46,7 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
             $fields[] = $this->model->attributes[$attr]['name'];
         }
 
-        $fields[] = $this->i18n->get('last viewed');
+        $fields[] = $this->i18n->get('first view');
 
         return $fields;
     }
@@ -82,7 +82,7 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
             foreach ($this->model->selectedAttrs as $attr) {
                 $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
             }
-            $w->addColumn($key, $this->i18n->get('last viewed'), $row['viewed']);
+            $w->addColumn($key, $this->i18n->get('first view'), $row['viewed']);
         }
     }
 
