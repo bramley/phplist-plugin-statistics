@@ -1,3 +1,7 @@
+version 2.1.12+20170518
+      Avoid displaying \ in campaign subject.
+      Display campaign subject instead of title on Opened, Unopened etc tabs.
+
 version 2.1.11+20170510
       Use correct caption for time of first view of a campaign.
       Remove obsolete ISO-8859-1 encoded translations.

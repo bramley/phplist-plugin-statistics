@@ -123,9 +123,9 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
                     }
 
                     $this->msgid = $msgid;
-                    $message = $this->messageDAO->messageById($this->msgid);
+                    $message = loadMessageData($this->msgid);
                 } else {
-                    $message = $this->messageDAO->messageById($this->msgid);
+                    $message = loadMessageData($this->msgid);
 
                     if (!$message) {
                         throw new MessageStatisticsPlugin_MessageNotExistException($this->msgid);

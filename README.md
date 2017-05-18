@@ -10,7 +10,7 @@ It provides a multi-tabbed page that shows opens, clicks, bounces and forwards f
 
 This plugin is for phplist 3.
 
-Requires php version 5.3 or later.
+Requires php version 5.4 or later.
 
 Requires the Common Plugin version 3.0.3 or later to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
 
@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.12+20170518 Correct display of campaign subject
     2.1.11+20170510 On Opened tab use correct caption for first vew
     2.1.10+20170418 Ensure date is always displayed on Campaigns tab
     2.1.9+20170304  Use core phplist help dialog

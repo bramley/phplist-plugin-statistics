@@ -194,7 +194,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             owner,
             DATE_FORMAT($this->orderByAlias, '%e %b %Y') AS end,
             DATE_FORMAT(m.sendstart, '%e %b %Y') AS start,
-            COALESCE(md.data, subject) AS subject,
+            REPLACE(COALESCE(md.data, subject), '\\\\', '') AS subject,
             md2.data AS campaigntitle,
             (SELECT COUNT(viewed)
                 FROM {$this->tables['usermessage']} um
@@ -280,7 +280,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             owner,
             DATE_FORMAT($this->orderByAlias, '%e %b %Y') AS end,
             DATE_FORMAT(m.sendstart,'%e %b %Y') AS start,
-            COALESCE(md.data, subject) AS subject,
+            REPLACE(COALESCE(md.data, subject), '\\\\', '') AS subject,
             md2.data AS campaigntitle,
             (SELECT COUNT(viewed)
                 FROM {$this->tables['usermessage']} um
