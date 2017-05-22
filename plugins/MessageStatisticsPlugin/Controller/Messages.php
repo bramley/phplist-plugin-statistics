@@ -121,7 +121,7 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
         );
 
         $options = $wkhtmltopdfOptions + $defaultOptions;
-
+        unset($options['exclude']);
         $w->setOptions($options);
         $w->headerHtml($this->render(dirname(__FILE__) . '/../printheader.tpl.php', array()));
         $w->footerHtml($this->render(dirname(__FILE__) . '/../printfooter.tpl.php', array()));
