@@ -74,9 +74,9 @@ class MessageStatisticsPlugin extends phplistPlugin
         global $plugins;
 
         return array(
-            'Common Plugin v3.0.3 or later installed' => phpListPlugin::isEnabled('CommonPlugin')
+            'Common Plugin v3.6.3 or later installed' => phpListPlugin::isEnabled('CommonPlugin')
                     && preg_match('/\d+\.\d+\.\d+/', $plugins['CommonPlugin']->version, $matches)
-                    && version_compare($matches[0], '3.0.3') >= 0,
+                    && version_compare($matches[0], '3.6.3') >= 0,
             'PHP version 5.4.0 or greater' => version_compare(PHP_VERSION, '5.4') > 0,
         );
     }

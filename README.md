@@ -12,7 +12,7 @@ This plugin is for phplist 3.
 
 Requires php version 5.4 or later.
 
-Requires the Common Plugin version 3.0.3 or later to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
+Requires the Common Plugin version 3.6.3 or later to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
 
 ### Set the plugin directory ###
 The default plugin directory is `plugins` within the admin directory.
@@ -45,7 +45,7 @@ phplist 3.0.9 had a change that stopped the plugin export working. Instead the m
 
 To fix this problem upgrade to the latest version of CommonPlugin.
 
-##Usage##
+## Usage ##
 
 For guidance on using the plugin see the plugin's page within the phplist documentation site <https://resources.phplist.com/plugin/messagestatistics>
 
@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.13+20170601 Internal code changes
     2.1.12+20170518 Correct display of campaign subject
     2.1.11+20170510 On Opened tab use correct caption for first vew
     2.1.10+20170418 Ensure date is always displayed on Campaigns tab

@@ -1,3 +1,8 @@
+version 2.1.13+20170601
+      Fix bug in using exclude option.
+      Inject dependencies into controller and model classes.
+      Update required version of Common Plugin
+
 version 2.1.12+20170518
       Avoid displaying \ in campaign subject.
       Display campaign subject instead of title on Opened, Unopened etc tabs.
