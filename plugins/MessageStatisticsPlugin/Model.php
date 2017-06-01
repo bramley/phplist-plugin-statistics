@@ -64,30 +64,34 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
     /*
      *    Private methods
      */
-    private function accept($attrID)
-    {
-        return isset($this->attributes[$attrID]);
-    }
-
     private function verifySelectedAttributes()
     {
         /*
          * remove selected attributes that no longer exist
          */
         $this->properties['selectedAttrs'] =
-            array_values(array_filter($this->properties['selectedAttrs'], array($this, 'accept')));
+            array_values(
+                array_filter(
+                    $this->properties['selectedAttrs'],
+                    function ($attrID) {
+                        return isset($this->attributes[$attrID]);
+                    }
+                )
+            );
     }
 
     /*
      *    Public methods
      */
-    public function __construct($db)
-    {
+    public function __construct(
+        MessageStatisticsPlugin_DAO_Message $messageDAO,
+        MessageStatisticsPlugin_DAO_List $listDAO,
+        array $attributesById
+    ) {
         parent::__construct('MessageStatistics');
-        $this->messageDAO = new MessageStatisticsPlugin_DAO_Message($db);
-        $this->listDAO = new MessageStatisticsPlugin_DAO_List($db);
-        $this->attributeDAO = new CommonPlugin_DAO_Attribute($db);
-        $this->attributes = $this->attributeDAO->attributesById();
+        $this->messageDAO = $messageDAO;
+        $this->listDAO = $listDAO;
+        $this->attributes = $attributesById;
         $this->access = accessLevel('mviews');
         $this->owner = ($this->access == 'owner') ? $_SESSION['logindetails']['id'] : '';
         $this->verifySelectedAttributes();

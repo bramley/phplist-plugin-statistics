@@ -196,10 +196,10 @@
     /*
      *    Public methods
      */
-    public function __construct()
+    public function __construct(MessageStatisticsPlugin_Model $model)
     {
         parent::__construct();
-        $this->model = new MessageStatisticsPlugin_Model(new CommonPlugin_DB());
+        $this->model = $model;
         $this->model->setProperties($_REQUEST);
     }
 

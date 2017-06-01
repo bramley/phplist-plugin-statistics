@@ -28,10 +28,11 @@
  */
 class MessageStatisticsPlugin_ControllerFactory extends CommonPlugin_ControllerFactoryBase
 {
-    protected $defaultType = 'messages';
+    const DEFAULT_TYPE = 'messages';
 
     /**
      * Custom implementation to create a controller using plugin and type.
+     * The controller is created by the dependency injection container.
      *
      * @param string $pi     the plugin
      * @param array  $params further parameters from the URL
@@ -40,6 +41,10 @@ class MessageStatisticsPlugin_ControllerFactory extends CommonPlugin_ControllerF
      */
     public function createController($pi, array $params)
     {
-        return $this->createControllerType($pi, $params);
+        $container = include __DIR__ . '/dic.php';
+        $type = isset($params['type']) ? $params['type'] : self::DEFAULT_TYPE;
+        $class = $pi . '_Controller_' . ucfirst($type);
+
+        return $container->get($class);
     }
 }
