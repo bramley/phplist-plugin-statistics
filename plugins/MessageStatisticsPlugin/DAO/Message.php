@@ -32,8 +32,8 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
     /**
      * Private methods.
      */
-    private $orderByAlias = 'COALESCE(m.sent, m.sendstart, m.modified)';
-    private $orderBy = 'COALESCE(sent, sendstart, modified)';
+    private $orderByAlias = 'COALESCE(m.sent, m.sendstart, m.embargo, m.entered)';
+    private $orderBy = 'COALESCE(sent, sendstart, embargo, entered)';
     private $selectStatus;
 
     private function xx_lu_exists($field, $listid)
