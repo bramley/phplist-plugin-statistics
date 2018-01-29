@@ -39,9 +39,7 @@ class MessageStatisticsPlugin_Controller_Domain extends MessageStatisticsPlugin_
 
     public function exportFieldNames()
     {
-        $fields = $this->i18n->get(array('domain', 'sent', 'opened', 'clicked'));
-
-        return $fields;
+        return $this->i18n->get(array('Domain', 'sent', 'opened', 'opened %', 'clicked', 'clicked %'));
     }
 
     public function exportValues(array $row)
@@ -50,7 +48,9 @@ class MessageStatisticsPlugin_Controller_Domain extends MessageStatisticsPlugin_
         $values[] = $row['domain'];
         $values[] = $row['sent'];
         $values[] = $row['opened'];
+        $values[] = $this->calculateRate($row['opened'], $row['sent']);
         $values[] = $row['clicked'];
+        $values[] = $this->calculateRate($row['clicked'], $row['sent']);
 
         return $values;
     }
@@ -63,15 +63,22 @@ class MessageStatisticsPlugin_Controller_Domain extends MessageStatisticsPlugin_
         /*
          * Populate the webbler list with domains
          */
-        $w->setTitle($this->i18n->get('Domain'));
+        $w->setTitle($this->i18n->get('Domains to which the campaign was sent'));
+        $w->setElementHeading($this->i18n->get('Domain'));
         $resultSet = $this->model->messageByDomain($start, $limit);
 
         foreach ($resultSet as $row) {
             $key = $row['domain'];
             $w->addElement($key, null);
             $w->addColumn($key, $this->i18n->get('sent'), $row['sent']);
-            $w->addColumn($key, $this->i18n->get('opened'), $row['opened']);
-            $w->addColumn($key, $this->i18n->get('clicked'), $row['clicked']);
+            $value = $row['opened'] == 0
+                ? 0
+                : sprintf('%d (%s%%)', $row['opened'], $this->calculateRate($row['opened'], $row['sent']));
+            $w->addColumn($key, $this->i18n->get('opened'), $value);
+            $value = $row['clicked'] == 0
+                ? 0
+                : sprintf('%d (%s%%)', $row['opened'], $this->calculateRate($row['clicked'], $row['sent']));
+            $w->addColumn($key, $this->i18n->get('clicked'), $value);
         }
     }
 

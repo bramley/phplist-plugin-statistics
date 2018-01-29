@@ -64,7 +64,7 @@ class MessageStatisticsPlugin_Controller_Linkclicks extends MessageStatisticsPlu
         foreach ($this->model->selectedAttrs as $attr) {
             $fields[] = $this->model->attributes[$attr]['name'];
         }
-        $fields[] = $this->i18n->get('clicks');
+        $fields[] = $this->i18n->get('total clicks');
         $fields[] = $this->i18n->get('firstclick');
         $fields[] = $this->i18n->get('latestclick');
 
@@ -109,7 +109,7 @@ class MessageStatisticsPlugin_Controller_Linkclicks extends MessageStatisticsPlu
             foreach ($this->model->selectedAttrs as $attr) {
                 $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
             }
-            $w->addColumn($key, $this->i18n->get('clicks'), $row['clicked']);
+            $w->addColumn($key, $this->i18n->get('total clicks'), $row['clicked']);
             $w->addColumn($key, $this->i18n->get('firstclick'), $row['firstclick']);
             $w->addColumn($key, $this->i18n->get('latestclick'),
                 $row['clicked'] > 1 ? $row['latestclick'] : ''

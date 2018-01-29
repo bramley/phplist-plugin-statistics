@@ -53,10 +53,13 @@ $lan = array(
     'clicks_total' => 'Total clicks',
     'user_not_exist' => 'User does not exist now',
 //    Domain.php
+    'Domains to which the campaign was sent' => 'Domains to which the campaign was sent',
     'Domain' => 'Domain',
     'sent' => 'Sent',
     'opened' => 'Opened',
+    'opened %' => 'Opened %',
     'clicked' => 'Clicked',
+    'clicked %' => 'Clicked %',
 //    Forwarded.php
 //    Lists.php
     'Lists' => 'Lists',
@@ -78,10 +81,11 @@ $lan = array(
     'Users' => 'Users',
     'Campaigns' => 'Campaigns',
 //    Links
-    'Link URL' => 'Link URL',
-    'clicks' => 'Clicks',
-    'users' => 'Users',
-    'users%' => 'Users %',
+    'Links in the campaign' => 'Links in the campaign',
+    'Link' => 'Link',
+    'total clicks' => 'Total clicks',
+    'subscribers' => 'Subscribers',
+    'subscribers %' => 'Subscribers %',
     'firstclick' => 'First',
     'latestclick' => 'Latest',
 //    LinkClicks

@@ -12,7 +12,7 @@ This plugin is for phplist 3.
 
 Requires php version 5.4 or later.
 
-Requires the Common Plugin version 3.6.3 or later to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
+Requires the Common Plugin to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
 
 ### Set the plugin directory ###
 The default plugin directory is `plugins` within the admin directory.

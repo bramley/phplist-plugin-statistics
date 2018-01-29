@@ -96,9 +96,18 @@
         return $tabs;
     }
 
-    /*
-     *    Protected methods
+    /**
+     * Encapsulate the calculation of a %age rate.
+     *
+     * @param int $actual
+     * @param int $sent
+     *
+     * @return float
      */
+    protected function calculateRate($actual, $sent)
+    {
+        return round($actual / $sent * 100, 1);
+    }
 
     /**
      * Generate default caption

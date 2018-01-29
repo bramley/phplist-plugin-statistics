@@ -37,7 +37,7 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
     public function exportFieldNames()
     {
         return $this->i18n->get(array(
-            'Link URL', 'clicks', 'users', 'users%', 'firstclick', 'latestclick',
+            'URL', 'subscribers', 'subscribers %', 'total clicks', 'firstclick', 'latestclick',
         ));
     }
 
@@ -50,9 +50,9 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
     {
         return array(
             $row['url'],
-            $row['numclicks'],
             $row['usersclicked'],
-            sprintf('%0.2f', $row['usersclicked'] / $row['totalsent'] * 100),
+            $this->calculateRate($row['usersclicked'], $row['totalsent']),
+            $row['numclicks'],
             $row['firstclick'],
             $row['numclicks'] > 1 ? $row['latestclick'] : '',
         );
@@ -66,7 +66,8 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
         /*
          * Populates the webbler list with link details
          */
-        $w->setTitle($this->i18n->get('Link URL'));
+        $w->setTitle($this->i18n->get('Links in the campaign'));
+        $w->setElementHeading('URL');
 
         $resultSet = $this->model->links($start, $limit);
         $query = array(
@@ -81,24 +82,31 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
             if (strlen($key) > 39) {
                 $key = htmlspecialchars(substr($key, 0, 22)) . '&nbsp;...&nbsp;' . htmlspecialchars(substr($key, -12));
             }
-
             $key = sprintf('<span title="%s">%s</span>', htmlspecialchars($row['url']), $key);
             $query['forwardid'] = $row['forwardid'];
             $w->addElement($key, new CommonPlugin_PageURL(null, $query));
-            $w->addColumnHtml($key, $this->i18n->get('pers.'), $row['personalise']
-                ? new CommonPlugin_ImageTag('user.png', 'URL is personalised')
-                : ''
+            $destinationLink = CHtml::tag(
+                'a',
+                ['target' => '_blank', 'href' => $row['url'], 'class' => 'nobutton', 'title' => $row['url']],
+                new CommonPlugin_ImageTag('external.png', '')
             );
-            $w->addColumn($key, $this->i18n->get('clicks'), $row['numclicks']);
-            $w->addColumn($key, $this->i18n->get('users'),
+            $w->addColumnHtml(
+                $key,
+                $this->i18n->get('Link'),
+                $row['personalise']
+                    ? new CommonPlugin_ImageTag('user.png', 'URL is personalised')
+                    : $destinationLink
+            );
+            $w->addColumn(
+                $key,
+                $this->i18n->get('subscribers'),
                 $row['usersclicked'] > 0
-                    ? sprintf('%d (%0.2f%%)', $row['usersclicked'], $row['usersclicked'] / $row['totalsent'] * 100)
-                    : ''
+                    ? sprintf('%d (%s%%)', $row['usersclicked'], $this->calculateRate($row['usersclicked'], $row['totalsent']))
+                    : 0
             );
+            $w->addColumn($key, $this->i18n->get('total clicks'), $row['numclicks']);
             $w->addColumn($key, $this->i18n->get('firstclick'), $row['firstclick']);
-            $w->addColumn($key, $this->i18n->get('latestclick'),
-                $row['numclicks'] > 1 ? $row['latestclick'] : ''
-            );
+            $w->addColumn($key, $this->i18n->get('latestclick'), $row['numclicks'] > 1 ? $row['latestclick'] : '');
         }
     }
 
