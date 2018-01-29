@@ -1,3 +1,9 @@
+version 2.1.15+20180129
+      Display percentages on the Domains and Links pages
+      Include a link to the target URL on the Links page
+      Revise the version of Common Plugin that is required
+      Correct white space for cs fixer
+
 version 2.1.14+20170703
       Improve order of sorting on campaigns tab
 

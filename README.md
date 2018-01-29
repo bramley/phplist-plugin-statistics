@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.15+20180129 Include % on Domains and Links pages
     2.1.14+20170703 Improve order of sorting on campaigns tab
     2.1.13+20170601 Internal code changes
     2.1.12+20170518 Correct display of campaign subject

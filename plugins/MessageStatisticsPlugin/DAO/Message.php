@@ -486,14 +486,14 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
     /*
      * Methods for message bounces
      */
-     public function fetchMessageBounces($mid, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
-     {
-         list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-         $umb_lu_exists = $this->xx_lu_exists('umb.user', $listid);
-         $limitClause = $this->limitClause($start, $limit);
+    public function fetchMessageBounces($mid, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
+    {
+        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
+        $umb_lu_exists = $this->xx_lu_exists('umb.user', $listid);
+        $limitClause = $this->limitClause($start, $limit);
 
-         $sql =
-           "SELECT u.email, umb.user, umb.bounce $attr_fields
+        $sql =
+            "SELECT u.email, umb.user, umb.bounce $attr_fields
             FROM {$this->tables['user_message_bounce']} AS umb
             JOIN {$this->tables['user']} AS u ON umb.user = u.id
             $attr_join
@@ -505,8 +505,8 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             $umb_lu_exists
             $limitClause";
 
-         return $this->dbCommand->queryAll($sql);
-     }
+        return $this->dbCommand->queryAll($sql);
+    }
 
     public function totalMessageBounces($mid, $listid, $attributes, $searchTerm, $searchAttr)
     {
@@ -536,14 +536,14 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
     /*
      * Methods for message forwards
      */
-     public function fetchMessageForwards($mid, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
-     {
-         list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
-         $limitClause = $this->limitClause($start, $limit);
+    public function fetchMessageForwards($mid, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
+    {
+        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
+        $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
+        $limitClause = $this->limitClause($start, $limit);
 
-         $sql =
-           "SELECT u.email, u.id, COUNT(umf.id) AS count $attr_fields
+        $sql =
+            "SELECT u.email, u.id, COUNT(umf.id) AS count $attr_fields
             FROM {$this->tables['user_message_forward']} AS umf
             JOIN {$this->tables['user']} AS u ON umf.user = u.id
             $attr_join
@@ -556,8 +556,8 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             GROUP BY umf.user
             $limitClause";
 
-         return $this->dbCommand->queryAll($sql);
-     }
+        return $this->dbCommand->queryAll($sql);
+    }
 
     public function totalMessageForwards($mid, $listid, $attributes, $searchTerm, $searchAttr)
     {

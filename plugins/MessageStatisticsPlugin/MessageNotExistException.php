@@ -31,8 +31,8 @@ class MessageStatisticsPlugin_MessageNotExistException extends CommonPlugin_Exce
     /*
      *    Public methods
      */
-        public function __construct($msgid)
-        {
-            parent::__construct('Message %d does not exist', 0, $msgid);
-        }
+    public function __construct($msgid)
+    {
+        parent::__construct('Message %d does not exist', 0, $msgid);
+    }
 }
