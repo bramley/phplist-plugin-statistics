@@ -123,7 +123,10 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
         $options = $wkhtmltopdfOptions + $defaultOptions;
         unset($options['exclude']);
         $w->setOptions($options);
-        $w->headerHtml($this->render(dirname(__FILE__) . '/../printheader.tpl.php', array()));
+
+        $logoPath = getConfig('statistics_logo_path');
+        $imageSrc = sprintf('data:image/png;base64,%s', file_get_contents($logoPath));
+        $w->headerHtml($this->render(dirname(__FILE__) . '/../printheader.tpl.php', array('imageSrc' => $imageSrc)));
         $w->footerHtml($this->render(dirname(__FILE__) . '/../printfooter.tpl.php', array()));
         $w->addPage($this->render(dirname(__FILE__) . '/../print.tpl.php', $params));
 

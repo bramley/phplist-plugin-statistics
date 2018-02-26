@@ -53,6 +53,8 @@ class MessageStatisticsPlugin extends phplistPlugin
 
     public function __construct()
     {
+        global $wkhtmltopdfOptions;
+
         $this->coderoot = dirname(__FILE__) . '/MessageStatisticsPlugin/';
         $this->version = (is_file($f = $this->coderoot . self::VERSION_FILE))
             ? file_get_contents($f)
@@ -66,6 +68,16 @@ class MessageStatisticsPlugin extends phplistPlugin
                 'category' => 'Campaign Statistics',
             ),
         );
+
+        if (isset($wkhtmltopdfOptions) && is_executable($wkhtmltopdfOptions['bin'])) {
+            $this->settings['statistics_logo_path'] = array(
+                'value' => $this->coderoot . 'phplist_logo.b64',
+                'description' => s('Path to a base64 encoded logo file'),
+                'type' => 'text',
+                'allowempty' => false,
+                'category' => 'Campaign Statistics',
+            );
+        }
         parent::__construct();
     }
 

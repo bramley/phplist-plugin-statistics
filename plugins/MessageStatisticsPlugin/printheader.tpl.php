@@ -4,7 +4,7 @@
         <table width="100%" border="0">
             <tr>
                 <td width="100%">
-                    <img src="http://www.phplist.com/images/phplist-logo.png" />
+                    <img src="<?= $imageSrc?>" />
                     <span style="float:right;font-size:12px"></span>
                 </td>
             </tr>

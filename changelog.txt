@@ -1,3 +1,7 @@
+version 2.1.16+20180226
+      Add base64 encoded image to appear on pdf report.
+      Tweak styles for pdf report.
+
 version 2.1.15+20180129
       Display percentages on the Domains and Links pages
       Include a link to the target URL on the Links page

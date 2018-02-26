@@ -14,19 +14,19 @@ body {
     left:       2cm;
     width:      18cm;
 
-    font-size:  9px;
+    font-size:  12px;
     font-family: Verdana,sans-serif;
 }
 
 .caption, .captionA {
-    font-size:  10px;
+    font-size:  12px;
     font-weight: bold;
 }
 .captionA {
-    width: 130;
+    width: 180;
 }
 .value, .value-right {
-    font-size:  10px;
+    font-size:  12px;
     font-weight: normal;
     color: #666666;
 }
@@ -36,7 +36,7 @@ body {
 }
 .sub-head {
     padding-top: 20px;
-    font-size:  10px;
+    font-size:  12px;
     font-weight: bold;
     border-bottom: dotted 1px #666666;
 }
