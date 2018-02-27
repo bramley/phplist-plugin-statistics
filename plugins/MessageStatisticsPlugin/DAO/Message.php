@@ -99,6 +99,105 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
     }
 
     /**
+     * Generate base query for messages.
+     *
+     * @param int|null    $listId       Include only users who belong to the list
+     * @param string|null $excludeRegex Exclude matching URLs from click tracking results
+     *
+     * @return string the query
+     */
+    private function baseMessageQuery($listId, $excludeRegex = null)
+    {
+        $urlExclude = $excludeRegex !== null
+            ? sprintf("AND fw.url NOT RLIKE('%s')", sql_escape($excludeRegex))
+            : '';
+        $m_lm_exists = $listId
+            ? "AND EXISTS (
+                SELECT 1 FROM {$this->tables['listmessage']} lm
+                WHERE m.id = lm.messageid AND lm.listid = $listId)"
+            : '';
+        $um_lu_exists = $this->xx_lu_exists('um.userid', $listId);
+        $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listId);
+        $umb_lu_exists = $this->xx_lu_exists('umb.user', $listId);
+        $umf_lu_exists = $this->xx_lu_exists('umf.user', $listId);
+        $sql = <<<END
+            SELECT
+            m.id,
+            fromfield AS 'from',
+            viewed,
+            owner,
+            DATE_FORMAT($this->orderByAlias, '%e %b %Y') AS end,
+            DATE_FORMAT(m.sendstart,'%e %b %Y') AS start,
+            REPLACE(COALESCE(md.data, subject), '\\\\', '') AS subject,
+            md2.data AS campaigntitle,
+            (SELECT COUNT(viewed)
+                FROM {$this->tables['usermessage']} um
+                WHERE messageid = m.id 
+                $um_lu_exists
+            ) AS openUsers,
+
+            (SELECT COUNT(status)
+                FROM {$this->tables['usermessage']} um
+                WHERE messageid = m.id
+                AND status = 'sent'
+                $um_lu_exists
+            ) AS sent,
+
+            (SELECT COUNT(DISTINCT uml.userid)
+                FROM {$this->tables['linktrack_uml_click']} uml
+                JOIN {$this->tables['linktrack_forward']} fw ON fw.id = uml.forwardid
+                WHERE uml.messageid = m.id
+                $urlExclude
+                AND EXISTS (
+                    SELECT * FROM {$this->tables['usermessage']} um
+                    WHERE uml.userid = um.userid AND uml.messageid = um.messageid
+                )
+                $uml_lu_exists
+            ) as clickUsers,
+
+            (SELECT COALESCE(SUM(clicked), 0)
+                FROM {$this->tables['linktrack_uml_click']} uml
+                JOIN {$this->tables['linktrack_forward']} fw ON fw.id = uml.forwardid
+                WHERE uml.messageid = m.id
+                $urlExclude
+                AND EXISTS (
+                    SELECT * FROM {$this->tables['usermessage']} um
+                    WHERE uml.userid = um.userid AND uml.messageid = um.messageid
+                )
+                $uml_lu_exists
+            ) as totalClicks,
+
+            (SELECT COUNT(DISTINCT umb.user)
+                FROM {$this->tables['user_message_bounce']} umb
+                WHERE umb.message = m.id
+                AND EXISTS (
+                    SELECT 1 FROM {$this->tables['usermessage']} um
+                    WHERE umb.user = um.userid AND umb.message = um.messageid
+                )
+                $umb_lu_exists
+            ) AS bouncecount,
+
+           (SELECT COUNT(DISTINCT umf.user)
+                FROM {$this->tables['user_message_forward']} AS umf
+                WHERE umf.message = m.id
+                AND EXISTS (
+                    SELECT 1 FROM {$this->tables['usermessage']} um 
+                    WHERE um.userid = umf.user AND umf.message = um.messageid
+                )
+                $umf_lu_exists
+            ) AS forwardcount
+
+            FROM {$this->tables['message']} m
+            LEFT JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
+            LEFT JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
+            WHERE m.status IN ($this->selectStatus)
+            $m_lm_exists
+END;
+
+        return $sql;
+    }
+
+    /**
      * Public methods.
      */
     public function __construct($db)
@@ -171,182 +270,26 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
 
     public function fetchMessages($listId, $loginid, $ascOrder = false, $start = null, $limit = null)
     {
-        $order = $ascOrder ? 'ASC' : 'DESC';
         $owner_and = $loginid ? "AND owner = $loginid" : '';
+        $order = $ascOrder ? 'ASC' : 'DESC';
         $limitClause = is_null($start) ? '' : "LIMIT $start, $limit";
 
-        $m_lm_exists = $listId
-            ? "AND EXISTS (
-                SELECT 1 FROM {$this->tables['listmessage']} lm
-                WHERE m.id = lm.messageid AND lm.listid = $listId)"
-            : '';
-
-        $um_lu_exists = $this->xx_lu_exists('um.userid', $listId);
-        $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listId);
-        $umb_lu_exists = $this->xx_lu_exists('umb.user', $listId);
-        $umf_lu_exists = $this->xx_lu_exists('umf.user', $listId);
-
-        $sql =
-            "SELECT
-            m.id,
-            fromfield AS 'from',
-            viewed,
-            owner,
-            DATE_FORMAT($this->orderByAlias, '%e %b %Y') AS end,
-            DATE_FORMAT(m.sendstart, '%e %b %Y') AS start,
-            REPLACE(COALESCE(md.data, subject), '\\\\', '') AS subject,
-            md2.data AS campaigntitle,
-            (SELECT COUNT(viewed)
-                FROM {$this->tables['usermessage']} um
-                WHERE messageid = m.id 
-                $um_lu_exists
-            ) AS openUsers,
-            (SELECT COUNT(status)
-                FROM {$this->tables['usermessage']} um
-                WHERE messageid = m.id
-                AND status = 'sent'
-                $um_lu_exists
-            ) AS sent,
-
-            (SELECT COUNT(DISTINCT uml.userid)
-                FROM {$this->tables['linktrack_uml_click']} uml
-                WHERE uml.messageid = m.id
-                AND EXISTS (
-                    SELECT * FROM {$this->tables['usermessage']} um
-                    WHERE uml.userid = um.userid AND uml.messageid = um.messageid
-                )
-                $uml_lu_exists
-            ) as clickUsers,
-            
-            (SELECT COALESCE(SUM(clicked), 0)
-                FROM {$this->tables['linktrack_uml_click']} uml
-                WHERE uml.messageid = m.id
-                AND EXISTS (
-                    SELECT * FROM {$this->tables['usermessage']} um
-                    WHERE uml.userid = um.userid AND uml.messageid = um.messageid
-                )
-                $uml_lu_exists
-            ) as totalClicks,
-            
-            (SELECT count(distinct umb.user)
-                FROM {$this->tables['user_message_bounce']} umb
-                WHERE umb.message = m.id
-                AND EXISTS (
-                    SELECT 1 FROM {$this->tables['usermessage']} um
-                    WHERE umb.user = um.userid AND umb.message = um.messageid
-                )
-                $umb_lu_exists
-            ) AS bouncecount,
-           (SELECT COUNT(DISTINCT umf.user)
-                FROM {$this->tables['user_message_forward']} AS umf
-                WHERE umf.message = m.id
-                AND EXISTS (
-                    SELECT 1 FROM {$this->tables['usermessage']} um 
-                    WHERE um.userid = umf.user AND umf.message = um.messageid
-                )
-                $umf_lu_exists
-            ) AS forwardcount
-            FROM {$this->tables['message']} m
-            LEFT JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
-            LEFT JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
-            WHERE m.status IN ($this->selectStatus)
-            $m_lm_exists
+        $query = $this->baseMessageQuery($listId);
+        $query .= <<<END
             $owner_and
             ORDER BY $this->orderBy $order
-            $limitClause";
+            $limitClause
+END;
 
-        return $this->dbCommand->queryAll($sql);
+        return $this->dbCommand->queryAll($query);
     }
 
     public function fetchMessage($msgId, $listId, $excludeRegex)
     {
-        $excludeRegex = sql_escape($excludeRegex);
-        $m_lm_exists = $listId
-            ? "AND EXISTS (
-                SELECT 1 FROM {$this->tables['listmessage']} lm
-                WHERE m.id = lm.messageid AND lm.listid = $listId)"
-            : '';
+        $query = $this->baseMessageQuery($listId, $excludeRegex);
+        $query .= " AND m.id = $msgId";
 
-        $um_lu_exists = $this->xx_lu_exists('um.userid', $listId);
-        $umb_lu_exists = $this->xx_lu_exists('umb.user', $listId);
-        $umf_lu_exists = $this->xx_lu_exists('umf.user', $listId);
-        $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listId);
-
-        $sql =
-            "SELECT
-            m.id,
-            fromfield AS 'from',
-            viewed,
-            owner,
-            DATE_FORMAT($this->orderByAlias, '%e %b %Y') AS end,
-            DATE_FORMAT(m.sendstart,'%e %b %Y') AS start,
-            REPLACE(COALESCE(md.data, subject), '\\\\', '') AS subject,
-            md2.data AS campaigntitle,
-            (SELECT COUNT(viewed)
-                FROM {$this->tables['usermessage']} um
-                WHERE messageid = m.id 
-                $um_lu_exists
-            ) AS openUsers,
-
-            (SELECT COUNT(status)
-                FROM {$this->tables['usermessage']} um
-                WHERE messageid = m.id
-                AND status = 'sent'
-                $um_lu_exists
-            ) AS sent,
-
-            (SELECT COUNT(DISTINCT uml.userid)
-                FROM {$this->tables['linktrack_uml_click']} uml
-                JOIN {$this->tables['linktrack_forward']} fw ON fw.id = uml.forwardid
-                WHERE uml.messageid = m.id
-                AND fw.url NOT RLIKE('$excludeRegex')
-                AND EXISTS (
-                    SELECT * FROM {$this->tables['usermessage']} um
-                    WHERE uml.userid = um.userid AND uml.messageid = um.messageid
-                )
-                $uml_lu_exists
-            ) as clickUsers,
-
-            (SELECT COALESCE(SUM(clicked), 0)
-                FROM {$this->tables['linktrack_uml_click']} uml
-                JOIN {$this->tables['linktrack_forward']} fw ON fw.id = uml.forwardid
-                WHERE uml.messageid = m.id
-                AND fw.url NOT RLIKE('$excludeRegex')
-                AND EXISTS (
-                    SELECT * FROM {$this->tables['usermessage']} um
-                    WHERE uml.userid = um.userid AND uml.messageid = um.messageid
-                )
-                $uml_lu_exists
-            ) as totalClicks,
-
-            (SELECT COUNT(DISTINCT umb.user)
-                FROM {$this->tables['user_message_bounce']} umb
-                WHERE umb.message = m.id
-                AND EXISTS (
-                    SELECT 1 FROM {$this->tables['usermessage']} um
-                    WHERE umb.user = um.userid AND umb.message = um.messageid
-                )
-                $umb_lu_exists
-            ) AS bouncecount,
-
-           (SELECT COUNT(DISTINCT umf.user)
-                FROM {$this->tables['user_message_forward']} AS umf
-                WHERE umf.message = m.id
-                AND EXISTS (
-                    SELECT 1 FROM {$this->tables['usermessage']} um 
-                    WHERE um.userid = umf.user AND umf.message = um.messageid
-                )
-                $umf_lu_exists
-            ) AS forwardcount
-
-            FROM {$this->tables['message']} m
-            LEFT JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
-            LEFT JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
-            WHERE m.status IN ($this->selectStatus)
-            AND m.id = $msgId
-            $m_lm_exists";
-
-        return $this->dbCommand->queryRow($sql);
+        return $this->dbCommand->queryRow($query);
     }
 
     public function totalMessages($listId, $loginid)
