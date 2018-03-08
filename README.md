@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.17+20180308 Internal code refactoring
     2.1.16+20180226 Add base64 encoded image to appear on pdf report
     2.1.15+20180129 Include % on Domains and Links pages
     2.1.14+20170703 Improve order of sorting on campaigns tab

@@ -1,3 +1,8 @@
+version 2.1.17+20180308
+      Refactor the queries for messages and a single message
+      Refactor dependencies
+      Fix line endings
+
 version 2.1.16+20180226
       Add base64 encoded image to appear on pdf report.
       Tweak styles for pdf report.
