@@ -22,12 +22,11 @@
  */
 
 /**
- * This file creates a dependency injection container.
+ * This file provides dependencies for the dependency injection container.
  */
-use Mouf\Picotainer\Picotainer;
 use Psr\Container\ContainerInterface;
 
-return new Picotainer([
+return [
     'MessageStatisticsPlugin_Controller_Bounced' => function (ContainerInterface $container) {
         return new MessageStatisticsPlugin_Controller_Bounced(
             $container->get('MessageStatisticsPlugin_Model')
@@ -91,14 +90,18 @@ return new Picotainer([
         );
     },
     'MessageStatisticsPlugin_DAO_Message' => function (ContainerInterface $container) {
-        return new MessageStatisticsPlugin_DAO_Message(new CommonPlugin_DB());
+        return new MessageStatisticsPlugin_DAO_Message(
+            $container->get('phpList\plugin\Common\DB')
+        );
     },
     'MessageStatisticsPlugin_DAO_List' => function (ContainerInterface $container) {
-        return new MessageStatisticsPlugin_DAO_List(new CommonPlugin_DB());
+        return new MessageStatisticsPlugin_DAO_List(
+            $container->get('phpList\plugin\Common\DB')
+        );
     },
     'attributesById' => function (ContainerInterface $container) {
-        $dao = new CommonPlugin_DAO_Attribute(new CommonPlugin_DB());
+        $dao = $container->get('phpList\plugin\Common\DAO\Attribute');
 
         return $dao->attributesById();
     },
-]);
+];

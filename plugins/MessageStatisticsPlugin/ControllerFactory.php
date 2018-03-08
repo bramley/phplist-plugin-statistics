@@ -26,6 +26,8 @@
  *
  * @category  phplist
  */
+use phpList\plugin\Common\Container;
+
 class MessageStatisticsPlugin_ControllerFactory extends CommonPlugin_ControllerFactoryBase
 {
     const DEFAULT_TYPE = 'messages';
@@ -41,7 +43,8 @@ class MessageStatisticsPlugin_ControllerFactory extends CommonPlugin_ControllerF
      */
     public function createController($pi, array $params)
     {
-        $container = include __DIR__ . '/dic.php';
+        $depends = include __DIR__ . '/depends.php';
+        $container = new Container($depends);
         $type = isset($params['type']) ? $params['type'] : self::DEFAULT_TYPE;
         $class = $pi . '_Controller_' . ucfirst($type);
 
