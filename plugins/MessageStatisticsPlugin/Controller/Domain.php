@@ -77,7 +77,7 @@ class MessageStatisticsPlugin_Controller_Domain extends MessageStatisticsPlugin_
             $w->addColumn($key, $this->i18n->get('opened'), $value);
             $value = $row['clicked'] == 0
                 ? 0
-                : sprintf('%d (%s%%)', $row['opened'], $this->calculateRate($row['clicked'], $row['sent']));
+                : sprintf('%d (%s%%)', $row['clicked'], $this->calculateRate($row['clicked'], $row['sent']));
             $w->addColumn($key, $this->i18n->get('clicked'), $value);
         }
     }

@@ -1,3 +1,6 @@
+version 2.1.18+20180512
+      Correct clicked total on Domain tab
+
 version 2.1.17+20180308
       Refactor the queries for messages and a single message
       Refactor dependencies
