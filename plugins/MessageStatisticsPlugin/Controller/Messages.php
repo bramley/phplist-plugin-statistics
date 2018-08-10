@@ -46,7 +46,7 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
 
         return array(
             'id' => $row['id'],
-            'subject' => $row['subject'],
+            'subject' => MessageStatisticsPlugin_Model::useSubject($row),
             'from' => $row['from'],
             'datesent' => $row['end'],
             'datestart' => $row['start'],

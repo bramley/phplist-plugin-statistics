@@ -139,7 +139,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
                         throw new MessageStatisticsPlugin_NotAuthorisedException($this->msgid);
                     }
                 }
-                $this->msgSubject = $message['subject'];
+                $this->msgSubject = self::useSubject($message);
 
                 if ($this->listid) {
                     $row = $this->listDAO->listById($this->listid);
@@ -292,5 +292,12 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
     public function listsForMessage()
     {
         return $this->listDAO->listsForMessage($this->msgid);
+    }
+
+    public static function useSubject(array $message)
+    {
+        $useSubject = (bool) getConfig('statistics_display_subject');
+
+        return $useSubject || !$message['campaigntitle'] ? $message['subject'] : $message['campaigntitle'];
     }
 }

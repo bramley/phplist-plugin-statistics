@@ -1,3 +1,6 @@
+version 2.1.19+20180810
+      Added configuration to display campaign subject or title
+
 version 2.1.18+20180512
       Correct clicked total on Domain tab
 

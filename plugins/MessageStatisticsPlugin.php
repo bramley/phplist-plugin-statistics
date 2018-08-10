@@ -61,9 +61,16 @@ class MessageStatisticsPlugin extends phplistPlugin
             : '';
         $this->settings = array(
             'statistics_export_all_messages' => array(
-                'value' => true,
                 'description' => s("On the Campaigns tab, whether to export all campaigns. If 'No' then only those currently listed will be exported."),
                 'type' => 'boolean',
+                'value' => true,
+                'allowempty' => true,
+                'category' => 'Campaign Statistics',
+            ),
+            'statistics_display_subject' => array(
+                'description' => s("Whether to display the campaign subject. If 'No' then the campaign title will be displayed."),
+                'type' => 'boolean',
+                'value' => true,
                 'allowempty' => true,
                 'category' => 'Campaign Statistics',
             ),

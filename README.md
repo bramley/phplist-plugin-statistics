@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.19+20180810 Added configuration setting to display campaign subject or title
     2.1.18+20180512 Correct clicked total on Domain tab
     2.1.17+20180308 Internal code refactoring
     2.1.16+20180226 Add base64 encoded image to appear on pdf report
