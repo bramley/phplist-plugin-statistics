@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.20+20180829 On several tabs, link to user page instead of userhistory
     2.1.19+20180810 Added configuration setting to display campaign subject or title
     2.1.18+20180512 Correct clicked total on Domain tab
     2.1.17+20180308 Internal code refactoring

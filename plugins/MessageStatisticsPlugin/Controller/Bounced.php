@@ -78,7 +78,7 @@ class MessageStatisticsPlugin_Controller_Bounced extends MessageStatisticsPlugin
             $key = $row['bounce'];
             $w->addElement($key, new CommonPlugin_PageURL('bounce', array('s' => 0, 'id' => $row['bounce'])));
             $w->addColumn($key, 'email', $row['email'],
-                 new CommonPlugin_PageURL('userhistory', array('id' => $row['user']), 'left')
+                 new CommonPlugin_PageURL('user', array('id' => $row['user']), 'left')
             );
 
             foreach ($this->model->selectedAttrs as $attr) {

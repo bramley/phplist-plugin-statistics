@@ -78,7 +78,7 @@ class MessageStatisticsPlugin_Controller_Clicked extends MessageStatisticsPlugin
         foreach ($resultSet as $row) {
             $key = $row['email'];
             if ($key) {
-                $w->addElement($key, new CommonPlugin_PageURL('userhistory', array('id' => $row['userid'])));
+                $w->addElement($key, new CommonPlugin_PageURL('user', array('id' => $row['userid'])));
 
                 foreach ($this->model->selectedAttrs as $attr) {
                     $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
