@@ -26,6 +26,8 @@
  *
  * @category  phplist
  */
+use phpList\plugin\Common\PageURL;
+
 class MessageStatisticsPlugin_Controller_Lists extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator
 {
     protected $itemsPerPage = array(array(10, 25), 10);
@@ -49,28 +51,24 @@ class MessageStatisticsPlugin_Controller_Lists extends MessageStatisticsPlugin_C
          * Populates the webbler list with list details
          */
         $w->setTitle($this->i18n->get('Lists'));
-        $resultIterator = $this->model->fetchLists($start, $limit);
-        $rows = iterator_to_array($resultIterator);
 
-        if (!($start == 0 && $limit == 1)) {
-            $rows[] = array('id' => '', 'name' => $this->i18n->get('All lists'), 'description' => '',
-                'active' => '', 'count' => '',
-            );
-        }
-
-        foreach ($rows as $row) {
-            $key = "{$row['id']} | {$row['name']}";
+        foreach ($this->generateLists($start, $limit) as $row) {
             $latest = $this->model->latestMessage($row['id']);
-            $w->addElement($key,
-                $latest
-                    ? new CommonPlugin_PageURL(null, array('type' => 'messages', 'listid' => $row['id']))
-                    : ''
-            );
+            $selected = $row['id'] == '' && $this->model->listid === null || $row['id'] === $this->model->listid;
+            $key = "{$row['id']} | {$row['name']}";
+
+            if ($selected) {
+                $key = "<b>$key</b>";
+            }
+            $w->addElement($key, $latest ? new PageURL(null, ['type' => 'messages', 'listid' => $row['id']]) : '');
             $w->addColumn($key, $this->i18n->get('active'), $row['active']);
             $w->addColumn($key, $this->i18n->get('total sent'), $row['count']);
-            $w->addColumn($key, $this->i18n->get('latest'), $latest,
+            $w->addColumn(
+                $key,
+                $this->i18n->get('latest'),
+                $latest,
                 $latest
-                    ? new CommonPlugin_PageURL(null, array('type' => 'opened', 'listid' => $row['id'], 'msgid' => $latest))
+                    ? new PageURL(null, ['type' => 'opened', 'listid' => $row['id'], 'msgid' => $latest])
                     : ''
             );
         }
@@ -79,5 +77,16 @@ class MessageStatisticsPlugin_Controller_Lists extends MessageStatisticsPlugin_C
     public function total()
     {
         return $this->model->totalLists();
+    }
+
+    private function generateLists($start, $limit)
+    {
+        if (!($start == 0 && $limit == 1)) {
+            yield ['id' => '', 'name' => $this->i18n->get('All lists'), 'active' => '', 'count' => ''];
+        }
+
+        foreach ($this->model->fetchLists($start, $limit) as $row) {
+            yield $row;
+        }
     }
 }

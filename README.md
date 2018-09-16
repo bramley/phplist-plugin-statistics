@@ -10,7 +10,7 @@ It provides a multi-tabbed page that shows opens, clicks, bounces and forwards f
 
 This plugin is for phplist 3.
 
-Requires php version 5.4 or later.
+Requires php version 5.5 or later.
 
 Requires the Common Plugin to be installed. You should install or upgrade to the latest version. See <https://github.com/bramley/phplist-plugin-common>
 
@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.21+20180916 On the Lists tab highlight the currently selected list
     2.1.20+20180829 On several tabs, link to user page instead of userhistory
     2.1.19+20180810 Added configuration setting to display campaign subject or title
     2.1.18+20180512 Correct clicked total on Domain tab

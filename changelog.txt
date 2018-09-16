@@ -1,3 +1,6 @@
+version 2.1.21+20180916
+      On the Lists tab highlight the currently selected list
+
 version 2.1.20+20180829
       Link to user page instead of userhistory, which was removed in phplist 3.3.4
 
