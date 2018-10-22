@@ -58,8 +58,8 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
      */
     public $msgSubject;
     public $access;
-    public $listNames;
-    public $attributes = array();
+    public $listNames = [];
+    public $attributes = [];
 
     /*
      *    Private methods
@@ -114,6 +114,9 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
                 if ($this->listid) {
                     $row = $this->listDAO->listById($this->listid);
                     $this->listNames = array($row['name']);
+                } elseif ($this->msgid) {
+                    // currently used only by the print action
+                    $this->listNames = $this->listDAO->listsForMessage($this->msgid, 'name');
                 } else {
                     $this->listNames = null;
                 }
@@ -145,7 +148,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
                     $row = $this->listDAO->listById($this->listid);
                     $this->listNames = array($row['name']);
                 } else {
-                    $this->listNames = $this->listDAO->listsForMessage($this->msgid);
+                    $this->listNames = $this->listDAO->listsForMessage($this->msgid, 'name');
                 }
         }
     }
@@ -287,11 +290,6 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
     public function linkUrl()
     {
         return $this->messageDAO->linkUrl($this->forwardid);
-    }
-
-    public function listsForMessage()
-    {
-        return $this->listDAO->listsForMessage($this->msgid);
     }
 
     public static function useSubject(array $message)

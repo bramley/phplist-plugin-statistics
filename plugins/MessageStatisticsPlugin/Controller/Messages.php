@@ -79,7 +79,7 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
         global $tmpdir;
 
         $this->model->validateProperties();
-        $listNames = $this->model->listid ? $this->model->listNames[0] : implode(', ', $this->model->listsForMessage());
+        $listNames = implode(', ', $this->model->listNames);
         $regex = isset($wkhtmltopdfOptions['exclude'])
             ? ($wkhtmltopdfOptions['exclude']
                 ? $wkhtmltopdfOptions['exclude']

@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.22+20181022 Internal rework
     2.1.21+20180916 On the Lists tab highlight the currently selected list
     2.1.20+20180829 On several tabs, link to user page instead of userhistory
     2.1.19+20180810 Added configuration setting to display campaign subject or title
