@@ -33,7 +33,7 @@ $lan = array(
     'tab_opened' => 'Открыты',
     'tab_unopened' => 'Не открыты',
     'tab_clicked' => 'Переходы',
-    'tab_bounced' => 'Отказы',
+    'tab_bounced' => 'Возвраты',
     'tab_forwarded' => 'Переадресовано',
     'tab_domains' => 'Домены',
     'tab_links' => 'Ссылки',
@@ -44,7 +44,7 @@ $lan = array(
     'first view' => 'Первое открытие',
 //    Unopened.php
 //    Bounced.php
-    'Bounce ID' => 'Bounce ID',
+    'Bounce ID' => 'ID возврата',
     'email' => 'email',
 //    Clicked.php
     'count' => 'Всего',
