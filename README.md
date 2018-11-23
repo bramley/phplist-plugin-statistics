@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.24+20181203 Add Russian translations
     2.1.23+20181203 Include campaign title in pdf report
     2.1.22+20181022 Internal rework
     2.1.21+20180916 On the Lists tab highlight the currently selected list

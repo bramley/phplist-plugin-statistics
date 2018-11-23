@@ -166,10 +166,10 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
         foreach ($this->messageResults as $row) {
             $data[] = array(
                 'ID' => $row['id'],
-                'Sent' => (int) $row['sent'],
-                'Opened' => (int) $row['openUsers'],
-                'Clicked' => (int) $row['clickUsers'],
-                'Bounced' => (int) $row['bouncecount'],
+                $this->i18n->get('Sent') => (int) $row['sent'],
+                $this->i18n->get('Opened') => (int) $row['openUsers'],
+                $this->i18n->get('Clicked') => (int) $row['clickUsers'],
+                $this->i18n->get('Bounced') => (int) $row['bouncecount'],
             );
         }
 
@@ -177,8 +177,8 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
         $options = array(
             'height' => self::IMAGE_HEIGHT,
             'axisTitlesPosition' => 'out',
-            'vAxis' => array('title' => 'Subscribers', 'gridlines' => array('count' => 10), 'logScale' => false, 'format' => '#'),
-            'hAxis' => array('title' => 'Campaign'),
+            'vAxis' => array('title' => $this->i18n->get('Subscribers'), 'gridlines' => array('count' => 10), 'logScale' => false, 'format' => '#'),
+            'hAxis' => array('title' => $this->i18n->get('Campaigns')),
             'seriesType' => 'line',
             'series' => array(0 => array('type' => 'bars')),
             'legend' => array('position' => 'bottom'),

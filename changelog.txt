@@ -1,3 +1,8 @@
+version 2.1.24+20181203
+Maasik (1):
+      Add Russian translation file
+      Allow graph captions to be translated
+
 version 2.1.23+20181203
       Include campaign title in pdf report
 
