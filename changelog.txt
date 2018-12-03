@@ -1,3 +1,6 @@
+version 2.1.23+20181203
+      Include campaign title in pdf report
+
 version 2.1.22+20181022
       Rework handling of list names
 

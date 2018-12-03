@@ -47,6 +47,7 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
         return array(
             'id' => $row['id'],
             'subject' => MessageStatisticsPlugin_Model::useSubject($row),
+            'campaigntitle' => $row['campaigntitle'],
             'from' => $row['from'],
             'datesent' => $row['end'],
             'datestart' => $row['start'],
@@ -108,6 +109,9 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
             'forwardedrate' => $fields['forwardrate'] . '%',
         );
 
+        if ($fields['campaigntitle'] != $fields['subject']) {
+            $params['campaigntitle'] = $fields['campaigntitle'];
+        }
         $w = new CommonPlugin_HtmlToPdf();
         $fileName = preg_replace('/[^\w]+/', '_', $fields['subject']) . '.pdf';
 

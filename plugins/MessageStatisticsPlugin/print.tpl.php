@@ -51,6 +51,11 @@ body {
 <td width='15%' class='caption'>From</td><td width='40%' class='value'><?php echo $from; ?></td>
 <td width='15%' class='caption'>Mailing List</td><td width='30%' class='value'><?php echo $list; ?></td>
 </tr>
+<?php if (isset($campaigntitle)): ?>
+<tr>
+<td width='15%' class='caption'>Title</td><td width='40%' class='value'><?php echo $campaigntitle; ?></td>
+</tr>
+<?php endif; ?>
 <tr>
 <td width='15%' class='caption'>Subject</td><td width='40%' class='value'><?php echo $subject; ?></td>
 </tr>
