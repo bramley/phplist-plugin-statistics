@@ -36,8 +36,18 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
     protected $itemsPerPage = array(array(10, 25), 10);
 
     /*
-     * Private methods
+     * Format a short date allowing the month to be translated.
+     * html decode the result because some translations can already be html encoded.
+     *
+     * @param string $date date in yyyy/mm/dd format
+     *
+     * @return string
      */
+    private function formatShortDate($date)
+    {
+        return html_entity_decode(formatDate($date, true));
+    }
+
     private function messageStats(array $row)
     {
         $sent = $row['sent'];
@@ -49,8 +59,8 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
             'subject' => MessageStatisticsPlugin_Model::useSubject($row),
             'campaigntitle' => $row['campaigntitle'],
             'from' => $row['from'],
-            'datesent' => $row['end'],
-            'datestart' => $row['start'],
+            'datesent' => $this->formatShortDate($row['end']),
+            'datestart' => $this->formatShortDate($row['start']),
             'sent' => $sent,
             'delivered' => $delivered,
             'deliveredrate' => $sent > 0 ? sprintf('%1.1f', $delivered / $sent * 100) : 0,
