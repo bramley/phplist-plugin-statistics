@@ -126,8 +126,8 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             fromfield AS 'from',
             viewed,
             owner,
-            DATE_FORMAT($this->orderByAlias, '%e %b %Y') AS end,
-            DATE_FORMAT(m.sendstart,'%e %b %Y') AS start,
+            $this->orderByAlias AS end,
+            m.sendstart AS start,
             REPLACE(COALESCE(md.data, subject), '\\\\', '') AS subject,
             md2.data AS campaigntitle,
             (SELECT COUNT(viewed)
