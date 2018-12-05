@@ -627,8 +627,8 @@ END;
                 fw.url,
                 fw.id AS forwardid,
                 fw.personalise,
-                DATE_FORMAT(MIN(uml.firstclick), '%Y-%m-%d %H:%i') AS firstclick,
-                DATE_FORMAT(MAX(uml.latestclick), '%Y-%m-%d %H:%i') AS latestclick,
+                MIN(uml.firstclick) AS firstclick,
+                MAX(uml.latestclick) AS latestclick,
                 COALESCE(SUM(uml.clicked), 0) AS numclicks,
                     (SELECT COUNT(userid) 
                     FROM {$this->tables['usermessage']} um
@@ -672,8 +672,8 @@ END;
         $sql =
             "SELECT u.email, u.id,
             fw.url,
-            DATE_FORMAT(uml.firstclick, '%Y-%m-%d %H:%i') as firstclick,
-            DATE_FORMAT(uml.latestclick, '%Y-%m-%d %H:%i') as latestclick,
+            uml.firstclick as firstclick,
+            uml.latestclick as latestclick,
             uml.clicked
             $attr_fields
             FROM {$this->tables['linktrack_uml_click']}  AS uml
