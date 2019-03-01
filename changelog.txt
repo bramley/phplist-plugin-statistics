@@ -1,3 +1,8 @@
+version 2.1.26+20190301
+      Display 5 campaigns on the campaigns tab initially
+      Separate the message selection sql into a subquery
+      Other minor improvements
+
 version 2.1.25+20181210
 Maasik (1):
       Fixes #11

@@ -101,12 +101,14 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
     /**
      * Generate base query for messages.
      *
+     * @param string      $select       subquery to select message ids
      * @param int|null    $listId       Include only users who belong to the list
+     * @param string      $order        how to order the messages
      * @param string|null $excludeRegex Exclude matching URLs from click tracking results
      *
      * @return string the query
      */
-    private function baseMessageQuery($listId, $excludeRegex = null)
+    private function baseMessageQuery($select, $listId, $order, $excludeRegex = null)
     {
         $urlExclude = $excludeRegex !== null
             ? sprintf("AND fw.url NOT RLIKE('%s')", sql_escape($excludeRegex))
@@ -130,13 +132,15 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             m.sendstart AS start,
             REPLACE(COALESCE(md.data, subject), '\\\\', '') AS subject,
             md2.data AS campaigntitle,
-            (SELECT COUNT(viewed)
+            (SELECT COUNT(*)
                 FROM {$this->tables['usermessage']} um
-                WHERE messageid = m.id 
+                WHERE messageid = m.id
+                AND status = 'sent'
+                AND viewed IS NOT NULL
                 $um_lu_exists
             ) AS openUsers,
 
-            (SELECT COUNT(status)
+            (SELECT COUNT(*)
                 FROM {$this->tables['usermessage']} um
                 WHERE messageid = m.id
                 AND status = 'sent'
@@ -181,7 +185,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                 FROM {$this->tables['user_message_forward']} AS umf
                 WHERE umf.message = m.id
                 AND EXISTS (
-                    SELECT 1 FROM {$this->tables['usermessage']} um 
+                    SELECT 1 FROM {$this->tables['usermessage']} um
                     WHERE um.userid = umf.user AND umf.message = um.messageid
                 )
                 $umf_lu_exists
@@ -190,8 +194,8 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
             FROM {$this->tables['message']} m
             LEFT JOIN {$this->tables['messagedata']} md ON m.id = md.id AND md.name = 'subject'
             LEFT JOIN {$this->tables['messagedata']} md2 ON m.id = md2.id AND md2.name = 'campaigntitle'
-            WHERE m.status IN ($this->selectStatus)
-            $m_lm_exists
+            WHERE m.id IN ($select)
+            ORDER BY $this->orderBy $order
 END;
 
         return $sql;
@@ -273,21 +277,31 @@ END;
         $owner_and = $loginid ? "AND owner = $loginid" : '';
         $order = $ascOrder ? 'ASC' : 'DESC';
         $limitClause = is_null($start) ? '' : "LIMIT $start, $limit";
-
-        $query = $this->baseMessageQuery($listId);
-        $query .= <<<END
-            $owner_and
-            ORDER BY $this->orderBy $order
-            $limitClause
+        $m_lm_exists = $listId
+            ? "AND EXISTS (
+                SELECT 1 FROM {$this->tables['listmessage']} lm
+                WHERE m.id = lm.messageid AND lm.listid = $listId)"
+            : '';
+        $select = <<<END
+            SELECT *
+            FROM (
+                SELECT m.id
+                FROM {$this->tables['message']} m
+                WHERE m.status IN ($this->selectStatus)
+                $m_lm_exists
+                $owner_and
+                ORDER BY $this->orderBy $order
+                $limitClause
+            ) AS temp
 END;
+        $query = $this->baseMessageQuery($select, $listId, $order);
 
         return $this->dbCommand->queryAll($query);
     }
 
     public function fetchMessage($msgId, $listId, $excludeRegex)
     {
-        $query = $this->baseMessageQuery($listId, $excludeRegex);
-        $query .= " AND m.id = $msgId";
+        $query = $this->baseMessageQuery($msgId, $listId, '', $excludeRegex);
 
         return $this->dbCommand->queryRow($query);
     }
@@ -390,7 +404,7 @@ END;
             $attr_join
             WHERE uml.messageid = $msgid
             AND EXISTS (
-                SELECT 1 FROM {$this->tables['usermessage']} um 
+                SELECT 1 FROM {$this->tables['usermessage']} um
                 WHERE um.userid = uml.userid AND uml.messageid = um.messageid
             )
             $u_lu_exists
@@ -418,7 +432,7 @@ END;
             $attr_join
             WHERE uml.messageid = $msgid
             AND EXISTS (
-                SELECT 1 from {$this->tables['usermessage']} um 
+                SELECT 1 from {$this->tables['usermessage']} um
                 WHERE um.userid = uml.userid AND uml.messageid = um.messageid
             )
             $u_lu_exists";
@@ -442,7 +456,7 @@ END;
             $attr_join
             WHERE umb.message = $mid
             AND EXISTS (
-                SELECT 1 FROM {$this->tables['usermessage']} um 
+                SELECT 1 FROM {$this->tables['usermessage']} um
                 WHERE um.userid = umb.user AND umb.message = um.messageid
             )
             $umb_lu_exists
@@ -468,7 +482,7 @@ END;
             $attr_join
             WHERE umb.message = $mid
             AND EXISTS (
-                SELECT 1 FROM {$this->tables['usermessage']} um 
+                SELECT 1 FROM {$this->tables['usermessage']} um
                 WHERE um.userid = umb.user AND umb.message = um.messageid
             )
             $umb_lu_exists";
@@ -492,7 +506,7 @@ END;
             $attr_join
             WHERE umf.message = $mid
             AND EXISTS (
-                SELECT 1 FROM {$this->tables['usermessage']} um 
+                SELECT 1 FROM {$this->tables['usermessage']} um
                 WHERE um.userid = umf.user AND umf.message = um.messageid
             )
             $u_lu_exists
@@ -519,7 +533,7 @@ END;
             $attr_join
             WHERE umf.message = $mid
             AND EXISTS (
-                SELECT 1 FROM {$this->tables['usermessage']} um 
+                SELECT 1 FROM {$this->tables['usermessage']} um
                 WHERE um.userid = umf.user AND umf.message = um.messageid
             )
             $u_lu_exists";
@@ -538,10 +552,10 @@ END;
         $sql =
             "SELECT SUBSTRING_INDEX(u.email, '@', -1) AS domain,
                 COUNT(um.viewed) AS opened, COUNT(um.status) AS sent, COUNT(lt.userid) AS clicked
-            FROM {$this->tables['user']} u 
+            FROM {$this->tables['user']} u
             JOIN {$this->tables['usermessage']} um ON u.id = um.userid
             $listuser_join
-            LEFT OUTER JOIN 
+            LEFT OUTER JOIN
                 (SELECT DISTINCT userid
                 FROM {$this->tables['linktrack_uml_click']}
                 WHERE messageid = $msgID ) AS lt ON u.id = lt.userid
@@ -557,10 +571,10 @@ END;
     {
         $listuser_join = $this->u_lu_join($listid);
         $sql =
-            "SELECT COUNT(*) AS t 
+            "SELECT COUNT(*) AS t
             FROM (
                 SELECT SUBSTRING_INDEX(u.email, '@', -1) AS domain
-                FROM {$this->tables['user']} u 
+                FROM {$this->tables['user']} u
                 JOIN {$this->tables['usermessage']} um ON u.id = um.userid
                 $listuser_join
                 WHERE um.messageid = $msgID
@@ -583,7 +597,7 @@ END;
             SELECT id AS prev
             FROM {$this->tables['linktrack_forward']}
             WHERE url = (
-                SELECT MAX(a.url) 
+                SELECT MAX(a.url)
                 FROM (
                     SELECT url
                     FROM {$this->tables['linktrack_forward']} fw
@@ -630,7 +644,7 @@ END;
                 MIN(uml.firstclick) AS firstclick,
                 MAX(uml.latestclick) AS latestclick,
                 COALESCE(SUM(uml.clicked), 0) AS numclicks,
-                    (SELECT COUNT(userid) 
+                    (SELECT COUNT(userid)
                     FROM {$this->tables['usermessage']} um
                     WHERE um.messageid = lt.messageid
                     AND um.status = 'sent'
@@ -640,7 +654,7 @@ END;
             FROM {$this->tables['linktrack_ml']} lt
             JOIN {$this->tables['linktrack_forward']} fw ON fw.id = lt.forwardid
             LEFT JOIN {$this->tables['linktrack_uml_click']} uml ON uml.messageid = lt.messageid AND uml.forwardid = lt.forwardid $uml_lu_exists
-            WHERE lt.messageid = $msgID 
+            WHERE lt.messageid = $msgID
             GROUP BY lt.forwardid
             ORDER BY fw.url
             $limitClause";
@@ -713,7 +727,7 @@ END;
     public function linkUrl($forwardid)
     {
         $sql = "
-            SELECT url 
+            SELECT url
             FROM {$this->tables['linktrack_forward']} fw
             WHERE id = $forwardid";
 

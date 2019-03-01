@@ -23,7 +23,7 @@ The benefit of this is that plugins will not be affected when you upgrade phplis
 ### Install through phplist ###
 The recommended way to install is through the Plugins page (menu Config > Manage Plugins) using the package URL `https://github.com/bramley/phplist-plugin-statistics/archive/master.zip`.
 
-In phplist releases 3.0.5 and earlier there is a bug that can cause a plugin to be incompletely installed on some configurations (<https://mantis.phplist.com/view.php?id=16865>). 
+In phplist releases 3.0.5 and earlier there is a bug that can cause a plugin to be incompletely installed on some configurations (<https://mantis.phplist.com/view.php?id=16865>).
 Check that these files are in the plugin directory. If not then you will need to install manually. The bug has been fixed in release 3.0.6.
 
 * the file MessageStatisticsPlugin.php
@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.26+20190301 Display 5 campaigns initially on the campaigns tab
     2.1.25+20181210 Improve display of month names
     2.1.24+20181203 Add Russian translations
     2.1.23+20181203 Include campaign title in pdf report
@@ -100,10 +101,10 @@ This plugin is free but if you install and find it useful then a donation to sup
     2014-07-13      Accumulated minor changes
     2014-04-22      Fix problem of 'no campaigns found' after deleting list
     2014-01-27      Fix for Lists tab not showing correct latest campaign
-                    Select messages with sent, inprocess or suspended status 
+                    Select messages with sent, inprocess or suspended status
     2014-01-27      On Messages tab order by sent date
     2014-01-25      Use Google Charts instead of Chart API
     2013-12-10      GitHub issue #3
     2013-08-26      Accumulated minor changes
-    2013-04-22      Added README, changes to use the latest Common Plugin 
+    2013-04-22      Added README, changes to use the latest Common Plugin
     2013-03-29      Initial version for phplist 2.11.x releases
