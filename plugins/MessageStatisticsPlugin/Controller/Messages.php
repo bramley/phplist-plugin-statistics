@@ -33,7 +33,7 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
     const EXCLUDE_REGEX = 'p=preferences|p=unsubscribe|phplist.com';
 
     private $messageResults;
-    protected $itemsPerPage = array(array(10, 25), 10);
+    protected $itemsPerPage = array(array(5, 10, 25), 5);
 
     /*
      * Format a short date allowing the month to be translated.
