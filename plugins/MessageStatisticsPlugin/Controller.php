@@ -60,36 +60,41 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
             'linkclicks' => $this->i18n->get('tab_linkclicks'),
         );
         $tabs = new CommonPlugin_Tabs();
-        /*
-         * Settings tab
-         */
-        $tabs->addTab($types['settings'], new CommonPlugin_PageURL(null, array('type' => 'settings')));
-        /*
-         * Lists tab
-         */
-        $tabs->addTab($types['lists'], new CommonPlugin_PageURL(null, array('type' => 'lists')));
-        /*
-         * Messages tab
-         */
         $query = array();
         $query['listid'] = $this->model->listid;
         $query['type'] = 'messages';
+
+        /* Always display Messages tab */
         $tabs->addTab($types['messages'], new CommonPlugin_PageURL(null, $query));
-        /*
-         * Opened -> Links tabs
-         */
-        $query['msgid'] = $this->model->msgid;
-        foreach (array_slice($types, 3, 7) as $type => $title) {
-            $query['type'] = $type;
-            $tabs->addTab($title, new CommonPlugin_PageURL(null, $query));
-        }
-        /*
-         * Link clicks tab
-         */
-        if ($this->model->type == 'linkclicks') {
-            $query['forwardid'] = $this->model->forwardid;
-            $query['type'] = 'linkclicks';
-            $tabs->addTab($types['linkclicks'], new CommonPlugin_PageURL(null, $query));
+
+        if (in_array($this->model->type, ['settings', 'lists', 'messages'])) {
+            /* Display Lists and Settings tabs when they are current and when Messages is current */
+
+            if (in_array($this->model->type, ['lists', 'messages'])) {
+                $tabs->addTab($types['lists'], new CommonPlugin_PageURL(null, array('type' => 'lists')));
+            }
+
+            if (in_array($this->model->type, ['settings', 'messages'])) {
+                $tabs->addTab($types['settings'], new CommonPlugin_PageURL(null, array('type' => 'settings')));
+            }
+        } else {
+            /*
+             * Opened -> Links tabs
+             */
+            $query['msgid'] = $this->model->msgid;
+
+            foreach (array_slice($types, 3, 7) as $type => $title) {
+                $query['type'] = $type;
+                $tabs->addTab($title, new CommonPlugin_PageURL(null, $query));
+            }
+            /*
+             * Link clicks tab
+             */
+            if ($this->model->type == 'linkclicks') {
+                $query['forwardid'] = $this->model->forwardid;
+                $query['type'] = $this->model->type;
+                $tabs->addTab($types[$this->model->type], new CommonPlugin_PageURL(null, $query));
+            }
         }
         $tabs->setCurrent($types[$this->model->type]);
 
