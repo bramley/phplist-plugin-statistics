@@ -194,7 +194,18 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
             'legend' => array('position' => 'bottom'),
             'colors' => array('blue', 'green', 'yellow', 'red'),
         );
-        $result = $chart->draw($chartDiv, $options);
+        $baseUrl = new CommonPlugin_PageURL(null, ['listid' => $this->model->listid]);
+        $clickLocationFormat = <<<'END'
+function(data, selectedItem) {
+    row = selectedItem.row;
+    column = selectedItem.column;
+    type = column == 3 ? 'clicked' : (column == 4 ? 'bounced' : 'opened');
+
+    return '%s' + '&type=' + type + '&msgid=' + data.getValue(row, 0);
+}
+END;
+        $clickLocation = sprintf($clickLocationFormat, $baseUrl);
+        $result = $chart->draw($chartDiv, $options, $clickLocation);
 
         return $result;
     }
