@@ -158,7 +158,7 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
 
             if (isset($_POST['SearchForm'])) {
                 $this->model->setProperties($_POST['SearchForm'], true);
-                $redirect = new CommonPlugin_PageURL(null, $query);
+                $redirect = new CommonPlugin_PageURL(null, ['type' => 'opened']);
                 header("Location: $redirect");
                 exit;
             }
