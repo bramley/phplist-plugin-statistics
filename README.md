@@ -62,6 +62,8 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.27+20190730 Reduce the number of tabs displayed
+                    Clicking the chart will open the appropriate tab
     2.1.26+20190301 Display 5 campaigns initially on the campaigns tab
     2.1.25+20181210 Improve display of month names
     2.1.24+20181203 Add Russian translations

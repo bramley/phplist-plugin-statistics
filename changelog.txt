@@ -1,3 +1,9 @@
+version 2.1.27+20190730
+      Reduce the number of tabs displayed
+      Display the Opened tab after submitting the Settings tab
+      Provide js to calculate url when the chart is clicked
+      Revise dependencies
+
 version 2.1.26+20190301
       Display 5 campaigns on the campaigns tab initially
       Separate the message selection sql into a subquery
