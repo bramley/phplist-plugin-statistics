@@ -102,6 +102,6 @@ return [
     'attributesById' => function (ContainerInterface $container) {
         $dao = $container->get('phpList\plugin\Common\DAO\Attribute');
 
-        return $dao->attributesById();
+        return $dao->attributesById(20, 15);
     },
 ];

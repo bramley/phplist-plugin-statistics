@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.1.28+20200306 Rework handling of attribute DAO
     2.1.27+20190730 Reduce the number of tabs displayed
                     Clicking the chart will open the appropriate tab
     2.1.26+20190301 Display 5 campaigns initially on the campaigns tab
