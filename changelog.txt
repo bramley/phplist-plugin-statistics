@@ -1,3 +1,6 @@
+version 2.1.29+20200416
+      Use core phplist functions to format dates so that the date format configuration setting will be applied.
+
 version 2.1.28+20200306
       Rework handling of attribute DAO
 

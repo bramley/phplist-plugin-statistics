@@ -82,7 +82,7 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
             foreach ($this->model->selectedAttrs as $attr) {
                 $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
             }
-            $w->addColumn($key, $this->i18n->get('first view'), $row['viewed']);
+            $w->addColumn($key, $this->i18n->get('first view'), formatDateTime($row['viewed']));
         }
     }
 

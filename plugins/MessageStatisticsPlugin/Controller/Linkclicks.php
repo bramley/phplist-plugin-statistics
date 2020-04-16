@@ -110,9 +110,9 @@ class MessageStatisticsPlugin_Controller_Linkclicks extends MessageStatisticsPlu
                 $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
             }
             $w->addColumn($key, $this->i18n->get('total clicks'), $row['clicked']);
-            $w->addColumn($key, $this->i18n->get('firstclick'), $row['firstclick']);
+            $w->addColumn($key, $this->i18n->get('firstclick'), formatDateTime($row['firstclick']));
             $w->addColumn($key, $this->i18n->get('latestclick'),
-                $row['clicked'] > 1 ? $row['latestclick'] : ''
+                $row['clicked'] > 1 ? formatDateTime($row['latestclick']) : ''
             );
         }
     }

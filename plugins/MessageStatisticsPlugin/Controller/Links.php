@@ -105,8 +105,8 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
                     : 0
             );
             $w->addColumn($key, $this->i18n->get('total clicks'), $row['numclicks']);
-            $w->addColumn($key, $this->i18n->get('firstclick'), $row['firstclick']);
-            $w->addColumn($key, $this->i18n->get('latestclick'), $row['numclicks'] > 1 ? $row['latestclick'] : '');
+            $w->addColumn($key, $this->i18n->get('firstclick'), formatDateTime($row['firstclick']));
+            $w->addColumn($key, $this->i18n->get('latestclick'), $row['numclicks'] > 1 ? formatDateTime($row['latestclick']) : '');
         }
     }
 
