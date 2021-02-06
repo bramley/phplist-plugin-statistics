@@ -17,7 +17,7 @@
  * @category  phplist
  *
  * @author    Duncan Cameron
- * @copyright 2011-2017 Duncan Cameron
+ * @copyright 2011-2021 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
 
@@ -149,12 +149,6 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
                 throw new MessageStatisticsPlugin_NoAccessException();
             }
             $this->model->validateProperties();
-            $query = array(
-                'listid' => $this->model->listid,
-                'msgid' => $this->model->msgid,
-                'type' => $this->model->type,
-                'forwardid' => $this->model->forwardid,
-            );
 
             if (isset($_POST['SearchForm'])) {
                 $this->model->setProperties($_POST['SearchForm'], true);
@@ -177,16 +171,28 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
                 if ($r = $this->prevNext()) {
                     $listing->pager->setPrevNext($r[0], $r[1], $r[2]);
                 }
-                $params['listing'] = $listing->display();
+
+                if ($this instanceof MessageStatisticsPlugin_Controller_Messages) {
+                    if (getConfig('statistics_date_filter')) {
+                        $params['campaign_form'] = $this->campaignSelectForm();
+                        $listing->pager->setItemsPerPage([]);
+                        $params['listing'] = $listing->display();
+                        $listName = $this->model->listNames ? $this->model->listNames[0] : '';
+                        $params['summary'] = $this->summary($listName, $this->model->fromdate, $this->model->todate);
+                    } else {
+                        $this->model->fromdate = null;
+                        $this->model->todate = null;
+                        $params['listing'] = $listing->display();
+                    }
+                    $params['chart_div'] = 'chart_div';
+                    $params['chart'] = $this->createChart($params['chart_div']);
+                } else {
+                    $params['listing'] = $listing->display();
+                }
             }
 
             if ($this->showAttributeForm && count($this->model->attributes) > 0) {
                 $params['form'] = CommonPlugin_Widget::attributeForm($this, $this->model, false, true);
-            }
-
-            if ($this instanceof MessageStatisticsPlugin_Controller_Messages) {
-                $params['chart_div'] = 'chart_div';
-                $params['chart'] = $this->createChart($params['chart_div']);
             }
             $toolbar = new CommonPlugin_Toolbar($this);
 
@@ -197,6 +203,14 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
                 } else {
                     $start = $limit = null;
                 }
+                $query = [
+                    'listid' => $this->model->listid,
+                    'msgid' => $this->model->msgid,
+                    'type' => $this->model->type,
+                    'forwardid' => $this->model->forwardid,
+                    'fromdate' => $this->model->fromdate,
+                    'todate' => $this->model->todate,
+                ];
                 $toolbar->addExportButton($query + array('start' => $start, 'limit' => $limit));
             }
             $toolbar->addHelpButton($this->model->type);

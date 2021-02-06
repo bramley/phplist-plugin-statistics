@@ -46,6 +46,8 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         'selectedAttrs' => array(),
         'searchTerm' => null,
         'searchBy' => null,
+        'fromdate' => null,
+        'todate' => null,
     );
     protected $persist = array(
         'listid' => '',
@@ -111,6 +113,24 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
             case 'lists':
                 break;
             case 'messages':
+                if (getConfig('statistics_date_filter')) {
+                    // set default values for from and to dates, and list id
+                    if ($this->fromdate == '') {
+                        //~ $this->fromdate = sprintf('%d-01-01', date('Y') - 1);
+                        $this->fromdate = date('Y-01-01');
+                    }
+
+                    if ($this->todate == '') {
+                        $this->todate = date('Y-m-d');
+                    }
+
+                    if (!$this->listid) {
+                        $rows = iterator_to_array($this->listsForOwner());
+                        $row = reset($rows);
+                        $this->listid = $row['id'];
+                    }
+                }
+
                 if ($this->listid) {
                     $row = $this->listDAO->listById($this->listid);
                     $this->listNames = array($row['name']);
@@ -206,12 +226,12 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 
     public function fetchMessages($ascOrder = false, $start = null, $limit = null)
     {
-        return $this->messageDAO->fetchMessages($this->listid, $this->owner, $ascOrder, $start, $limit);
+        return $this->messageDAO->fetchMessages($this->listid, $this->owner, $this->fromdate, $this->todate, $ascOrder, $start, $limit);
     }
 
     public function totalMessages()
     {
-        return $this->messageDAO->totalMessages($this->listid, $this->owner);
+        return $this->messageDAO->totalMessages($this->listid, $this->owner, $this->fromdate, $this->todate);
     }
 
     public function prevNextMessage()
@@ -297,5 +317,15 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         $useSubject = (bool) getConfig('statistics_display_subject');
 
         return $useSubject || !$message['campaigntitle'] ? $message['subject'] : $message['campaigntitle'];
+    }
+
+    public function listsForOwner()
+    {
+        return $this->listDAO->listsForOwner($this->owner);
+    }
+
+    public function listById()
+    {
+        return $this->listDAO->listById($this->listid);
     }
 }

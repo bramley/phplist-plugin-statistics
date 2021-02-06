@@ -16,7 +16,7 @@
  * @category  phplist
  *
  * @author    Duncan Cameron
- * @copyright 2011-2017 Duncan Cameron
+ * @copyright 2011-2021 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
 
@@ -59,14 +59,14 @@ class MessageStatisticsPlugin extends phplistPlugin
             : '';
         $this->settings = array(
             'statistics_export_all_messages' => array(
-                'description' => s("On the Campaigns tab, whether to export all campaigns. If 'No' then only those currently listed will be exported."),
+                'description' => s('On the Campaigns tab, whether to export all campaigns. If \'No\' then only those currently listed will be exported.'),
                 'type' => 'boolean',
                 'value' => true,
                 'allowempty' => true,
                 'category' => 'Campaign Statistics',
             ),
             'statistics_display_subject' => array(
-                'description' => s("Whether to display the campaign subject. If 'No' then the campaign title will be displayed."),
+                'description' => s('Whether to display the campaign subject. If \'No\' then the campaign title will be displayed.'),
                 'type' => 'boolean',
                 'value' => true,
                 'allowempty' => true,
@@ -79,6 +79,13 @@ class MessageStatisticsPlugin extends phplistPlugin
                 'allowempty' => true,
                 'category' => 'Campaign Statistics',
             ),
+            'statistics_date_filter' => [
+                'description' => s('On the Campaigns tab, whether to filter campaigns by a date range'),
+                'type' => 'boolean',
+                'value' => false,
+                'allowempty' => true,
+                'category' => 'Campaign Statistics',
+            ],
         );
         parent::__construct();
     }

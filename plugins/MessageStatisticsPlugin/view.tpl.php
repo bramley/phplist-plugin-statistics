@@ -58,18 +58,48 @@
     <div style='padding-top: 10px;'>
 <?php if (isset($chart)): ?>
     <?php echo $chart; ?>
-        <div id="<?php echo $chart_div; ?>" 
+        <div id="<?php echo $chart_div; ?>"
             style="width: 100%; height: <?php echo MessageStatisticsPlugin_Controller_Messages::IMAGE_HEIGHT; ?>px;">
         </div>
+<?php endif; ?>
+<?php if (isset($campaign_form)): ?>
+    <div>
+    <?= $campaign_form; ?>
+    </div>
 <?php endif; ?>
 <?php if (isset($form)) {
     echo $form;
 } ?>
     </div>
 <?php if (isset($listing)): ?>
-    <div style='padding-top: 10px;'>
+    <div>
     <?php echo $listing; ?>
+    </div>
+<?php endif; ?>
+<?php if (isset($summary)): ?>
+    <div>
+    <?php echo $summary; ?>
         <p><a href='#top'>[<?php echo $this->i18n->get('top'); ?>]</a></p>
     </div>
 <?php endif; ?>
 </div>
+<?php
+        global $pagefooter;
+
+        $language = $_SESSION['adminlanguage']['iso'];
+        $languageScript = $language == 'en'
+            ? ''
+            : "<script src=\"https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/$language.js\"></script>";
+
+        $pagefooter[basename(__FILE__)] = <<<END
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+$languageScript
+<script type="text/javascript">
+flatpickr(".flatpickr", {
+    locale: "$language",
+    altInput: true,
+    altFormat: "d M Y"
+});
+</script>
+END;

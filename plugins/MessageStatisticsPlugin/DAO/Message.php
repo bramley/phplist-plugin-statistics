@@ -272,9 +272,11 @@ END;
         return array($prev, $next);
     }
 
-    public function fetchMessages($listId, $loginid, $ascOrder = false, $start = null, $limit = null)
+    public function fetchMessages($listId, $loginid, $fromDate, $toDate, $ascOrder = false, $start = null, $limit = null)
     {
         $owner_and = $loginid ? "AND owner = $loginid" : '';
+        $fromDateCondition = $fromDate ? "AND '$fromDate' <= DATE(m.sent)" : '';
+        $toDateCondition = $toDate ? "AND DATE(m.sent) <= '$toDate'" : '';
         $order = $ascOrder ? 'ASC' : 'DESC';
         $limitClause = is_null($start) ? '' : "LIMIT $start, $limit";
         $m_lm_exists = $listId
@@ -288,6 +290,8 @@ END;
                 SELECT m.id
                 FROM {$this->tables['message']} m
                 WHERE m.status IN ($this->selectStatus)
+                $fromDateCondition
+                $toDateCondition
                 $m_lm_exists
                 $owner_and
                 ORDER BY $this->orderBy $order
@@ -306,9 +310,11 @@ END;
         return $this->dbCommand->queryRow($query);
     }
 
-    public function totalMessages($listId, $loginid)
+    public function totalMessages($listId, $loginid, $fromDate, $toDate)
     {
         $owner_and = $loginid ? "AND owner = $loginid" : '';
+        $fromDateCondition = $fromDate ? "AND '$fromDate' <= DATE(m.sent)" : '';
+        $toDateCondition = $toDate ? "AND DATE(m.sent) <= '$toDate'" : '';
         $lm_exists = $listId
             ? "AND EXISTS (
                 SELECT * FROM {$this->tables['listmessage']} lm
@@ -319,6 +325,8 @@ END;
             "SELECT COUNT(m.id) AS t
             FROM {$this->tables['message']} m
             WHERE m.status IN ($this->selectStatus)
+            $fromDateCondition
+            $toDateCondition
             $lm_exists
             $owner_and";
 

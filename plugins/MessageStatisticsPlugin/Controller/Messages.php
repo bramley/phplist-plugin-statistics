@@ -17,7 +17,7 @@
  * @category  phplist
  *
  * @author    Duncan Cameron
- * @copyright 2011-2017 Duncan Cameron
+ * @copyright 2011-2021 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
 
@@ -147,6 +147,93 @@ END;
         return $result;
     }
 
+    /**
+     * Construct the form to allow selection of campaigns by date range and list.
+     *
+     * @return string
+     */
+    protected function campaignSelectForm()
+    {
+        $fromDatePicker = CHtml::textField(
+            'fromdate',
+            $this->model->fromdate,
+            ['class' => 'flatpickr']
+        );
+        $fromCaption = $this->i18n->get('From');
+
+        $toDatePicker = CHtml::textField(
+            'todate',
+            $this->model->todate,
+            ['class' => 'flatpickr']
+        );
+        $toCaption = $this->i18n->get('To');
+
+        $lists = iterator_to_array($this->model->listsForOwner());
+        $listsDropDown = CHtml::dropDownList(
+            'listid',
+            $this->model->listid,
+            array_column($lists, 'name', 'id')
+        );
+        $listsCaption = $this->i18n->get('List');
+        $action = $_SERVER['REQUEST_URI'];
+        $form = <<<END
+<form action="$action" method="POST">
+    <label>$listsCaption</label> $listsDropDown
+    <label>$fromCaption</label> $fromDatePicker
+    <label>$toCaption</label> $toDatePicker
+    <input type="submit" name="date_submit" value="Submit" />
+</form>
+END;
+        $panel = new UIPanel('', $form);
+
+        return $panel->display();
+    }
+
+    /**
+     * Display a webbler listing containing one line of summary totals.
+     *
+     * @param string $listName list name
+     * @param string $from     from date
+     * @param string $to       to date
+     *
+     * @return string
+     */
+    protected function summary($listName, $from, $to)
+    {
+        $totalCampaigns = 0;
+        $totalSent = 0;
+        $totalOpened = 0;
+        $totalClicked = 0;
+        $totalBounced = 0;
+        $totalViews = 0;
+
+        foreach ($this->messageResults as $row) {
+            ++$totalCampaigns;
+            $totalSent += $row['sent'];
+            $totalOpened += $row['openUsers'];
+            $totalClicked += $row['clickUsers'];
+            $totalBounced += $row['bouncecount'];
+            $totalViews += $row['viewed'];
+        }
+        $delivered = $totalSent - $totalBounced;
+
+        $w = new phpList\plugin\Common\WebblerListing();
+        $w->title = $this->i18n->get('Summary of %s list from %s to %s', $listName, $from, $to);
+        $w->setElementHeading($this->i18n->get('# campaigns'));
+        $key = $totalCampaigns;
+        $w->addElement($key);
+        $w->addColumn($key, $this->i18n->get('sent'), number_format($totalSent));
+        $openRate = $delivered > 0 ? $totalOpened * 100 / $delivered : 0;
+        $w->addColumn($key, $this->i18n->get('opened'), sprintf('(%1.1f%%) %s', $openRate, number_format($totalOpened)));
+        $clickRate = $totalSent > 0 ? $totalClicked * 100 / $totalSent : 0;
+        $w->addColumn($key, $this->i18n->get('clicked'), sprintf('(%1.1f%%) %s', $clickRate, number_format($totalClicked)));
+        $bounceRate = $totalSent > 0 ? $totalBounced * 100 / $totalSent : 0;
+        $w->addColumn($key, $this->i18n->get('bounced'), sprintf('(%1.1f%%) %s', $bounceRate, number_format($totalBounced)));
+        $w->addColumn($key, $this->i18n->get('views'), number_format($totalViews));
+
+        return $w->display();
+    }
+
     /*
      * Implementation of CommonPlugin_IExportable
      */
@@ -198,7 +285,7 @@ END;
         /*
          * Populates the webbler list with message details
          */
-        $w->setTitle($this->i18n->get('Campaigns'));
+        $w->setElementHeading($this->i18n->get('Campaign'));
 
         $rows = iterator_to_array($this->model->fetchMessages(false, $start, $limit));
         $this->messageResults = array_reverse($rows);
