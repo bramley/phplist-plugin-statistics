@@ -73,7 +73,7 @@ class MessageStatisticsPlugin extends phplistPlugin
                 'category' => 'Campaign Statistics',
             ),
             'statistics_exclude_regex' => array(
-                'description' => s('Regular expression for URLs to be exluded from the campaign PDF report.'),
+                'description' => s('Regular expression for URLs to be excluded from the campaign PDF report.'),
                 'type' => 'text',
                 'value' => '',
                 'allowempty' => true,
