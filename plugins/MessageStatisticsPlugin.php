@@ -53,8 +53,6 @@ class MessageStatisticsPlugin extends phplistPlugin
 
     public function __construct()
     {
-        global $wkhtmltopdfOptions;
-
         $this->coderoot = dirname(__FILE__) . '/MessageStatisticsPlugin/';
         $this->version = (is_file($f = $this->coderoot . self::VERSION_FILE))
             ? file_get_contents($f)
@@ -74,17 +72,14 @@ class MessageStatisticsPlugin extends phplistPlugin
                 'allowempty' => true,
                 'category' => 'Campaign Statistics',
             ),
-        );
-
-        if (isset($wkhtmltopdfOptions) && is_executable($wkhtmltopdfOptions['bin'])) {
-            $this->settings['statistics_logo_path'] = array(
-                'value' => $this->coderoot . 'phplist_logo.b64',
-                'description' => s('Path to a base64 encoded logo file'),
+            'statistics_exclude_regex' => array(
+                'description' => s('Regular expression for URLs to be exluded from the campaign PDF report.'),
                 'type' => 'text',
-                'allowempty' => false,
+                'value' => '',
+                'allowempty' => true,
                 'category' => 'Campaign Statistics',
-            );
-        }
+            ),
+        );
         parent::__construct();
     }
 
@@ -93,9 +88,9 @@ class MessageStatisticsPlugin extends phplistPlugin
         global $plugins;
 
         return array(
-            'Common Plugin v3.11.0 or later installed' => (
+            'Common Plugin v3.15.0 or later installed' => (
                 phpListPlugin::isEnabled('CommonPlugin')
-                && version_compare($plugins['CommonPlugin']->version, '3.11.0') >= 0
+                && version_compare($plugins['CommonPlugin']->version, '3.15.0') >= 0
             ),
             'PHP version 5.5.0 or greater' => version_compare(PHP_VERSION, '5.5') > 0,
         );

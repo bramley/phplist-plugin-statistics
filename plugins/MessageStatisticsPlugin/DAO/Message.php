@@ -108,9 +108,9 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
      *
      * @return string the query
      */
-    private function baseMessageQuery($select, $listId, $order, $excludeRegex = null)
+    private function baseMessageQuery($select, $listId, $order, $excludeRegex = '')
     {
-        $urlExclude = $excludeRegex !== null
+        $urlExclude = $excludeRegex !== ''
             ? sprintf("AND fw.url NOT RLIKE('%s')", sql_escape($excludeRegex))
             : '';
         $m_lm_exists = $listId

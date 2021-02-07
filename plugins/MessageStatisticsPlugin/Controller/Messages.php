@@ -30,7 +30,6 @@
 class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
     const IMAGE_HEIGHT = 300;
-    const EXCLUDE_REGEX = 'p=preferences|p=unsubscribe|phplist.com';
 
     private $messageResults;
     protected $itemsPerPage = array(array(5, 10, 25), 5);
@@ -81,76 +80,15 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
         );
     }
 
-    /*
-     * Protected methods
-     */
     protected function actionPrint()
     {
-        global $wkhtmltopdfOptions;
-        global $tmpdir;
-
         $this->model->validateProperties();
         $listNames = implode(', ', $this->model->listNames);
-        $regex = isset($wkhtmltopdfOptions['exclude'])
-            ? ($wkhtmltopdfOptions['exclude']
-                ? $wkhtmltopdfOptions['exclude']
-                : uniqid())
-            : self::EXCLUDE_REGEX;
+        $regex = getConfig('statistics_exclude_regex');
         $fields = $this->messageStats($this->model->fetchMessage($regex));
-        $params = array(
-            'from' => $fields['from'],
-            'list' => $listNames,
-            'subject' => $fields['subject'],
-            'start' => $fields['datestart'],
-            'end' => $fields['datesent'],
-            'sent' => number_format($fields['sent']),
-            'delivered' => number_format($fields['delivered']),
-            'deliveredrate' => $fields['deliveredrate'] . '%',
-            'bounced' => number_format($fields['bouncecount']),
-            'bouncerate' => $fields['bouncerate'] . '%',
-            'opened' => number_format($fields['opens']),
-            'openrate' => $fields['openrate'] . '%',
-            'unopened' => number_format($fields['unopens']),
-            'unopenrate' => $fields['unopenrate'] . '%',
-            'clicked' => number_format($fields['clickUsers']),
-            'clickopenrate' => $fields['clickopenrate'] . '%',
-            'totalClicks' => $fields['totalClicks'],
-            'forwarded' => number_format($fields['forwardcount']),
-            'forwardedrate' => $fields['forwardrate'] . '%',
-        );
 
-        if ($fields['campaigntitle'] != $fields['subject']) {
-            $params['campaigntitle'] = $fields['campaigntitle'];
-        }
-        $w = new CommonPlugin_HtmlToPdf();
-        $fileName = preg_replace('/[^\w]+/', '_', $fields['subject']) . '.pdf';
-
-        $defaultOptions = array(
-            'tmp' => $tmpdir,
-            'enableEscaping' => false,
-            'header-spacing' => 5,
-            'footer-spacing' => 2,
-            'margin-top' => 30,
-            'encoding' => 'utf-8',
-        );
-
-        $options = $wkhtmltopdfOptions + $defaultOptions;
-        unset($options['exclude']);
-        $w->setOptions($options);
-
-        $logoPath = getConfig('statistics_logo_path');
-        $imageSrc = sprintf('data:image/png;base64,%s', file_get_contents($logoPath));
-        $w->headerHtml($this->render(dirname(__FILE__) . '/../printheader.tpl.php', array('imageSrc' => $imageSrc)));
-        $w->footerHtml($this->render(dirname(__FILE__) . '/../printfooter.tpl.php', array()));
-        $w->addPage($this->render(dirname(__FILE__) . '/../print.tpl.php', $params));
-
-        $content = ob_get_clean();
-
-        if ($w->send($fileName)) {
-            exit;
-        }
-        echo $content;
-        echo nl2br($w->getError());
+        $report = new MessageStatisticsPlugin_CampaignReport();
+        $report->create($fields, $listNames);
     }
 
     protected function caption()
@@ -261,8 +199,6 @@ END;
         /*
          * Populates the webbler list with message details
          */
-        global $wkhtmltopdfOptions;
-
         $w->setTitle($this->i18n->get('Campaigns'));
 
         $rows = iterator_to_array($this->model->fetchMessages(false, $start, $limit));
@@ -284,12 +220,12 @@ END;
                 $fields['bouncecount'] > 0 ? "{$fields['bouncerate']}% ({$fields['bouncecount']})" : '0'
             );
             $w->addColumn($key, $this->i18n->get('views'), "{$fields['viewed']} ({$fields['avgviews']})");
-
-            if (isset($wkhtmltopdfOptions) && is_executable($wkhtmltopdfOptions['bin'])) {
-                $w->addColumnHtml($key, $this->i18n->get('print'), new CommonPlugin_ImageTag('doc_pdf.png', $this->i18n->get('print to PDF')),
-                    new CommonPlugin_PageURL(null, array('listid' => $this->model->listid, 'action' => 'print', 'msgid' => $fields['id']))
-                );
-            }
+            $w->addColumnHtml(
+                $key,
+                $this->i18n->get('print'),
+                new CommonPlugin_ImageTag('doc_pdf.png', $this->i18n->get('print to PDF')),
+                new CommonPlugin_PageURL(null, array('listid' => $this->model->listid, 'action' => 'print', 'msgid' => $fields['id']))
+            );
         }
     }
 
