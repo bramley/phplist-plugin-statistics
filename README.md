@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.2.0+20210208  Use FPDF to create the campaign PDF report
     2.1.29+20200416 Display dates using the date format configuration
     2.1.28+20200306 Rework handling of attribute DAO
     2.1.27+20190730 Reduce the number of tabs displayed

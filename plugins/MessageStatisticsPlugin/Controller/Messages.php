@@ -83,12 +83,11 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
     protected function actionPrint()
     {
         $this->model->validateProperties();
-        $listNames = implode(', ', $this->model->listNames);
         $regex = getConfig('statistics_exclude_regex');
         $fields = $this->messageStats($this->model->fetchMessage($regex));
 
         $report = new MessageStatisticsPlugin_CampaignReport();
-        $report->create($fields, $listNames);
+        $report->create($fields);
     }
 
     protected function caption()

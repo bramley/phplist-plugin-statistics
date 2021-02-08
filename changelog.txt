@@ -1,3 +1,7 @@
+version 2.2.0+20210208
+      Use FPDF instead of wkhtmltopdf to create the campaign PDF report
+      Remove list names from the campaign report
+
 version 2.1.29+20200416
       Use core phplist functions to format dates so that the date format configuration setting will be applied.
 

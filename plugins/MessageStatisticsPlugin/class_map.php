@@ -1,6 +1,7 @@
 <?php
 
 return array(
+    'MessageStatisticsPlugin_CampaignReport' => $base . '/MessageStatisticsPlugin/CampaignReport.php',
     'MessageStatisticsPlugin_Controller' => $base . '/MessageStatisticsPlugin/Controller.php',
     'MessageStatisticsPlugin_ControllerFactory' => $base . '/MessageStatisticsPlugin/ControllerFactory.php',
     'MessageStatisticsPlugin_Controller_Bounced' => $base . '/MessageStatisticsPlugin/Controller/Bounced.php',

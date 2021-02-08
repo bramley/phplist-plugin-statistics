@@ -30,11 +30,10 @@ class MessageStatisticsPlugin_CampaignReport
         $this->pdf = new phpList\plugin\Common\FPDF();
     }
 
-    public function create($fields, $listNames)
+    public function create($fields)
     {
         $this->pdf->AddPage();
         $lines = [
-            ['Mailing List', $listNames],
             ['From', $fields['from']],
             ['Subject', $fields['subject']],
             ['Start date', $fields['datestart']],
