@@ -33,9 +33,15 @@ class MessageStatisticsPlugin_CampaignReport
     public function create($fields)
     {
         $this->pdf->AddPage();
+        // FPDF supports only ISO-8859-1 not UTF-8
+        $subject = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $fields['subject']);
+
+        if ($subject === false) {
+            $subject = utf8_decode($fields['subject']);
+        }
         $lines = [
             ['From', $fields['from']],
-            ['Subject', $fields['subject']],
+            ['Subject', $subject],
             ['Start date', $fields['datestart']],
             ['End date',  $fields['datesent']],
         ];

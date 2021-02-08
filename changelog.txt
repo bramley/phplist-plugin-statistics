@@ -1,3 +1,6 @@
+version 2.2.1+20210208
+      On the Campaigns report convert the subject to ISO-8859-1
+
 version 2.2.0+20210208
       Use FPDF instead of wkhtmltopdf to create the campaign PDF report
       Remove list names from the campaign report
