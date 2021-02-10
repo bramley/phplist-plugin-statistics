@@ -1,7 +1,7 @@
-<?php 
+<?php
 /**
  * MessageStatisticsPlugin for phplist
- * 
+ *
  * This file is a part of MessageStatisticsPlugin.
  *
  * This plugin is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
  * @package   MessageStatisticsPlugin
  * @author    Duncan Cameron
@@ -22,7 +22,7 @@
 
 /**
  * This file contains the English text
- * 
+ *
  * @category  phplist
  * @package   MessageStatisticsPlugin
  */
@@ -70,16 +70,17 @@ $lan = array(
 //    Messages.php
     'Messages sent to %s' => 'Campaigns sent to %s',
     'All sent messages' => 'All sent campaigns',
-    'id' => 'id',
     'Subject' => 'Subject',
     'date' => 'Date',
     'bounced' => 'Bounced',
     'views' => 'Views',
     'print' => 'Print',
     'print to PDF' => 'print to PDF',
-    'Message ID' => 'Message ID',
-    'Users' => 'Users',
     'Campaigns' => 'Campaigns',
+    'From' => 'From',
+    'To' => 'To',
+    'List' => 'List',
+    'Summary of %s list from %s to %s' => 'Summary of %s list from %s to %s',
 //    Links
     'Links in the campaign' => 'Links in the campaign',
     'Link' => 'Link',
