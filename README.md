@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.2.2+20210210  On the Campaigns report improve the display of the subject field
     2.2.1+20210208  On the Campaigns report convert the subject to ISO-8859-1
     2.2.0+20210208  Use FPDF to create the campaign PDF report
     2.1.29+20200416 Display dates using the date format configuration

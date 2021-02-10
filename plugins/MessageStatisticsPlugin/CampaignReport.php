@@ -50,8 +50,7 @@ class MessageStatisticsPlugin_CampaignReport
             $this->pdf->SetFont('', 'B');
             $this->pdf->cell(20, $this->cellHeight, $line[0], 0, 0);
             $this->pdf->SetFont('');
-            $this->pdf->cell(70, $this->cellHeight, $line[1], 0, 0, 'L');
-            $this->pdf->ln();
+            $this->pdf->MultiCell(0, $this->cellHeight, $line[1], 0, 'L');
         }
         $this->pdf->ln($this->cellHeight * 0.5);
 
