@@ -1,7 +1,7 @@
-<?php 
+<?php
 /**
  * MessageStatisticsPlugin for phplist
- * 
+ *
  * This file is a part of MessageStatisticsPlugin.
  *
  * This plugin is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
  * @package   MessageStatisticsPlugin
  * @author    Duncan Cameron
@@ -22,7 +22,7 @@
 
 /**
  * This file contains the Spanish text
- * 
+ *
  * @category  phplist
  * @package   MessageStatisticsPlugin
  */
@@ -30,59 +30,67 @@ $lan = array(
 //    Controller.php
     'tab_settings' => 'Configuración',
     'tab_lists' => 'Listas',
-    'tab_messages' => 'Mensajes',
+    'tab_messages' => 'Campañas',
     'tab_opened' => 'Abiertos',
     'tab_unopened' => 'No abiertos',
-    'tab_clicked' => 'Clickeados',
+    'tab_clicked' => 'Cliqueados',
     'tab_bounced' => 'Rebotados',
     'tab_forwarded' => 'Reenviados',
     'tab_domains' => 'Dominios',
     'tab_links' => 'Enlaces',
-    'tab_linkclicks' => 'Clicks a enlaces',
+    'tab_linkclicks' => 'Clics a enlaces',
     'User email' => 'Email de usuario',
     'message %s sent to %s' => 'Mensaje %s enviado a %s',
 //    Opened.php
-    'last viewed' => 'Último visto',
+    'first view' => 'Visto por primera vez',
 //    Unopened.php
 //    Bounced.php
     'Bounce ID' => 'ID de rebote',
     'email' => 'email',
 //    Clicked.php
-    'count' => 'Cuenta',
-    'links clicked' => 'Enlaces clickeados',
-    'user_not_exist' => 'El usuario no existe ahora',
+    'count' => 'Resultados',
+    'links clicked' => 'Enlaces cliqueados',
+    'clicks_total' => 'Clics totales',
+    'user_not_exist' => 'El usuario no existe',
 //    Domain.php
+    'Domains to which the campaign was sent' => 'Dominios a los que se envió la campaña',
     'Domain' => 'Dominio',
     'sent' => 'Enviado',
     'opened' => 'Abierto',
-    'clicked' => 'Clickeado',
+    'opened %' => 'Abiertos %',
+    'clicked' => 'Cliqueados',
+    'clicked %' => 'Cliqueados %',
 //    Forwarded.php
 //    Lists.php
-    'id' => 'id',
+    'Lists' => 'Listas',
     'All lists' => 'Todas las listas',
-    'name' => 'Nombre',
     'active' => 'Activo',
     'total sent' => 'Total enviados',
     'latest' => 'Último',
 //    Messages.php
     'Messages sent to %s' => 'Mensajes enviados a %s',
     'All sent messages' => 'Todos los mensajes enviados',
-    'id' => 'id',
     'Subject' => 'Asunto',
     'date' => 'Fecha',
-    'clicks_total' => 'Clicks totales',
-    'click_open' => '% Aperturas / clicks',
     'bounced' => 'Rebotados',
-    'total (avg) views' => 'Vistas totales (promedio)',
-    'Message ID' => 'ID de mensaje',
-    'Users' => 'Usuarios',
+    'views' => 'Visionados',
+    'print' => 'imprimir',
+    'print to PDF' => 'imprimir como PDF',
+    'Campaigns' => 'Campañas',
+    'From' => 'De',
+    'To' => 'a',
+    'List' => 'Lista',
+    'Summary of %s list from %s to %s' => 'Resumen de la lista %s de %s a %s',
 //    Links
-    'Link URL' => 'URL de enlace',
-    'clicks' => 'Clicks',
-    'users' => 'Usuarios',
-    'users%' => 'Usuarios %',
+    'Links in the campaign' => 'Enlaces en la campaña',
+    'Link' => 'Enlace',
+    'total clicks' => 'Total de clics',
+    'subscribers' => 'Suscriptores',
+    'subscribers %' => 'Suscriptores %',
     'firstclick' => 'Primero',
     'latestclick' => 'Último',
+//    LinkClicks
+    'Link "%s"' => 'Enlace "%s"',
 //    Settings
     'caption' => 'Seleccione cualquiera de los atributos de usuario para ser mostrado como columnas adicionales a la del email de usuario',
     'no_attrs' => 'No hay atributos de usuario para seleccionar',
@@ -92,5 +100,10 @@ $lan = array(
     'no_messages' => 'No se encontraron mensajes para el usuario actual.',
     'no_access' => 'No tiene acceso a esta página.',
 //    statistics.tpl.php
-    'plugin_title' => 'Plugin Estadísticas de Mensaje',
+    'plugin_title' => 'Plugin de estadísticas avanzadas',
+//Other
+    'Campaign' => 'Campaña',
+    '# campaigns' => '# Campañas',
+    'top' => 'arriba',
+    'Submit' => 'Enviar',
 );

@@ -1,3 +1,6 @@
+version 2.3.1+20210218
+      Revise Spanish translations, provided by Juan Cimadevilla.
+
 version 2.3.0+20210216
       Add alternative selection of campaigns for the Campaigns tab by selecting a list and from and to dates.
       Add English translations that use s()

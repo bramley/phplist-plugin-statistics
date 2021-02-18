@@ -181,7 +181,7 @@ END;
     <label>$listsCaption</label> $listsDropDown
     <label>$fromCaption</label> $fromDatePicker
     <label>$toCaption</label> $toDatePicker
-    <input type="submit" name="date_submit" value="Submit" />
+    <input type="submit" name="date_submit" value="{$this->i18n->get('Submit')}" />
 </form>
 END;
         $panel = new UIPanel('', $form);
