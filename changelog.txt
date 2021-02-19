@@ -1,3 +1,7 @@
+version 2.3.2+20210219
+      Include the campaign title on the Campaign report when it is different to the subject
+      Persist the from and to dates
+
 version 2.3.1+20210218
       Revise Spanish translations, provided by Juan Cimadevilla.
 

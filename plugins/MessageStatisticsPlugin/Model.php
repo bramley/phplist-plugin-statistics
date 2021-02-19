@@ -54,6 +54,8 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         'selectedAttrs' => '',
         'searchTerm' => '',
         'searchBy' => '',
+        'fromdate' => null,
+        'todate' => null,
     );
     /*
      *    Public variables
