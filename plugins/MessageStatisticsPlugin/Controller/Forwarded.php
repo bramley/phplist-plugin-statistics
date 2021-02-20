@@ -39,7 +39,7 @@ class MessageStatisticsPlugin_Controller_Forwarded extends MessageStatisticsPlug
 
     public function exportFieldNames()
     {
-        $fields = array($this->i18n->get('email'));
+        $fields = array($this->i18n->get('subscriber'));
 
         foreach ($this->model->selectedAttrs as $attr) {
             $fields[] = $this->model->attributes[$attr]['name'];
@@ -71,7 +71,7 @@ class MessageStatisticsPlugin_Controller_Forwarded extends MessageStatisticsPlug
         /*
          * Populate the webbler list with users who have forwarded the message
          */
-        $w->setTitle($this->i18n->get('User email'));
+        $w->setElementHeading($this->i18n->get('subscriber'));
         $resultSet = $this->model->fetchMessageForwards($start, $limit);
 
         foreach ($resultSet as $row) {

@@ -66,7 +66,6 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
         /*
          * Populates the webbler list with link details
          */
-        $w->setTitle($this->i18n->get('Links in the campaign'));
         $w->setElementHeading('URL');
 
         $resultSet = $this->model->links($start, $limit);

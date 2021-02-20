@@ -41,7 +41,8 @@ class MessageStatisticsPlugin_Controller_Unopened extends MessageStatisticsPlugi
 
     public function exportFieldNames()
     {
-        $fields = array($this->i18n->get('User email'));
+        $fields = array($this->i18n->get('subscriber'));
+
         foreach ($this->model->selectedAttrs as $attr) {
             $fields[] = $this->model->attributes[$attr]['name'];
         }
@@ -69,7 +70,7 @@ class MessageStatisticsPlugin_Controller_Unopened extends MessageStatisticsPlugi
         /*
          * Populate the webbler list with users who have not opened the message
          */
-        $w->setTitle($this->i18n->get('User email'));
+        $w->setElementHeading($this->i18n->get('subscriber'));
         $resultIterator = $this->model->fetchMessageOpens($this->isOpened, $start, $limit);
 
         foreach ($resultIterator as $row) {

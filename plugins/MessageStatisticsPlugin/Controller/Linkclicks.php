@@ -59,7 +59,7 @@ class MessageStatisticsPlugin_Controller_Linkclicks extends MessageStatisticsPlu
     public function exportFieldNames()
     {
         $fields = array();
-        $fields[] = $this->i18n->get('User email');
+        $fields[] = $this->i18n->get('subscriber');
 
         foreach ($this->model->selectedAttrs as $attr) {
             $fields[] = $this->model->attributes[$attr]['name'];
@@ -99,7 +99,7 @@ class MessageStatisticsPlugin_Controller_Linkclicks extends MessageStatisticsPlu
         /*
          * Populates the webbler list with link click details
          */
-        $w->setTitle($this->i18n->get('User email'));
+        $w->setElementHeading($this->i18n->get('subscriber'));
         $resultSet = $this->model->linkClicks($start, $limit);
 
         foreach ($resultSet as $row) {

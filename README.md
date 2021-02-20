@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.3.3+20210220  Make the display of tabs consistent by revising the column headings
     2.3.2+20210219  Include the campaign title on the Campaign report
     2.3.1+20210218  Revise Spanish translations
     2.3.0+20210216  Add alternative selection of campaigns for the Campaigns tab

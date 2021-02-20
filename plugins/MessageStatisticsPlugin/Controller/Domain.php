@@ -63,7 +63,6 @@ class MessageStatisticsPlugin_Controller_Domain extends MessageStatisticsPlugin_
         /*
          * Populate the webbler list with domains
          */
-        $w->setTitle($this->i18n->get('Domains to which the campaign was sent'));
         $w->setElementHeading($this->i18n->get('Domain'));
         $resultSet = $this->model->messageByDomain($start, $limit);
 

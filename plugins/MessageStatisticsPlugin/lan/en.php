@@ -43,6 +43,7 @@ $lan = array(
     'message %s sent to %s' => 'Campaign %s sent to %s',
 //    Opened.php
     'first view' => 'First view',
+    'subscriber' => 'Subscriber',
 //    Unopened.php
 //    Bounced.php
     'Bounce ID' => 'Bounce ID',

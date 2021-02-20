@@ -41,7 +41,7 @@ class MessageStatisticsPlugin_Controller_Bounced extends MessageStatisticsPlugin
     {
         $fields = array();
         $fields[] = $this->i18n->get('Bounce ID');
-        $fields[] = $this->i18n->get('email');
+        $fields[] = $this->i18n->get('subscriber');
 
         foreach ($this->model->selectedAttrs as $attr) {
             $fields[] = $this->model->attributes[$attr]['name'];
@@ -71,13 +71,13 @@ class MessageStatisticsPlugin_Controller_Bounced extends MessageStatisticsPlugin
         /*
          * Populate the webbler list with users who bounced
          */
-        $w->setTitle($this->i18n->get('Bounce ID'));
+        $w->setElementHeading($this->i18n->get('Bounce ID'));
         $resultIterator = $this->model->fetchMessageBounces($start, $limit);
 
         foreach ($resultIterator as $row) {
             $key = $row['bounce'];
             $w->addElement($key, new CommonPlugin_PageURL('bounce', array('s' => 0, 'id' => $row['bounce'])));
-            $w->addColumn($key, 'email', $row['email'],
+            $w->addColumn($key, $this->i18n->get('subscriber'), $row['email'],
                  new CommonPlugin_PageURL('user', array('id' => $row['user']), 'left')
             );
 
