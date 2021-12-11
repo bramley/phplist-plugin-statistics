@@ -40,14 +40,8 @@ class MessageStatisticsPlugin_CampaignReport
         if ($fields['campaigntitle'] != $fields['subject']) {
             $lines[] = ['Title', $fields['campaigntitle']];
         }
-        // FPDF supports only ISO-8859-1 not UTF-8
-        $subject = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $fields['subject']);
-
-        if ($subject === false) {
-            $subject = utf8_decode($fields['subject']);
-        }
-        $lines[] = ['Subject', $subject];
-        $lines[] = ['Start date',  $fields['datestart']];
+        $lines[] = ['Subject', $fields['subject']];
+        $lines[] = ['Start date', $fields['datestart']];
         $lines[] = ['End date', $fields['datesent']];
 
         foreach ($lines as $line) {
@@ -81,9 +75,9 @@ class MessageStatisticsPlugin_CampaignReport
         ];
         $this->printSection('Of the total who opened', $lines);
 
-        $fileName = preg_replace('/[^\w]+/', '_', $fields['subject']) . '.pdf';
+        $fileName = $fields['subject'] . '.pdf';
         $content = ob_get_clean();
-        $this->pdf->Output('D', $fileName);
+        $this->pdf->Output('D', $fileName, true);
     }
 
     private function printSection($heading, $lines)
