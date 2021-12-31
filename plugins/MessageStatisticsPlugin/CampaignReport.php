@@ -23,10 +23,12 @@
 class MessageStatisticsPlugin_CampaignReport
 {
     private $cellHeight = 6;
+    private $i18n;
     private $pdf;
 
-    public function __construct()
+    public function __construct($i18n)
     {
+        $this->i18n = $i18n;
         $this->pdf = new phpList\plugin\Common\FPDF();
     }
 
@@ -34,15 +36,15 @@ class MessageStatisticsPlugin_CampaignReport
     {
         $this->pdf->AddPage();
         $lines = [
-            ['From', $fields['from']],
+            [$this->i18n->get('From'), $fields['from']],
         ];
 
         if ($fields['campaigntitle'] != $fields['subject']) {
-            $lines[] = ['Title', $fields['campaigntitle']];
+            $lines[] = [$this->i18n->get('Title'), $fields['campaigntitle']];
         }
-        $lines[] = ['Subject', $fields['subject']];
-        $lines[] = ['Start date', $fields['datestart']];
-        $lines[] = ['End date', $fields['datesent']];
+        $lines[] = [$this->i18n->get('Subject'), $fields['subject']];
+        $lines[] = [$this->i18n->get('Start date'), $fields['datestart']];
+        $lines[] = [$this->i18n->get('End date'), $fields['datesent']];
 
         foreach ($lines as $line) {
             $this->pdf->SetFont('', 'B');
@@ -54,26 +56,26 @@ class MessageStatisticsPlugin_CampaignReport
 
         // Sent
         $lines = [
-            ['Sent', number_format($fields['sent']), ''],
-            ['Delivered', number_format($fields['delivered']), $fields['deliveredrate'] . '%'],
-            ['Bounced', number_format($fields['bouncecount']), $fields['bouncerate'] . '%'],
+            [$this->i18n->get('Sent'), number_format($fields['sent']), ''],
+            [$this->i18n->get('Delivered'), number_format($fields['delivered']), $fields['deliveredrate'] . '%'],
+            [$this->i18n->get('Bounced'), number_format($fields['bouncecount']), $fields['bouncerate'] . '%'],
         ];
-        $this->printSection('Of the total sent', $lines);
+        $this->printSection($this->i18n->get('Of the total sent'), $lines);
 
         // Delivered
         $lines = [
-            ['Opened', number_format($fields['opens']), $fields['openrate'] . '%'],
-            ['Not opened', number_format($fields['unopens']), $fields['unopenrate'] . '%'],
+            [$this->i18n->get('Opened'), number_format($fields['opens']), $fields['openrate'] . '%'],
+            [$this->i18n->get('Not opened'), number_format($fields['unopens']), $fields['unopenrate'] . '%'],
         ];
-        $this->printSection('Of the total delivered', $lines);
+        $this->printSection($this->i18n->get('Of the total delivered'), $lines);
 
         // Clicked
         $lines = [
-            ['Users who clicked', number_format($fields['clickUsers']), $fields['clickopenrate'] . '%'],
-            ['Total number of clicks', number_format($fields['totalClicks']), ''],
-            ['Users who forwarded', number_format($fields['forwardcount']), $fields['forwardrate'] . '%'],
+            [$this->i18n->get('Users who clicked'), number_format($fields['clickUsers']), $fields['clickopenrate'] . '%'],
+            [$this->i18n->get('Total number of clicks'), number_format($fields['totalClicks']), ''],
+            [$this->i18n->get('Users who forwarded'), number_format($fields['forwardcount']), $fields['forwardrate'] . '%'],
         ];
-        $this->printSection('Of the total who opened', $lines);
+        $this->printSection($this->i18n->get('Of the total who opened'), $lines);
 
         $fileName = $fields['subject'] . '.pdf';
         $content = ob_get_clean();

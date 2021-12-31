@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.3.6+20211231  Allow captions in the campaign pdf report to be translated
     2.3.5+20211212  On the Campaigns report improve the display of the subject field
     2.3.4+20210926  Only format message dates that have a value to avoid php 8 error
     2.3.3+20210220  Make the display of tabs consistent by revising the column headings

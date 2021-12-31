@@ -86,7 +86,7 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
         $regex = getConfig('statistics_exclude_regex');
         $fields = $this->messageStats($this->model->fetchMessage($regex));
 
-        $report = new MessageStatisticsPlugin_CampaignReport();
+        $report = new MessageStatisticsPlugin_CampaignReport($this->i18n);
         $report->create($fields);
     }
 

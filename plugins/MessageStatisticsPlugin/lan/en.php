@@ -102,4 +102,14 @@ $lan = array(
     'no_access' => 'You do not have access to this page.',
 //    view.tpl.php
     'plugin_title' => 'Advanced Statistics Plugin',
+//  Campaign pdf report
+    'Title' => 'Title',
+    'Start date' => 'Start date',
+    'End date' => 'End date',
+    'Delivered' => 'Delivered',
+    'Not opened' => 'Not opened',
+    'Users who clicked' => 'Users who clicked',
+    'Total number of clicks' => 'Total number of clicks',
+    'Users who forwarded' => 'Users who forwarded',
+    'Of the total who opened' => 'Of the total who opened',
 );

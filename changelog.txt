@@ -1,3 +1,6 @@
+version 2.3.6+20211231
+      Allow captions in the campaign pdf report to be translated.
+
 version 2.3.5+20211212
       Remove manipulation of Subject field as tFPDF supports unicode
 
