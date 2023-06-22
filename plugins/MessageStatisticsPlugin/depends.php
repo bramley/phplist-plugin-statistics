@@ -82,6 +82,12 @@ return [
             $container->get('MessageStatisticsPlugin_Model')
         );
     },
+    'MessageStatisticsPlugin_Controller_Userviews' => function (ContainerInterface $container) {
+        return new MessageStatisticsPlugin_Controller_Userviews(
+            $container->get('MessageStatisticsPlugin_Model'),
+            $container->get('phpList\plugin\Common\DAO\User'),
+        );
+    },
     'MessageStatisticsPlugin_Model' => function (ContainerInterface $container) {
         return new MessageStatisticsPlugin_Model(
             $container->get('MessageStatisticsPlugin_DAO_Message'),

@@ -48,6 +48,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         'searchBy' => null,
         'fromdate' => null,
         'todate' => null,
+        'userid' => null,
     );
     protected $persist = array(
         'listid' => '',
@@ -329,5 +330,15 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
     public function listById()
     {
         return $this->listDAO->listById($this->listid);
+    }
+
+    public function userViews($start = null, $limit = null)
+    {
+        return $this->messageDAO->userViews($this->userid, $this->msgid, $start, $limit);
+    }
+
+    public function totalUserViews()
+    {
+        return $this->messageDAO->totalUserViews($this->userid, $this->msgid);
     }
 }

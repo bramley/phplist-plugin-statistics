@@ -1,5 +1,4 @@
 <?php
-
 /**
  * MessageStatisticsPlugin for phplist.
  *
@@ -42,11 +41,14 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
     public function exportFieldNames()
     {
         $fields = array($this->i18n->get('subscriber'));
+
         foreach ($this->model->selectedAttrs as $attr) {
             $fields[] = $this->model->attributes[$attr]['name'];
         }
-
         $fields[] = $this->i18n->get('first view');
+        $fields[] = $this->i18n->get('total views');
+        $fields[] = $this->i18n->get('links clicked');
+        $fields[] = $this->i18n->get('clicks_total');
 
         return $fields;
     }
@@ -54,11 +56,14 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
     public function exportValues(array $row)
     {
         $values = array($row['email']);
+
         foreach ($this->model->selectedAttrs as $attr) {
             $values[] = $row["attr{$attr}"];
         }
-
         $values[] = $row['viewed'];
+        $values[] = $row['total_views'];
+        $values[] = $row['links_clicked'];
+        $values[] = $row['total_clicks'];
 
         return $values;
     }
@@ -83,6 +88,15 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
                 $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
             }
             $w->addColumn($key, $this->i18n->get('first view'), formatDateTime($row['viewed']));
+            $url = new CommonPlugin_PageURL(
+                null, ['type' => 'userviews', 'userid' => $row['userid'], 'msgid' => $this->model->msgid]
+            );
+            $w->addColumn($key, $this->i18n->get('total views'), $row['total_views'], $url);
+            $url = new CommonPlugin_PageURL(
+                'userclicks', ['userid' => $row['userid'], 'msgid' => $this->model->msgid]
+            );
+            $w->addColumn($key, $this->i18n->get('links clicked'), $row['links_clicked'] ?: '', $url);
+            $w->addColumn($key, $this->i18n->get('clicks_total'), $row['total_clicks']);
         }
     }
 

@@ -352,8 +352,21 @@ END;
             $order = 'u.email';
         }
 
-        $sql =
-            "SELECT u.email, um.userid, um.entered, um.viewed $attr_fields
+        $sql = <<<END
+            SELECT u.email, um.userid, um.entered, um.viewed,
+                (SELECT COUNT(*)
+                FROM {$this->tables['user_message_view']}
+                WHERE messageid = um.messageid AND userid = um.userid
+                ) AS total_views,
+                (SELECT COUNT(*)
+                FROM {$this->tables['linktrack_uml_click']}
+                WHERE messageid = um.messageid AND userid = um.userid
+                ) AS links_clicked,
+                (SELECT SUM(clicked)
+                FROM {$this->tables['linktrack_uml_click']}
+                WHERE messageid = um.messageid AND userid = um.userid
+                ) AS total_clicks
+                $attr_fields
             FROM {$this->tables['usermessage']} um
             JOIN {$this->tables['user']} u ON um.userid = u.id
             $attr_join
@@ -362,7 +375,8 @@ END;
             AND um.viewed IS $isOpened
             $u_lu_exists
             ORDER BY $order
-            $limitClause";
+            $limitClause
+END;
 
         return $this->dbCommand->queryAll($sql);
     }
@@ -740,5 +754,30 @@ END;
             WHERE id = $forwardid";
 
         return $this->dbCommand->queryOne($sql, 'url');
+    }
+
+    public function userViews($userId, $msgId, $start, $limit)
+    {
+        $limitClause = $this->limitClause($start, $limit);
+        $sql = <<<END
+            SELECT viewed, ip, data
+            FROM {$this->tables['user_message_view']}
+            WHERE messageid = $msgId AND userid = $userId
+            ORDER BY id
+            $limitClause
+END;
+
+        return $this->dbCommand->queryAll($sql);
+    }
+
+    public function totalUserViews($userId, $msgId)
+    {
+        $sql = <<<END
+            SELECT COUNT(*)
+            FROM {$this->tables['user_message_view']}
+            WHERE messageid = $msgId AND userid = $userId
+END;
+
+        return $this->dbCommand->queryOne($sql);
     }
 }

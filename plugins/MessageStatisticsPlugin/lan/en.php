@@ -39,10 +39,12 @@ $lan = array(
     'tab_domains' => 'Domains',
     'tab_links' => 'Links',
     'tab_linkclicks' => 'Link Clicks',
+    'tab_userviews' => 'Views',
     'User email' => 'User email',
     'message %s sent to %s' => 'Campaign %s sent to %s',
 //    Opened.php
     'first view' => 'First view',
+    'total views' => 'Total views',
     'subscriber' => 'Subscriber',
 //    Unopened.php
 //    Bounced.php

@@ -58,6 +58,7 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
             'domain' => $this->i18n->get('tab_domains'),
             'links' => $this->i18n->get('tab_links'),
             'linkclicks' => $this->i18n->get('tab_linkclicks'),
+            'userviews' => $this->i18n->get('tab_userviews'),
         );
         $tabs = new CommonPlugin_Tabs();
         $query = array();
@@ -87,13 +88,13 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
                 $query['type'] = $type;
                 $tabs->addTab($title, new CommonPlugin_PageURL(null, $query));
             }
-            /*
-             * Link clicks tab
-             */
+
+            // Display only when selected
             if ($this->model->type == 'linkclicks') {
-                $query['forwardid'] = $this->model->forwardid;
-                $query['type'] = $this->model->type;
-                $tabs->addTab($types[$this->model->type], new CommonPlugin_PageURL(null, $query));
+                $tabs->addTab($types[$this->model->type], CommonPlugin_PageURL::createFromGet());
+            } elseif ($this->model->type == 'userviews') {
+                $tabs->addTab($types[$this->model->type], CommonPlugin_PageURL::createFromGet());
+                $tabs->insertTabBefore($types['unopened'], $types[$this->model->type]);
             }
         }
         $tabs->setCurrent($types[$this->model->type]);
