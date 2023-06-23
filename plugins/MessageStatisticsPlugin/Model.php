@@ -119,7 +119,6 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
                 if (getConfig('statistics_date_filter')) {
                     // set default values for from and to dates, and list id
                     if ($this->fromdate == '') {
-                        //~ $this->fromdate = sprintf('%d-01-01', date('Y') - 1);
                         $this->fromdate = date('Y-01-01');
                     }
 

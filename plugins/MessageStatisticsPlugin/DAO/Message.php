@@ -75,22 +75,22 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                 $joinType {$this->tables['user_attribute']} ua{$id} ON ua{$id}.userid = u.id AND ua{$id}.attributeid = {$id} ";
 
             switch ($attr['type']) {
-            case 'radio':
-            case 'select':
-                $thisJoin .= "
-                $joinType {$tableName} la{$id} ON la{$id}.id = ua{$id}.value ";
+                case 'radio':
+                case 'select':
+                    $thisJoin .= "
+                    $joinType {$tableName} la{$id} ON la{$id}.id = ua{$id}.value ";
 
-                if ($searchTerm && $searchAttr == $id) {
-                    $thisJoin .= "AND la{$id}.name LIKE '%$searchTerm%' ";
-                }
-                $attr_fields .= ", la{$id}.name AS attr{$id}";
-                break;
-            default:
-                if ($searchTerm && $searchAttr == $id) {
-                    $thisJoin .= "AND ua{$id}.value LIKE '%$searchTerm%' ";
-                }
-                $attr_fields .= ", ua{$id}.value AS attr{$id}";
-                break;
+                    if ($searchTerm && $searchAttr == $id) {
+                        $thisJoin .= "AND la{$id}.name LIKE '%$searchTerm%' ";
+                    }
+                    $attr_fields .= ", la{$id}.name AS attr{$id}";
+                    break;
+                default:
+                    if ($searchTerm && $searchAttr == $id) {
+                        $thisJoin .= "AND ua{$id}.value LIKE '%$searchTerm%' ";
+                    }
+                    $attr_fields .= ", ua{$id}.value AS attr{$id}";
+                    break;
             }
             $attr_join .= $thisJoin;
         }
@@ -337,7 +337,7 @@ END;
      * Query for message opens or not opens.
      * This has two steps
      *  - find the subscribers to be returned
-     *  - query for the data for those subscribers
+     *  - query for the data for those subscribers.
      *
      * @param bool   $opened     return message opens or not opens
      * @param int    $msgid

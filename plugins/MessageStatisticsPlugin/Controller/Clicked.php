@@ -84,7 +84,7 @@ class MessageStatisticsPlugin_Controller_Clicked extends MessageStatisticsPlugin
                     $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
                 }
                 $w->addColumn($key, $this->i18n->get('links clicked'), $row['links'],
-                     new CommonPlugin_PageURL('userclicks', array('userid' => $row['userid'], 'msgid' => $this->model->msgid)),
+                    new CommonPlugin_PageURL('userclicks', array('userid' => $row['userid'], 'msgid' => $this->model->msgid)),
                     'left'
                 );
             } else {

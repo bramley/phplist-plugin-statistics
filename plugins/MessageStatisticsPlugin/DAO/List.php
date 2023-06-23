@@ -36,9 +36,6 @@ class MessageStatisticsPlugin_DAO_List extends CommonPlugin_DAO_List
         $this->selectStatus = MessageStatisticsPlugin_DAO_Message::MESSAGE_SELECT;
     }
 
-    /*
-     *
-     */
     public function fetchLists($loginid, $start = null, $limit = null)
     {
         $owner = $loginid ? " WHERE l.owner = $loginid" : '';

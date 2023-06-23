@@ -19,7 +19,6 @@
  * @copyright 2011-2023 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
-
 class MessageStatisticsPlugin_Controller_Userviews extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
     private $userDAO;
@@ -29,6 +28,7 @@ class MessageStatisticsPlugin_Controller_Userviews extends MessageStatisticsPlug
         parent::__construct($model);
         $this->userDAO = $userDAO;
     }
+
     /*
      * Implementation of CommonPlugin_IExportable
      */
@@ -68,7 +68,6 @@ class MessageStatisticsPlugin_Controller_Userviews extends MessageStatisticsPlug
     /*
      * Implementation of CommonPlugin_IPopulator
      */
-
     public function populate(WebblerListing $w, $start, $limit)
     {
         /*

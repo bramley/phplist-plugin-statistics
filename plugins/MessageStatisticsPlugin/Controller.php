@@ -125,8 +125,8 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
     {
         return $this->i18n->get(
             'message %s sent to %s',
-            $this->model->msgid  . ' ' . '"' . $this->model->msgSubject . '"',
-            '"' . implode('", "', $this->model->listNames) . '"'
+            sprintf('%s "%s"', $this->model->msgid, $this->model->msgSubject),
+            sprintf('"%s"', implode('", "', $this->model->listNames))
         );
     }
 
