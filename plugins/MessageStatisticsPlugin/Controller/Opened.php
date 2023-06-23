@@ -78,9 +78,9 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
          * Populate the webbler list with users who have opened the message
          */
         $w->setElementHeading($this->i18n->get('subscriber'));
-        $resultIterator = $this->model->fetchMessageOpens($this->isOpened, $start, $limit);
+        $rows = $this->model->fetchMessageOpens($this->isOpened, $start, $limit);
 
-        foreach ($resultIterator as $row) {
+        foreach ($rows as $row) {
             $key = $row['email'];
             $w->addElement($key, new CommonPlugin_PageURL('user', array('id' => $row['userid'])));
 

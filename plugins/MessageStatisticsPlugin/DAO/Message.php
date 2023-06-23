@@ -333,8 +333,22 @@ END;
         return $this->dbCommand->queryOne($sql, 't');
     }
 
-    /*
-     * Methods for message views
+    /**
+     * Query for message opens or not opens.
+     * This has two steps
+     *  - find the subscribers to be returned
+     *  - query for the data for those subscribers
+     *
+     * @param bool   $opened     return message opens or not opens
+     * @param int    $msgid
+     * @param int    $listid
+     * @param array  $attributes
+     * @param string $searchTerm unused
+     * @param string $searchAttr unused
+     * @param int    $start
+     * @param int    $limit
+     *
+     * @return array|DBResultIterator
      */
     public function fetchMessageOpens($opened, $msgid, $listid,
         $attributes, $searchTerm, $searchAttr,
@@ -351,8 +365,30 @@ END;
             $isOpened = 'NULL';
             $order = 'u.email';
         }
+        $sql1 = <<<END
+            SELECT u.id
+            FROM {$this->tables['usermessage']} um
+            JOIN {$this->tables['user']} u ON um.userid = u.id
+            WHERE um.messageid = $msgid
+            AND um.status = 'sent'
+            AND um.viewed IS $isOpened
+            $u_lu_exists
+            ORDER BY $order
+            $limitClause
+END;
 
-        $sql = <<<END
+        if ($limitClause) {
+            // unable to use LIMIT and IN subquery
+            $column = $this->dbCommand->queryColumn($sql1);
+
+            if (count($column) == 0) {
+                return [];
+            }
+            $in = implode(', ', $column);
+        } else {
+            $in = $sql1;
+        }
+        $sql2 = <<<END
             SELECT u.email, um.userid, um.entered, um.viewed,
                 (SELECT COUNT(*)
                 FROM {$this->tables['user_message_view']}
@@ -371,14 +407,11 @@ END;
             JOIN {$this->tables['user']} u ON um.userid = u.id
             $attr_join
             WHERE um.messageid = $msgid
-            AND um.status = 'sent'
-            AND um.viewed IS $isOpened
-            $u_lu_exists
+            AND um.userid IN ($in)
             ORDER BY $order
-            $limitClause
 END;
 
-        return $this->dbCommand->queryAll($sql);
+        return $this->dbCommand->queryAll($sql2);
     }
 
     public function totalMessageOpens($opened, $msgid, $listid, $attributes, $searchTerm, $searchAttr)
