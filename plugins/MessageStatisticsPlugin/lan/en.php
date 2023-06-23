@@ -45,7 +45,11 @@ $lan = array(
 //    Opened.php
     'first view' => 'First view',
     'total views' => 'Total views',
+    'latest view' => 'Latest view',
     'subscriber' => 'Subscriber',
+    'status' => 'Status',
+    'unconfirmed' => 'Unconfirmed',
+    'blacklisted' => 'Blacklisted',
 //    Unopened.php
 //    Bounced.php
     'Bounce ID' => 'Bounce ID',

@@ -360,21 +360,26 @@ END;
 
         if ($opened) {
             $isOpened = 'NOT NULL';
-            $order = 'um.viewed';
+            $order = 'latest_view DESC';
         } else {
             $isOpened = 'NULL';
             $order = 'u.email';
         }
         $sql1 = <<<END
-            SELECT u.id
-            FROM {$this->tables['usermessage']} um
-            JOIN {$this->tables['user']} u ON um.userid = u.id
-            WHERE um.messageid = $msgid
-            AND um.status = 'sent'
-            AND um.viewed IS $isOpened
-            $u_lu_exists
-            ORDER BY $order
-            $limitClause
+            SELECT id
+            FROM (
+                SELECT u.id, MAX(umv.viewed) AS latest_view
+                FROM {$this->tables['usermessage']} um
+                JOIN {$this->tables['user']} u ON um.userid = u.id
+                LEFT JOIN {$this->tables['user_message_view']} umv ON umv.messageid = um.messageid AND umv.userid = um.userid
+                WHERE um.messageid = $msgid
+                AND um.status = 'sent'
+                AND um.viewed IS $isOpened
+                $u_lu_exists
+                GROUP BY um.userid
+                ORDER BY $order
+                $limitClause
+            ) AS t1
 END;
 
         if ($limitClause) {
@@ -389,7 +394,11 @@ END;
             $in = $sql1;
         }
         $sql2 = <<<END
-            SELECT u.email, um.userid, um.entered, um.viewed,
+            SELECT u.email, u.confirmed, u.blacklisted, um.userid, um.entered, um.viewed,
+                (SELECT MAX(viewed)
+                FROM {$this->tables['user_message_view']}
+                WHERE messageid = um.messageid AND userid = um.userid
+                ) AS latest_view,
                 (SELECT COUNT(*)
                 FROM {$this->tables['user_message_view']}
                 WHERE messageid = um.messageid AND userid = um.userid

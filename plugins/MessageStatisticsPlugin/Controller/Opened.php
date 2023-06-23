@@ -26,6 +26,8 @@
  *
  * @category  phplist
  */
+use phpList\plugin\Common\ImageTag;
+
 class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
     private $isOpened = true;
@@ -45,6 +47,8 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
         foreach ($this->model->selectedAttrs as $attr) {
             $fields[] = $this->model->attributes[$attr]['name'];
         }
+        $fields[] = $this->i18n->get('status');
+        $fields[] = $this->i18n->get('latest view');
         $fields[] = $this->i18n->get('first view');
         $fields[] = $this->i18n->get('total views');
         $fields[] = $this->i18n->get('links clicked');
@@ -60,6 +64,16 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
         foreach ($this->model->selectedAttrs as $attr) {
             $values[] = $row["attr{$attr}"];
         }
+
+        if ($row['blacklisted']) {
+            $status = $this->i18n->get('blacklisted');
+        } elseif (!$row['confirmed']) {
+            $status = $this->i18n->get('unconfirmed');
+        } else {
+            $status = '';
+        }
+        $values[] = $status;
+        $values[] = $row['latest_view'];
         $values[] = $row['viewed'];
         $values[] = $row['total_views'];
         $values[] = $row['links_clicked'];
@@ -87,6 +101,15 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
             foreach ($this->model->selectedAttrs as $attr) {
                 $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
             }
+            if ($row['blacklisted']) {
+                $status = new ImageTag('user.png', $this->i18n->get('blacklisted'));
+            } elseif (!$row['confirmed']) {
+                $status = new ImageTag('no.png', $this->i18n->get('unconfirmed'));
+            } else {
+                $status = '';
+            }
+            $w->addColumnHtml($key, $this->i18n->get('status'), $status);
+            $w->addColumn($key, $this->i18n->get('latest view'), $row['latest_view'] ? formatDateTime($row['latest_view']) : '');
             $w->addColumn($key, $this->i18n->get('first view'), formatDateTime($row['viewed']));
             $url = new CommonPlugin_PageURL(
                 null, ['type' => 'userviews', 'userid' => $row['userid'], 'msgid' => $this->model->msgid]
