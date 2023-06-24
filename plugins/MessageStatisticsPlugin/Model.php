@@ -44,8 +44,6 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         'msgid' => null,
         'forwardid' => null,
         'selectedAttrs' => array(),
-        'searchTerm' => null,
-        'searchBy' => null,
         'fromdate' => null,
         'todate' => null,
         'userid' => null,
@@ -177,48 +175,32 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 
     public function fetchMessageOpens($isOpened, $start = null, $limit = null)
     {
-        return $this->messageDAO->fetchMessageOpens(
-            $isOpened, $this->msgid, $this->listid, $this->attributes,
-            $this->searchTerm, $this->searchBy, $start, $limit
-        );
+        return $this->messageDAO->fetchMessageOpens($isOpened, $this->msgid, $this->listid, $this->attributes, $start, $limit);
     }
 
     public function totalMessageOpens($isOpened)
     {
-        return $this->messageDAO->totalMessageOpens(
-            $isOpened, $this->msgid, $this->listid, $this->attributes, $this->searchTerm, $this->searchBy
-        );
+        return $this->messageDAO->totalMessageOpens($isOpened, $this->msgid, $this->listid, $this->attributes);
     }
 
     public function fetchMessageClicks($start = null, $limit = null)
     {
-        return $this->messageDAO->fetchMessageClicks(
-            $this->msgid, $this->listid, $this->attributes,
-            $this->searchTerm, $this->searchBy, $start, $limit
-        );
+        return $this->messageDAO->fetchMessageClicks($this->msgid, $this->listid, $this->attributes, $start, $limit);
     }
 
-    public function totalMessageClicks($msgID = null)
+    public function totalMessageClicks()
     {
-        return $this->messageDAO->totalMessageClicks(
-            is_null($msgID) ? $this->msgid : $msgID, $this->listid, $this->attributes,
-            $this->searchTerm, $this->searchBy
-        );
+        return $this->messageDAO->totalMessageClicks($this->msgid, $this->listid, $this->attributes);
     }
 
     public function fetchMessageBounces($start = null, $limit = null)
     {
-        return $this->messageDAO->fetchMessageBounces(
-            $this->msgid, $this->listid, $this->attributes, $this->searchTerm, $this->searchBy,
-            $start, $limit
-        );
+        return $this->messageDAO->fetchMessageBounces($this->msgid, $this->listid, $this->attributes, $start, $limit);
     }
 
     public function totalMessageBounces()
     {
-        return $this->messageDAO->totalMessageBounces(
-            $this->msgid, $this->listid, $this->attributes, $this->searchTerm, $this->searchBy
-        );
+        return $this->messageDAO->totalMessageBounces($this->msgid, $this->listid, $this->attributes);
     }
 
     public function fetchMessage($excludeRegex)
@@ -263,17 +245,12 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 
     public function fetchMessageForwards($start = null, $limit = null)
     {
-        return $this->messageDAO->fetchMessageForwards(
-            $this->msgid, $this->listid, $this->attributes, $this->searchTerm, $this->searchBy,
-            $start, $limit
-        );
+        return $this->messageDAO->fetchMessageForwards($this->msgid, $this->listid, $this->attributes, $start, $limit);
     }
 
     public function totalMessageForwards()
     {
-        return $this->messageDAO->totalMessageForwards(
-            $this->msgid, $this->listid, $this->attributes, $this->searchTerm, $this->searchBy
-        );
+        return $this->messageDAO->totalMessageForwards($this->msgid, $this->listid, $this->attributes);
     }
 
     public function latestMessage($listid = null)
@@ -298,15 +275,12 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 
     public function linkClicks($start = null, $limit = null)
     {
-        return $this->messageDAO->linkClicks($this->forwardid, $this->msgid, $this->listid,
-            $this->attributes, $this->searchTerm, $this->searchBy, $start, $limit);
+        return $this->messageDAO->linkClicks($this->forwardid, $this->msgid, $this->listid, $this->attributes, $start, $limit);
     }
 
     public function totalLinkClicks()
     {
-        return $this->messageDAO->totalLinkClicks($this->forwardid, $this->msgid, $this->listid,
-            $this->attributes, $this->searchTerm, $this->searchBy
-        );
+        return $this->messageDAO->totalLinkClicks($this->forwardid, $this->msgid, $this->listid, $this->attributes);
     }
 
     public function linkUrl()

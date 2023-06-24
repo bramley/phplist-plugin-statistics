@@ -57,7 +57,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
         return is_null($start) ? '' : "LIMIT $start, $limit";
     }
 
-    private function userAttributeJoin($attributes, $searchTerm, $searchAttr)
+    private function userAttributeJoin($attributes, $searchTerm = '', $searchAttr = '')
     {
         global $tables;
         global $table_prefix;
@@ -272,7 +272,7 @@ END;
         return array($prev, $next);
     }
 
-    public function fetchMessages($listId, $loginid, $fromDate, $toDate, $ascOrder = false, $start = null, $limit = null)
+    public function fetchMessages($listId, $loginid, $fromDate, $toDate, $ascOrder, $start, $limit)
     {
         $owner_and = $loginid ? "AND owner = $loginid" : '';
         $fromDateCondition = $fromDate ? "AND '$fromDate' <= DATE(m.sent)" : '';
@@ -339,22 +339,18 @@ END;
      *  - find the subscribers to be returned
      *  - query for the data for those subscribers.
      *
-     * @param bool   $opened     return message opens or not opens
-     * @param int    $msgid
-     * @param int    $listid
-     * @param array  $attributes
-     * @param string $searchTerm unused
-     * @param string $searchAttr unused
-     * @param int    $start
-     * @param int    $limit
+     * @param bool  $opened     return message opens or not opens
+     * @param int   $msgid
+     * @param int   $listid
+     * @param array $attributes
+     * @param int   $start
+     * @param int   $limit
      *
      * @return array|DBResultIterator
      */
-    public function fetchMessageOpens($opened, $msgid, $listid,
-        $attributes, $searchTerm, $searchAttr,
-        $start = null, $limit = null)
+    public function fetchMessageOpens($opened, $msgid, $listid, $attributes, $start, $limit)
     {
-        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
+        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes);
         $limitClause = $this->limitClause($start, $limit);
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
 
@@ -423,26 +419,18 @@ END;
         return $this->dbCommand->queryAll($sql2);
     }
 
-    public function totalMessageOpens($opened, $msgid, $listid, $attributes, $searchTerm, $searchAttr)
+    public function totalMessageOpens($opened, $msgid, $listid, $attributes)
     {
         if ($opened) {
             $isOpened = 'NOT NULL';
         } else {
             $isOpened = 'NULL';
         }
-
-        if ($searchTerm) {
-            list($attr_join) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-        } else {
-            $attr_join = '';
-        }
-
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
         $sql =
             "SELECT COUNT(*) AS t
             FROM {$this->tables['usermessage']} um
             JOIN {$this->tables['user']} u ON um.userid = u.id
-            $attr_join
             WHERE um.messageid = $msgid
             AND um.status = 'sent'
             AND um.viewed IS $isOpened
@@ -455,9 +443,9 @@ END;
     /*
      * Methods for message clicks
      */
-    public function fetchMessageClicks($msgid, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
+    public function fetchMessageClicks($msgid, $listid, $attributes, $start, $limit)
     {
-        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
+        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes);
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
         $limitClause = $this->limitClause($start, $limit);
 
@@ -479,21 +467,14 @@ END;
         return $this->dbCommand->queryAll($sql);
     }
 
-    public function totalMessageClicks($msgid, $listid, $attributes, $searchTerm, $searchAttr)
+    public function totalMessageClicks($msgid, $listid, $attributes)
     {
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
-
-        if ($searchTerm) {
-            list($attr_join) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-        } else {
-            $attr_join = '';
-        }
 
         $sql =
             "SELECT COUNT(DISTINCT uml.userid) as t
             FROM {$this->tables['linktrack_uml_click']} uml
             LEFT JOIN {$this->tables['user']} u ON uml.userid = u.id
-            $attr_join
             WHERE uml.messageid = $msgid
             AND EXISTS (
                 SELECT 1 from {$this->tables['usermessage']} um
@@ -507,9 +488,9 @@ END;
     /*
      * Methods for message bounces
      */
-    public function fetchMessageBounces($mid, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
+    public function fetchMessageBounces($mid, $listid, $attributes, $start, $limit)
     {
-        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
+        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes);
         $umb_lu_exists = $this->xx_lu_exists('umb.user', $listid);
         $limitClause = $this->limitClause($start, $limit);
 
@@ -529,21 +510,14 @@ END;
         return $this->dbCommand->queryAll($sql);
     }
 
-    public function totalMessageBounces($mid, $listid, $attributes, $searchTerm, $searchAttr)
+    public function totalMessageBounces($mid, $listid, $attributes)
     {
         $umb_lu_exists = $this->xx_lu_exists('umb.user', $listid);
-
-        if ($searchTerm) {
-            list($attr_join) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-        } else {
-            $attr_join = '';
-        }
 
         $sql =
            "SELECT COUNT(umb.user) AS t
             FROM {$this->tables['user_message_bounce']} AS umb
             JOIN {$this->tables['user']} AS u ON umb.user = u.id
-            $attr_join
             WHERE umb.message = $mid
             AND EXISTS (
                 SELECT 1 FROM {$this->tables['usermessage']} um
@@ -557,9 +531,9 @@ END;
     /*
      * Methods for message forwards
      */
-    public function fetchMessageForwards($mid, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
+    public function fetchMessageForwards($mid, $listid, $attributes, $start, $limit)
     {
-        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
+        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes);
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
         $limitClause = $this->limitClause($start, $limit);
 
@@ -580,21 +554,13 @@ END;
         return $this->dbCommand->queryAll($sql);
     }
 
-    public function totalMessageForwards($mid, $listid, $attributes, $searchTerm, $searchAttr)
+    public function totalMessageForwards($mid, $listid, $attributes)
     {
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
-
-        if ($searchTerm) {
-            list($attr_join) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-        } else {
-            $attr_join = '';
-        }
-
         $sql =
            "SELECT COUNT(DISTINCT umf.user) AS t
             FROM {$this->tables['user_message_forward']} AS umf
             JOIN {$this->tables['user']} AS u ON umf.user = u.id
-            $attr_join
             WHERE umf.message = $mid
             AND EXISTS (
                 SELECT 1 FROM {$this->tables['usermessage']} um
@@ -608,7 +574,7 @@ END;
     /*
      * Methods for domains
      */
-    public function messageByDomain($msgID, $listid, $start = null, $limit = null)
+    public function messageByDomain($msgID, $listid, $start, $limit)
     {
         $listuser_join = $this->u_lu_join($listid);
         $limitClause = $this->limitClause($start, $limit);
@@ -694,7 +660,7 @@ END;
         return array($prev, $next);
     }
 
-    public function links($msgID, $listid, $start = null, $limit = null)
+    public function links($msgID, $listid, $start, $limit)
     {
         $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listid);
         $um_lu_exists = $this->xx_lu_exists('um.userid', $listid);
@@ -741,9 +707,9 @@ END;
     /*
      * Methods for link clicks
      */
-    public function linkClicks($forwardId, $msgID, $listid, $attributes, $searchTerm, $searchAttr, $start = null, $limit = null)
+    public function linkClicks($forwardId, $msgID, $listid, $attributes, $start, $limit)
     {
-        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
+        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes);
         $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listid);
         $limitClause = $this->limitClause($start, $limit);
 
@@ -767,19 +733,13 @@ END;
         return $this->dbCommand->queryAll($sql);
     }
 
-    public function totalLinkClicks($forwardId, $msgID, $listid, $attributes, $searchTerm, $searchAttr)
+    public function totalLinkClicks($forwardId, $msgID, $listid, $attributes)
     {
-        if ($searchTerm) {
-            list($attr_join) = $this->userAttributeJoin($attributes, $searchTerm, $searchAttr);
-        } else {
-            $attr_join = '';
-        }
         $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listid);
         $sql =
             "SELECT COUNT(*) as t
             FROM {$this->tables['linktrack_uml_click']} uml
             JOIN {$this->tables['user']} AS u ON uml.userid = u.id
-            $attr_join
             WHERE uml.messageid = $msgID
             AND uml.forwardid = $forwardId
             $uml_lu_exists
