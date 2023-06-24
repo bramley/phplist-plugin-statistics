@@ -377,18 +377,6 @@ END;
                 $limitClause
             ) AS t1
 END;
-
-        if ($limitClause) {
-            // unable to use LIMIT and IN subquery
-            $column = $this->dbCommand->queryColumn($sql1);
-
-            if (count($column) == 0) {
-                return [];
-            }
-            $in = implode(', ', $column);
-        } else {
-            $in = $sql1;
-        }
         $sql2 = <<<END
             SELECT u.email, u.confirmed, u.blacklisted, um.userid, um.entered, um.viewed,
                 (SELECT MAX(viewed)
@@ -412,7 +400,7 @@ END;
             JOIN {$this->tables['user']} u ON um.userid = u.id
             $attr_join
             WHERE um.messageid = $msgid
-            AND um.userid IN ($in)
+            AND um.userid IN ($sql1)
             ORDER BY $order
 END;
 
@@ -660,36 +648,65 @@ END;
         return array($prev, $next);
     }
 
+    public function messageTotalSent($msgID, $listid)
+    {
+        $um_lu_exists = $this->xx_lu_exists('um.userid', $listid);
+
+        $sql = <<<END
+            SELECT COUNT(userid) AS total_sent
+            FROM {$this->tables['usermessage']} um
+            WHERE um.messageid = $msgID
+            AND um.status = 'sent'
+            $um_lu_exists
+END;
+
+        return $this->dbCommand->queryOne($sql);
+    }
+
     public function links($msgID, $listid, $start, $limit)
     {
         $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listid);
         $um_lu_exists = $this->xx_lu_exists('um.userid', $listid);
-        $limitClause = $this->limitClause($start, $limit);
 
-        $sql =
-            "SELECT
+        if ($start !== null) {
+            // find the URLs to be used in the main query
+            $limitClause = $this->limitClause($start, $limit);
+            $sql1 = <<<END
+            SELECT forwardid
+            FROM (
+                SELECT
+                    ml.forwardid
+                FROM {$this->tables['linktrack_ml']} ml
+                JOIN {$this->tables['linktrack_forward']} fw ON fw.id = ml.forwardid
+                WHERE ml.messageid = $msgID
+                ORDER BY fw.url
+                $limitClause
+            ) AS t1
+END;
+            $in = sprintf('AND lt.forwardid IN (%s)', $sql1);
+        } else {
+            $in = '';
+        }
+        $sql2 = <<<END
+            SELECT
                 fw.url,
                 fw.id AS forwardid,
                 fw.personalise,
                 MIN(uml.firstclick) AS firstclick,
                 MAX(uml.latestclick) AS latestclick,
                 COALESCE(SUM(uml.clicked), 0) AS numclicks,
-                    (SELECT COUNT(userid)
-                    FROM {$this->tables['usermessage']} um
-                    WHERE um.messageid = lt.messageid
-                    AND um.status = 'sent'
-                    $um_lu_exists
-                    ) AS totalsent,
                 COALESCE(COUNT(uml.userid), 0) as usersclicked
             FROM {$this->tables['linktrack_ml']} lt
             JOIN {$this->tables['linktrack_forward']} fw ON fw.id = lt.forwardid
-            LEFT JOIN {$this->tables['linktrack_uml_click']} uml ON uml.messageid = lt.messageid AND uml.forwardid = lt.forwardid $uml_lu_exists
+            LEFT JOIN {$this->tables['linktrack_uml_click']} uml ON uml.messageid = lt.messageid AND uml.forwardid = lt.forwardid
+            $uml_lu_exists
             WHERE lt.messageid = $msgID
+            $in
             GROUP BY lt.forwardid
             ORDER BY fw.url
-            $limitClause";
+END;
 
-        return $this->dbCommand->queryAll($sql);
+        return $this->dbCommand->queryAll($sql2);
     }
 
     public function totalLinks($msgID, $listid)

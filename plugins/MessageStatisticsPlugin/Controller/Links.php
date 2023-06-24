@@ -27,9 +27,13 @@
  *
  * @category  phplist
  */
+use phpList\plugin\Common\IExportable;
+
 class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
     protected $itemsPerPage = array(array(15, 25), 15);
+
+    private $totalSent;
 
     /*
      * Implementation of CommonPlugin_IExportable
@@ -51,7 +55,7 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
         return array(
             $row['url'],
             $row['usersclicked'],
-            $this->calculateRate($row['usersclicked'], $row['totalsent']),
+            $this->calculateRate($row['usersclicked'], $this->totalsent),
             $row['numclicks'],
             $row['firstclick'],
             $row['numclicks'] > 1 ? $row['latestclick'] : '',
@@ -67,7 +71,7 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
          * Populates the webbler list with link details
          */
         $w->setElementHeading('URL');
-
+        $totalSent = $this->model->messageTotalSent();
         $resultSet = $this->model->links($start, $limit);
         $query = array(
             'listid' => $this->model->listid,
@@ -100,7 +104,7 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
                 $key,
                 $this->i18n->get('subscribers'),
                 $row['usersclicked'] > 0
-                    ? sprintf('%d (%s%%)', $row['usersclicked'], $this->calculateRate($row['usersclicked'], $row['totalsent']))
+                    ? sprintf('%d (%s%%)', $row['usersclicked'], $this->calculateRate($row['usersclicked'], $totalSent))
                     : 0
             );
             $w->addColumn($key, $this->i18n->get('total clicks'), $row['numclicks']);
@@ -112,5 +116,12 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
     public function total()
     {
         return $this->model->totalLinks();
+    }
+
+    protected function actionExportCSV(IExportable $exportable = null)
+    {
+        $this->totalSent = $this->model->messageTotalSent();
+
+        parent::actionExportCSV($exportable);
     }
 }

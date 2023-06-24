@@ -273,6 +273,11 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         return $this->messageDAO->totalLinks($this->msgid, $this->listid);
     }
 
+    public function messageTotalSent()
+    {
+        return $this->messageDAO->messageTotalSent($this->msgid, $this->listid);
+    }
+
     public function linkClicks($start = null, $limit = null)
     {
         return $this->messageDAO->linkClicks($this->forwardid, $this->msgid, $this->listid, $this->attributes, $start, $limit);
