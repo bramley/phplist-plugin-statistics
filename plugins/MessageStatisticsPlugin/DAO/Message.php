@@ -334,33 +334,25 @@ END;
     }
 
     /**
-     * Query for message opens or not opens.
+     * Query for message opens.
      * This has two steps
-     *  - find the subscribers to be returned
+     *  - subquery to find the subscribers
      *  - query for the data for those subscribers.
      *
-     * @param bool  $opened     return message opens or not opens
      * @param int   $msgid
      * @param int   $listid
      * @param array $attributes
      * @param int   $start
      * @param int   $limit
      *
-     * @return array|DBResultIterator
+     * @return DBResultIterator
      */
-    public function fetchMessageOpens($opened, $msgid, $listid, $attributes, $start, $limit)
+    public function fetchMessageOpens($msgid, $listid, $attributes, $start, $limit)
     {
         list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes);
         $limitClause = $this->limitClause($start, $limit);
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
 
-        if ($opened) {
-            $isOpened = 'NOT NULL';
-            $order = 'latest_view DESC';
-        } else {
-            $isOpened = 'NULL';
-            $order = 'u.email';
-        }
         $sql1 = <<<END
             SELECT id
             FROM (
@@ -370,10 +362,10 @@ END;
                 LEFT JOIN {$this->tables['user_message_view']} umv ON umv.messageid = um.messageid AND umv.userid = um.userid
                 WHERE um.messageid = $msgid
                 AND um.status = 'sent'
-                AND um.viewed IS $isOpened
+                AND um.viewed IS NOT NULL
                 $u_lu_exists
                 GROUP BY um.userid
-                ORDER BY $order
+                ORDER BY latest_view DESC
                 $limitClause
             ) AS t1
 END;
@@ -401,19 +393,14 @@ END;
             $attr_join
             WHERE um.messageid = $msgid
             AND um.userid IN ($sql1)
-            ORDER BY $order
+            ORDER BY latest_view DESC
 END;
 
         return $this->dbCommand->queryAll($sql2);
     }
 
-    public function totalMessageOpens($opened, $msgid, $listid, $attributes)
+    public function totalMessageOpens($msgid, $listid)
     {
-        if ($opened) {
-            $isOpened = 'NOT NULL';
-        } else {
-            $isOpened = 'NULL';
-        }
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
         $sql =
             "SELECT COUNT(*) AS t
@@ -421,7 +408,71 @@ END;
             JOIN {$this->tables['user']} u ON um.userid = u.id
             WHERE um.messageid = $msgid
             AND um.status = 'sent'
-            AND um.viewed IS $isOpened
+            AND um.viewed IS NOT NULL
+            $u_lu_exists
+            ";
+
+        return $this->dbCommand->queryOne($sql, 't');
+    }
+
+    /**
+     * Query for message not opens.
+     * This has two steps
+     *  - subquery to find the subscribers
+     *  - query for the data for those subscribers.
+     *
+     * @param int   $msgid
+     * @param int   $listid
+     * @param array $attributes
+     * @param int   $start
+     * @param int   $limit
+     *
+     * @return DBResultIterator
+     */
+    public function fetchMessageNotOpens($msgid, $listid, $attributes, $start, $limit)
+    {
+        list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes);
+        $limitClause = $this->limitClause($start, $limit);
+        $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
+
+        $sql1 = <<<END
+            SELECT id
+            FROM (
+                SELECT u.id
+                FROM {$this->tables['usermessage']} um
+                JOIN {$this->tables['user']} u ON um.userid = u.id
+                WHERE um.messageid = $msgid
+                AND um.status = 'sent'
+                AND um.viewed IS NULL
+                $u_lu_exists
+                ORDER BY u.email
+                $limitClause
+            ) AS t1
+END;
+        $sql2 = <<<END
+            SELECT u.email, u.confirmed, u.blacklisted, um.userid, um.entered, um.viewed
+                $attr_fields
+            FROM {$this->tables['usermessage']} um
+            JOIN {$this->tables['user']} u ON um.userid = u.id
+            $attr_join
+            WHERE um.messageid = $msgid
+            AND um.userid IN ($sql1)
+            ORDER BY u.email
+END;
+
+        return $this->dbCommand->queryAll($sql2);
+    }
+
+    public function totalMessageNotOpens($msgid, $listid)
+    {
+        $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
+        $sql =
+            "SELECT COUNT(*) AS t
+            FROM {$this->tables['usermessage']} um
+            JOIN {$this->tables['user']} u ON um.userid = u.id
+            WHERE um.messageid = $msgid
+            AND um.status = 'sent'
+            AND um.viewed IS NULL
             $u_lu_exists
             ";
 

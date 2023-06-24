@@ -173,14 +173,24 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         }
     }
 
-    public function fetchMessageOpens($isOpened, $start = null, $limit = null)
+    public function fetchMessageOpens($start = null, $limit = null)
     {
-        return $this->messageDAO->fetchMessageOpens($isOpened, $this->msgid, $this->listid, $this->attributes, $start, $limit);
+        return $this->messageDAO->fetchMessageOpens($this->msgid, $this->listid, $this->attributes, $start, $limit);
     }
 
-    public function totalMessageOpens($isOpened)
+    public function totalMessageOpens()
     {
-        return $this->messageDAO->totalMessageOpens($isOpened, $this->msgid, $this->listid, $this->attributes);
+        return $this->messageDAO->totalMessageOpens($this->msgid, $this->listid);
+    }
+
+    public function fetchMessageNotOpens($start = null, $limit = null)
+    {
+        return $this->messageDAO->fetchMessageNotOpens($this->msgid, $this->listid, $this->attributes, $start, $limit);
+    }
+
+    public function totalMessageNotOpens()
+    {
+        return $this->messageDAO->totalMessageNotOpens($this->msgid, $this->listid);
     }
 
     public function fetchMessageClicks($start = null, $limit = null)

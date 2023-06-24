@@ -30,14 +30,12 @@ use phpList\plugin\Common\ImageTag;
 
 class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
-    private $isOpened = true;
-
     /*
      * Implementation of CommonPlugin_IExportable
      */
     public function exportRows()
     {
-        return $this->model->fetchMessageOpens($this->isOpened);
+        return $this->model->fetchMessageOpens();
     }
 
     public function exportFieldNames()
@@ -92,7 +90,7 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
          * Populate the webbler list with users who have opened the message
          */
         $w->setElementHeading($this->i18n->get('subscriber'));
-        $rows = $this->model->fetchMessageOpens($this->isOpened, $start, $limit);
+        $rows = $this->model->fetchMessageOpens($start, $limit);
 
         foreach ($rows as $row) {
             $key = $row['email'];
@@ -128,6 +126,6 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
         /*
          * Returns the total number of records to be displayed
          */
-        return $this->model->totalMessageOpens($this->isOpened);
+        return $this->model->totalMessageOpens();
     }
 }

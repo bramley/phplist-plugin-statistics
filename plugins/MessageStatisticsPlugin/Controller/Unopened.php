@@ -29,14 +29,12 @@
  */
 class MessageStatisticsPlugin_Controller_Unopened extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
 {
-    private $isOpened = false;
-
     /*
      * Implementation of CommonPlugin_IExportable
      */
     public function exportRows()
     {
-        return $this->model->fetchMessageOpens($this->isOpened);
+        return $this->model->fetchMessageNotOpens();
     }
 
     public function exportFieldNames()
@@ -71,7 +69,7 @@ class MessageStatisticsPlugin_Controller_Unopened extends MessageStatisticsPlugi
          * Populate the webbler list with users who have not opened the message
          */
         $w->setElementHeading($this->i18n->get('subscriber'));
-        $resultIterator = $this->model->fetchMessageOpens($this->isOpened, $start, $limit);
+        $resultIterator = $this->model->fetchMessageNotOpens($start, $limit);
 
         foreach ($resultIterator as $row) {
             $key = $row['email'];
@@ -88,6 +86,6 @@ class MessageStatisticsPlugin_Controller_Unopened extends MessageStatisticsPlugi
         /*
          * Returns the total number of records to be displayed
          */
-        return $this->model->totalMessageOpens($this->isOpened);
+        return $this->model->totalMessageNotOpens();
     }
 }
