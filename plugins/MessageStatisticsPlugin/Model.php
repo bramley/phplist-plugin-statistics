@@ -35,6 +35,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
     private $listDAO;
     private $attributeDAO;
     private $owner;
+    private $referencedAttributes;
     /*
      *    Inherited protected variables
      */
@@ -47,8 +48,8 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         'fromdate' => null,
         'todate' => null,
         'userid' => null,
-        'minViews' => 0,
-        'minClicks' => 0,
+        'minViews' => '',
+        'minClicks' => '',
     );
     protected $persist = array(
         'listid' => '',
@@ -102,6 +103,10 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         $this->access = accessLevel('mviews');
         $this->owner = ($this->access == 'owner') ? $_SESSION['logindetails']['id'] : '';
         $this->verifySelectedAttributes();
+        $this->referencedAttributes = array_intersect_key(
+            $this->attributes,
+            array_flip($this->selectedAttrs)
+        );
     }
 
     public function validateProperties()
@@ -179,7 +184,7 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 
     public function fetchMessageOpens($start = null, $limit = null)
     {
-        return $this->messageDAO->fetchMessageOpens($this->msgid, $this->listid, $this->attributes, $this->minViews, $this->minClicks, $start, $limit);
+        return $this->messageDAO->fetchMessageOpens($this->msgid, $this->listid, $this->referencedAttributes, $this->minViews, $this->minClicks, $start, $limit);
     }
 
     public function totalMessageOpens()
