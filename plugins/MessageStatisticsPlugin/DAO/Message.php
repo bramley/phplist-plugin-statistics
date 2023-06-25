@@ -717,28 +717,27 @@ END;
     public function links($msgID, $listid, $start, $limit)
     {
         $uml_lu_exists = $this->xx_lu_exists('uml.userid', $listid);
-        $um_lu_exists = $this->xx_lu_exists('um.userid', $listid);
 
         if ($start !== null) {
             // find the URLs to be used in the main query
             $limitClause = $this->limitClause($start, $limit);
-            $sql1 = <<<END
-            SELECT forwardid
-            FROM (
-                SELECT
-                    ml.forwardid
-                FROM {$this->tables['linktrack_ml']} ml
-                JOIN {$this->tables['linktrack_forward']} fw ON fw.id = ml.forwardid
-                WHERE ml.messageid = $msgID
-                ORDER BY fw.url
-                $limitClause
-            ) AS t1
+            $in = <<<END
+            AND ml.forwardid IN (
+                SELECT forwardid
+                FROM (
+                    SELECT ml2.forwardid
+                    FROM {$this->tables['linktrack_ml']} ml2
+                    JOIN {$this->tables['linktrack_forward']} fw ON fw.id = ml2.forwardid
+                    WHERE ml2.messageid = $msgID
+                    ORDER BY fw.url
+                    $limitClause
+                ) AS t1
+            )
 END;
-            $in = sprintf('AND lt.forwardid IN (%s)', $sql1);
         } else {
             $in = '';
         }
-        $sql2 = <<<END
+        $sql = <<<END
             SELECT
                 fw.url,
                 fw.id AS forwardid,
@@ -747,17 +746,17 @@ END;
                 MAX(uml.latestclick) AS latestclick,
                 COALESCE(SUM(uml.clicked), 0) AS numclicks,
                 COALESCE(COUNT(uml.userid), 0) as usersclicked
-            FROM {$this->tables['linktrack_ml']} lt
-            JOIN {$this->tables['linktrack_forward']} fw ON fw.id = lt.forwardid
-            LEFT JOIN {$this->tables['linktrack_uml_click']} uml ON uml.messageid = lt.messageid AND uml.forwardid = lt.forwardid
+            FROM {$this->tables['linktrack_ml']} ml
+            JOIN {$this->tables['linktrack_forward']} fw ON fw.id = ml.forwardid
+            LEFT JOIN {$this->tables['linktrack_uml_click']} uml ON uml.messageid = ml.messageid AND uml.forwardid = ml.forwardid
             $uml_lu_exists
-            WHERE lt.messageid = $msgID
+            WHERE ml.messageid = $msgID
             $in
-            GROUP BY lt.forwardid
+            GROUP BY ml.forwardid
             ORDER BY fw.url
 END;
 
-        return $this->dbCommand->queryAll($sql2);
+        return $this->dbCommand->queryAll($sql);
     }
 
     public function totalLinks($msgID, $listid)
