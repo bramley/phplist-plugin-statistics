@@ -347,7 +347,7 @@ END;
      *
      * @return DBResultIterator
      */
-    public function fetchMessageOpens($msgid, $listid, $attributes, $start, $limit)
+    public function fetchMessageOpens($msgid, $listid, $attributes, $minViews, $minClicks, $start, $limit)
     {
         list($attr_join, $attr_fields) = $this->userAttributeJoin($attributes);
         $limitClause = $this->limitClause($start, $limit);
@@ -365,6 +365,7 @@ END;
                 AND um.viewed IS NOT NULL
                 $u_lu_exists
                 GROUP BY um.userid
+                HAVING COUNT(umv.viewed) >= $minViews
                 ORDER BY latest_view DESC
                 $limitClause
             ) AS t1
@@ -399,20 +400,26 @@ END;
         return $this->dbCommand->queryAll($sql2);
     }
 
-    public function totalMessageOpens($msgid, $listid)
+    public function totalMessageOpens($msgid, $listid, $minViews, $minClicks)
     {
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
-        $sql =
-            "SELECT COUNT(*) AS t
-            FROM {$this->tables['usermessage']} um
-            JOIN {$this->tables['user']} u ON um.userid = u.id
-            WHERE um.messageid = $msgid
-            AND um.status = 'sent'
-            AND um.viewed IS NOT NULL
-            $u_lu_exists
-            ";
+        $sql = <<<END
+            SELECT COUNT(*)
+            FROM (
+                SELECT um.userid
+                FROM {$this->tables['usermessage']} um
+                JOIN {$this->tables['user']} u ON um.userid = u.id
+                LEFT JOIN {$this->tables['user_message_view']} umv ON umv.messageid = um.messageid AND umv.userid = um.userid
+                WHERE um.messageid = $msgid
+                AND um.status = 'sent'
+                AND um.viewed IS NOT NULL
+                $u_lu_exists
+                GROUP BY um.userid
+                HAVING COUNT(umv.viewed) >= $minViews
+            ) AS t1
+END;
 
-        return $this->dbCommand->queryOne($sql, 't');
+        return $this->dbCommand->queryOne($sql);
     }
 
     /**

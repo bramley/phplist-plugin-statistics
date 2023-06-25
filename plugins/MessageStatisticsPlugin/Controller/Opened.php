@@ -128,4 +128,25 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
          */
         return $this->model->totalMessageOpens();
     }
+
+    protected function filterForm()
+    {
+        $minimumViews = CHtml::textField('SearchForm[minViews]', $this->model->minViews);
+        $minimumClicks = CHtml::textField('SearchForm[minClicks]', $this->model->minClicks);
+        $minimumViewsCaption = $this->i18n->get('Minimum views');
+        $minimumClicksCaption = $this->i18n->get('Minimum clicks');
+
+        $action = $_SERVER['REQUEST_URI'];
+        $form = <<<END
+<form action="$action" method="POST">
+    <label>$minimumViewsCaption</label> $minimumViews
+    <!-- <label>$minimumClicksCaption</label> $minimumClicks -->
+    <input type="submit" name="SearchForm[submit]" value="{$this->i18n->get('Submit')}" />
+</form>
+END;
+        $panel = new UIPanel('', $form);
+
+        return $panel->display();
+    }
+
 }

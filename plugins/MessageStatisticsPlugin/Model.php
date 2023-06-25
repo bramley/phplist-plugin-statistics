@@ -47,6 +47,8 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         'fromdate' => null,
         'todate' => null,
         'userid' => null,
+        'minViews' => 0,
+        'minClicks' => 0,
     );
     protected $persist = array(
         'listid' => '',
@@ -55,6 +57,8 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         'searchBy' => '',
         'fromdate' => null,
         'todate' => null,
+        'minViews' => '',
+        'minClicks' => '',
     );
     /*
      *    Public variables
@@ -175,12 +179,12 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 
     public function fetchMessageOpens($start = null, $limit = null)
     {
-        return $this->messageDAO->fetchMessageOpens($this->msgid, $this->listid, $this->attributes, $start, $limit);
+        return $this->messageDAO->fetchMessageOpens($this->msgid, $this->listid, $this->attributes, $this->minViews, $this->minClicks, $start, $limit);
     }
 
     public function totalMessageOpens()
     {
-        return $this->messageDAO->totalMessageOpens($this->msgid, $this->listid);
+        return $this->messageDAO->totalMessageOpens($this->msgid, $this->listid, $this->minViews, $this->minClicks);
     }
 
     public function fetchMessageNotOpens($start = null, $limit = null)

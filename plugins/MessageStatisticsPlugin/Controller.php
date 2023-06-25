@@ -188,6 +188,9 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
                     $params['chart_div'] = 'chart_div';
                     $params['chart'] = $this->createChart($params['chart_div']);
                 } else {
+                    if ($this instanceof MessageStatisticsPlugin_Controller_Opened) {
+                        $params['form'] = $this->filterForm();
+                    }
                     $params['listing'] = $listing->display();
                 }
             }
