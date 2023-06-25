@@ -354,21 +354,37 @@ END;
         $u_lu_exists = $this->xx_lu_exists('u.id', $listid);
 
         $sql1 = <<<END
-            SELECT id
+            SELECT userid
             FROM (
-                SELECT u.id, MAX(umv.viewed) AS latest_view
-                FROM {$this->tables['usermessage']} um
-                JOIN {$this->tables['user']} u ON um.userid = u.id
-                LEFT JOIN {$this->tables['user_message_view']} umv ON umv.messageid = um.messageid AND umv.userid = um.userid
-                WHERE um.messageid = $msgid
-                AND um.status = 'sent'
-                AND um.viewed IS NOT NULL
-                $u_lu_exists
-                GROUP BY um.userid
-                HAVING COUNT(umv.viewed) >= $minViews
+                SELECT t1.userid, MAX(umv.viewed) AS latest_view
+                FROM (
+                    (SELECT um.userid
+                    FROM {$this->tables['usermessage']} um
+                    JOIN {$this->tables['user']} u ON um.userid = u.id
+                    LEFT JOIN {$this->tables['user_message_view']} umv ON umv.messageid = um.messageid AND umv.userid = um.userid
+                    WHERE um.messageid = $msgid
+                    AND um.status = 'sent'
+                    AND um.viewed IS NOT NULL
+                    $u_lu_exists
+                    GROUP BY um.userid
+                    HAVING COUNT(umv.viewed) >= $minViews
+                    UNION
+                    SELECT um.userid
+                    FROM {$this->tables['usermessage']} um
+                    JOIN {$this->tables['user']} u ON um.userid = u.id
+                    LEFT JOIN {$this->tables['linktrack_uml_click']} uml ON uml.messageid = um.messageid AND uml.userid = um.userid
+                    WHERE um.messageid = $msgid
+                    AND um.status = 'sent'
+                    AND um.viewed IS NOT NULL
+                    $u_lu_exists
+                    GROUP BY um.userid
+                    HAVING COUNT(uml.forwardid) >= $minClicks)
+                    ) AS t1
+                JOIN {$this->tables['user_message_view']} umv ON umv.messageid = $msgid AND umv.userid = t1.userid
+                GROUP BY t1.userid
                 ORDER BY latest_view DESC
                 $limitClause
-            ) AS t1
+            ) AS t2
 END;
         $sql2 = <<<END
             SELECT u.email, u.confirmed, u.blacklisted, um.userid, um.entered, um.viewed,
@@ -416,6 +432,17 @@ END;
                 $u_lu_exists
                 GROUP BY um.userid
                 HAVING COUNT(umv.viewed) >= $minViews
+                UNION
+                SELECT um.userid
+                FROM {$this->tables['usermessage']} um
+                JOIN {$this->tables['user']} u ON um.userid = u.id
+                LEFT JOIN {$this->tables['linktrack_uml_click']} uml ON uml.messageid = um.messageid AND uml.userid = um.userid
+                WHERE um.messageid = $msgid
+                AND um.status = 'sent'
+                AND um.viewed IS NOT NULL
+                $u_lu_exists
+                GROUP BY um.userid
+                HAVING COUNT(uml.forwardid) >= $minClicks
             ) AS t1
 END;
 

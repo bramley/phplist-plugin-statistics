@@ -140,7 +140,7 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
         $form = <<<END
 <form action="$action" method="POST">
     <label>$minimumViewsCaption</label> $minimumViews
-    <!-- <label>$minimumClicksCaption</label> $minimumClicks -->
+    <label>$minimumClicksCaption</label> $minimumClicks
     <input type="submit" name="SearchForm[submit]" value="{$this->i18n->get('Submit')}" />
 </form>
 END;
