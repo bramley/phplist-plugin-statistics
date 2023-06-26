@@ -220,7 +220,7 @@ END;
                 SELECT um.userid
                 FROM {$this->tables['usermessage']} um
                 JOIN {$this->tables['user']} u ON um.userid = u.id
-                LEFT JOIN {$this->tables['user_message_view']} umv ON umv.messageid = um.messageid AND umv.userid = um.userid
+                JOIN {$this->tables['user_message_view']} umv ON umv.messageid = um.messageid AND umv.userid = um.userid
                 WHERE um.messageid = $msgid
                 AND um.status = 'sent'
                 AND um.viewed IS NOT NULL
@@ -232,7 +232,7 @@ END;
                 SELECT um.userid
                 FROM {$this->tables['usermessage']} um
                 JOIN {$this->tables['user']} u ON um.userid = u.id
-                LEFT JOIN {$this->tables['linktrack_uml_click']} uml ON uml.messageid = um.messageid AND uml.userid = um.userid
+                JOIN {$this->tables['linktrack_uml_click']} uml ON uml.messageid = um.messageid AND uml.userid = um.userid
                 WHERE um.messageid = $msgid
                 AND um.status = 'sent'
                 AND um.viewed IS NOT NULL
