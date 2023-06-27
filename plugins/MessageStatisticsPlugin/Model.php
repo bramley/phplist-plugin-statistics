@@ -119,6 +119,14 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
             $this->msgid = null;
         }
 
+        if ($this->minViews !== '' && !ctype_digit($this->minViews)) {
+            $this->minViews = '';
+        }
+
+        if ($this->minClicks !== '' && !ctype_digit($this->minClicks)) {
+            $this->minClicks = '';
+        }
+
         switch ($this->type) {
             case 'lists':
                 break;

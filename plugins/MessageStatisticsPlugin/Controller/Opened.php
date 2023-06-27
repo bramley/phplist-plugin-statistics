@@ -134,7 +134,7 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
         $minimumViews = CHtml::textField('SearchForm[minViews]', $this->model->minViews);
         $minimumClicks = CHtml::textField('SearchForm[minClicks]', $this->model->minClicks);
         $minimumViewsCaption = $this->i18n->get('Minimum views');
-        $minimumClicksCaption = $this->i18n->get('Minimum clicks');
+        $minimumClicksCaption = $this->i18n->get('Minimum links clicked');
 
         $action = $_SERVER['REQUEST_URI'];
         $form = <<<END
@@ -148,5 +148,4 @@ END;
 
         return $panel->display();
     }
-
 }

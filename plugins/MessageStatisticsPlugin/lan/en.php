@@ -50,6 +50,8 @@ $lan = array(
     'status' => 'Status',
     'unconfirmed' => 'Unconfirmed',
     'blacklisted' => 'Blacklisted',
+    'Minimum views' => 'Minimum views',
+    'Minimum links clicked' => 'Minimum links clicked',
 //    Unopened.php
 //    Bounced.php
     'Bounce ID' => 'Bounce ID',
