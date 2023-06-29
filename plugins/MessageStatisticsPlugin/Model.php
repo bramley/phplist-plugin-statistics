@@ -43,23 +43,21 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
         'type' => 'messages',
         'listid' => null,
         'msgid' => null,
+        'userid' => null,
         'forwardid' => null,
         'selectedAttrs' => array(),
         'fromdate' => null,
         'todate' => null,
-        'userid' => null,
         'minViews' => '',
         'minClicks' => '',
     );
     protected $persist = array(
-        'listid' => '',
-        'selectedAttrs' => '',
-        'searchTerm' => '',
-        'searchBy' => '',
-        'fromdate' => null,
-        'todate' => null,
-        'minViews' => '',
-        'minClicks' => '',
+        'listid' => 1,
+        'selectedAttrs' => 1,
+        'fromdate' => 1,
+        'todate' => 1,
+        'minViews' => 1,
+        'minClicks' => 1,
     );
     /*
      *    Public variables
