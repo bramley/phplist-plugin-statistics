@@ -221,6 +221,7 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
             $params['toolbar'] = $toolbar->display();
         } catch (Exception $e) {
             $params['exception'] = $e->getMessage();
+            $params['exception_trace'] = $e->getTraceAsString();
         }
         echo $this->render(dirname(__FILE__) . '/view.tpl.php', $params);
     }

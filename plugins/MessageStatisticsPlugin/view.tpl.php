@@ -49,7 +49,7 @@
     </div>
     <div style='padding-top: 10px;' >
 <?php if (isset($exception)) {
-    echo $exception;
+    echo $exception, '<pre>', $exception_trace, '</pre>';
 } ?>
 <?php if (isset($caption)) {
     echo nl2br(htmlspecialchars($caption));

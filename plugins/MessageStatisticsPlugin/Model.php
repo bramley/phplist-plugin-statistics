@@ -109,7 +109,13 @@ class MessageStatisticsPlugin_Model extends CommonPlugin_Model
 
     public function validateProperties()
     {
-        if (!(isset($this->properties['listid']) && ctype_digit($this->properties['listid']))) {
+        if (isset($this->properties['listid']) && ctype_digit($this->properties['listid'])) {
+            $row = $this->listDAO->listById($this->listid);
+
+            if ($row === null) {
+                $this->listid = null;
+            }
+        } else {
             $this->listid = null;
         }
 

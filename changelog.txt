@@ -1,3 +1,15 @@
+version 2.4.0+20230707
+      Show number of views on Opened tab
+      Add User Views tab to show rows from user_message_view table
+      Optimise message opens for a large number of subscribers
+      Show latest view and subscriber status on Opened tab
+      Remove obsolete code
+      Optimise links tab for a large number of subscribers
+      Separate the queries for message opens and not opens
+      Rework link query
+      Add form to Opened tab to filter on minimum number of views and links clicked
+      Trying to show messages sent to a list that no longer exists caused an exception
+
 version 2.3.6+20211231
       Allow captions in the campaign pdf report to be translated.
 
