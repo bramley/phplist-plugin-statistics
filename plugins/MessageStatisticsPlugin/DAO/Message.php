@@ -89,7 +89,7 @@ class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
                     if ($searchTerm && $searchAttr == $id) {
                         $thisJoin .= "AND ua{$id}.value LIKE '%$searchTerm%' ";
                     }
-                    $attr_fields .= ", ua{$id}.value AS attr{$id}";
+                    $attr_fields .= ", REPLACE(ua{$id}.value, '\\\\', '') AS attr{$id}";
                     break;
             }
             $attr_join .= $thisJoin;

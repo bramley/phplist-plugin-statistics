@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.4.1+20230714  Avoid displaying backslashes in attribute values
     2.4.0+20230707  Show latest view, number of views and link clicks totals on the Opened tab
                     Filter Opened tab on the number of views and number of links clicked
     2.3.6+20211231  Allow captions in the campaign pdf report to be translated

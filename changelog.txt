@@ -1,3 +1,6 @@
+version 2.4.1+20230714
+      Avoid displaying backslashes in attribute values
+
 version 2.4.0+20230707
       Show number of views on Opened tab
       Add User Views tab to show rows from user_message_view table
