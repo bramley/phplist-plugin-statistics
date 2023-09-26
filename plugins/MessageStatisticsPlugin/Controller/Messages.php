@@ -112,7 +112,7 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
 
         foreach ($this->messageResults as $row) {
             $data[] = array(
-                'ID' => $row['id'],
+                'ID' => (string) $row['id'],
                 $this->i18n->get('Sent') => (int) $row['sent'],
                 $this->i18n->get('Opened') => (int) $row['openUsers'],
                 $this->i18n->get('Clicked') => (int) $row['clickUsers'],
