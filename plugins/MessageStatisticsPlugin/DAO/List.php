@@ -62,6 +62,6 @@ class MessageStatisticsPlugin_DAO_List extends CommonPlugin_DAO_List
             FROM {$this->tables['list']} l
             $owner";
 
-        return $this->dbCommand->queryOne($sql, 't');
+        return $this->dbCommand->queryOne($sql);
     }
 }

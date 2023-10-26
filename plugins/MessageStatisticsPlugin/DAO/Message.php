@@ -279,7 +279,7 @@ END;
             ORDER BY $this->orderByAlias DESC
             LIMIT 1";
 
-        return $this->dbCommand->queryOne($sql, 'id');
+        return $this->dbCommand->queryOne($sql);
     }
 
     public function prevNextMessage($listId, $msgID, $loginid)
@@ -294,7 +294,7 @@ END;
             FROM {$this->tables['message']}
             WHERE id = $msgID";
 
-        $ref = $this->dbCommand->queryOne($sql, 'ref');
+        $ref = $this->dbCommand->queryOne($sql);
 
         $sql =
             "SELECT m.id AS prev
@@ -306,7 +306,7 @@ END;
             ORDER BY $this->orderByAlias DESC
             LIMIT 1";
 
-        $prev = $this->dbCommand->queryOne($sql, 'prev');
+        $prev = $this->dbCommand->queryOne($sql);
 
         $sql =
             "SELECT m.id AS next
@@ -318,7 +318,7 @@ END;
             ORDER BY $this->orderByAlias ASC
             LIMIT 1";
 
-        $next = $this->dbCommand->queryOne($sql, 'next');
+        $next = $this->dbCommand->queryOne($sql);
 
         return array($prev, $next);
     }
@@ -381,7 +381,7 @@ END;
             $lm_exists
             $owner_and";
 
-        return $this->dbCommand->queryOne($sql, 't');
+        return $this->dbCommand->queryOne($sql);
     }
 
     /**
@@ -523,7 +523,7 @@ END;
             $u_lu_exists
             ";
 
-        return $this->dbCommand->queryOne($sql, 't');
+        return $this->dbCommand->queryOne($sql);
     }
 
     /*
@@ -568,7 +568,7 @@ END;
             )
             $u_lu_exists";
 
-        return $this->dbCommand->queryOne($sql, 't');
+        return $this->dbCommand->queryOne($sql);
     }
 
     /*
@@ -611,7 +611,7 @@ END;
             )
             $umb_lu_exists";
 
-        return $this->dbCommand->queryOne($sql, 't');
+        return $this->dbCommand->queryOne($sql);
     }
 
     /*
@@ -654,7 +654,7 @@ END;
             )
             $u_lu_exists";
 
-        return $this->dbCommand->queryOne($sql, 't');
+        return $this->dbCommand->queryOne($sql);
     }
 
     /*
@@ -699,7 +699,7 @@ END;
             ) AS domain
             ";
 
-        return $this->dbCommand->queryOne($sql, 't');
+        return $this->dbCommand->queryOne($sql);
     }
 
     /*
@@ -724,7 +724,7 @@ END;
                 ) AS a
             )";
 
-        $prev = $this->dbCommand->queryOne($sql, 'prev');
+        $prev = $this->dbCommand->queryOne($sql);
 
         $sql = "
             SELECT id AS next
@@ -741,7 +741,7 @@ END;
                 ) AS a
             )";
 
-        $next = $this->dbCommand->queryOne($sql, 'next');
+        $next = $this->dbCommand->queryOne($sql);
 
         return array($prev, $next);
     }
@@ -815,7 +815,7 @@ END;
             WHERE lt.messageid = $msgID
             ";
 
-        return $this->dbCommand->queryOne($sql, 't');
+        return $this->dbCommand->queryOne($sql);
     }
 
     /*
@@ -859,7 +859,7 @@ END;
             $uml_lu_exists
             ";
 
-        return $this->dbCommand->queryOne($sql, 't');
+        return $this->dbCommand->queryOne($sql);
     }
 
     public function linkUrl($forwardid)
@@ -869,7 +869,7 @@ END;
             FROM {$this->tables['linktrack_forward']} fw
             WHERE id = $forwardid";
 
-        return $this->dbCommand->queryOne($sql, 'url');
+        return $this->dbCommand->queryOne($sql);
     }
 
     public function userViews($userId, $msgId, $start, $limit)
