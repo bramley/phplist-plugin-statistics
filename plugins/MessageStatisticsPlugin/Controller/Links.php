@@ -55,7 +55,7 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
         return array(
             $row['url'],
             $row['usersclicked'],
-            $this->calculateRate($row['usersclicked'], $this->totalsent),
+            $this->calculateRate($row['usersclicked'], $this->totalSent),
             $row['numclicks'],
             $row['firstclick'],
             $row['numclicks'] > 1 ? $row['latestclick'] : '',
