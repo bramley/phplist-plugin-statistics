@@ -26,7 +26,7 @@
  *
  * @category  phplist
  */
-class MessageStatisticsPlugin_DAO_List extends CommonPlugin_DAO_List
+class MessageStatisticsPlugin_DAO_List extends phpList\plugin\Common\DAO\Lists
 {
     private $selectStatus;
 

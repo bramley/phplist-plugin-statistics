@@ -26,7 +26,7 @@
  *
  * @category  phplist
  */
-class MessageStatisticsPlugin_Model extends CommonPlugin_Model
+class MessageStatisticsPlugin_Model extends phpList\plugin\Common\Model
 {
     /*
      *    Private variables

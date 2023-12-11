@@ -26,7 +26,7 @@
  *
  * @category  phplist
  */
-class MessageStatisticsPlugin_NotAuthorisedException extends CommonPlugin_Exception
+class MessageStatisticsPlugin_NotAuthorisedException extends phpList\plugin\Common\Exception
 {
     /*
      *    Public methods

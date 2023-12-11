@@ -29,14 +29,14 @@
  */
 use phpList\plugin\Common\IExportable;
 
-class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_Controller implements phpList\plugin\Common\IPopulator, phpList\plugin\Common\IExportable
 {
     protected $itemsPerPage = array(array(15, 25), 15);
 
     private $totalSent;
 
     /*
-     * Implementation of CommonPlugin_IExportable
+     * Implementation of phpList\plugin\Common\IExportable
      */
     public function exportFieldNames()
     {
@@ -63,7 +63,7 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
     }
 
     /*
-     * Implementation of CommonPlugin_IPopulator
+     * Implementation of phpList\plugin\Common\IPopulator
      */
     public function populate(WebblerListing $w, $start, $limit)
     {
@@ -87,17 +87,17 @@ class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_C
             }
             $key = sprintf('<span title="%s">%s</span>', htmlspecialchars($row['url']), $key);
             $query['forwardid'] = $row['forwardid'];
-            $w->addElement($key, new CommonPlugin_PageURL(null, $query));
+            $w->addElement($key, new phpList\plugin\Common\PageURL(null, $query));
             $destinationLink = CHtml::tag(
                 'a',
                 ['target' => '_blank', 'href' => $row['url'], 'class' => 'nobutton', 'title' => $row['url']],
-                new CommonPlugin_ImageTag('external.png', '')
+                new phpList\plugin\Common\ImageTag('external.png', '')
             );
             $w->addColumnHtml(
                 $key,
                 $this->i18n->get('Link'),
                 $row['personalise']
-                    ? new CommonPlugin_ImageTag('user.png', 'URL is personalised')
+                    ? new phpList\plugin\Common\ImageTag('user.png', 'URL is personalised')
                     : $destinationLink
             );
             $w->addColumn(

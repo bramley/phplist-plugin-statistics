@@ -28,7 +28,7 @@
  */
 use phpList\plugin\Common\PageURL;
 
-class MessageStatisticsPlugin_Controller_Lists extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator
+class MessageStatisticsPlugin_Controller_Lists extends MessageStatisticsPlugin_Controller implements phpList\plugin\Common\IPopulator
 {
     protected $itemsPerPage = array(array(10, 25), 10);
 
@@ -43,7 +43,7 @@ class MessageStatisticsPlugin_Controller_Lists extends MessageStatisticsPlugin_C
     }
 
     /*
-     * Implementation of CommonPlugin_IPopulator
+     * Implementation of phpList\plugin\Common\IPopulator
      */
     public function populate(WebblerListing $w, $start, $limit)
     {

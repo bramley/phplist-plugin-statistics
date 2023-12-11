@@ -27,10 +27,10 @@
  *
  * @category  phplist
  */
-class MessageStatisticsPlugin_Controller_Clicked extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+class MessageStatisticsPlugin_Controller_Clicked extends MessageStatisticsPlugin_Controller implements phpList\plugin\Common\IPopulator, phpList\plugin\Common\IExportable
 {
     /*
-     * Implementation of CommonPlugin_IExportable
+     * Implementation of phpList\plugin\Common\IExportable
      */
     public function exportRows()
     {
@@ -65,7 +65,7 @@ class MessageStatisticsPlugin_Controller_Clicked extends MessageStatisticsPlugin
     }
 
     /*
-     * Implementation of CommonPlugin_IPopulator
+     * Implementation of phpList\plugin\Common\IPopulator
      */
     public function populate(WebblerListing $w, $start, $limit)
     {
@@ -78,13 +78,13 @@ class MessageStatisticsPlugin_Controller_Clicked extends MessageStatisticsPlugin
         foreach ($resultSet as $row) {
             $key = $row['email'];
             if ($key) {
-                $w->addElement($key, new CommonPlugin_PageURL('user', array('id' => $row['userid'])));
+                $w->addElement($key, new phpList\plugin\Common\PageURL('user', array('id' => $row['userid'])));
 
                 foreach ($this->model->selectedAttrs as $attr) {
                     $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
                 }
                 $w->addColumn($key, $this->i18n->get('links clicked'), $row['links'],
-                    new CommonPlugin_PageURL('userclicks', array('userid' => $row['userid'], 'msgid' => $this->model->msgid)),
+                    new phpList\plugin\Common\PageURL('userclicks', array('userid' => $row['userid'], 'msgid' => $this->model->msgid)),
                     'left'
                 );
             } else {

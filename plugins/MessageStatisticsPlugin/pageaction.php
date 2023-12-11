@@ -27,7 +27,7 @@
  * @category  phplist
  */
 
-class MessageStatisticsPlugin_PageactionController extends CommonPlugin_Controller
+class MessageStatisticsPlugin_PageactionController extends phpList\plugin\Common\Controller
 {
 }
 

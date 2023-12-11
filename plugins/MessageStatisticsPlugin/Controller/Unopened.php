@@ -27,10 +27,10 @@
  *
  * @category  phplist
  */
-class MessageStatisticsPlugin_Controller_Unopened extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+class MessageStatisticsPlugin_Controller_Unopened extends MessageStatisticsPlugin_Controller implements phpList\plugin\Common\IPopulator, phpList\plugin\Common\IExportable
 {
     /*
-     * Implementation of CommonPlugin_IExportable
+     * Implementation of phpList\plugin\Common\IExportable
      */
     public function exportRows()
     {
@@ -60,7 +60,7 @@ class MessageStatisticsPlugin_Controller_Unopened extends MessageStatisticsPlugi
     }
 
     /*
-     * Implementation of CommonPlugin_IPopulator
+     * Implementation of phpList\plugin\Common\IPopulator
      */
 
     public function populate(WebblerListing $w, $start, $limit)
@@ -73,7 +73,7 @@ class MessageStatisticsPlugin_Controller_Unopened extends MessageStatisticsPlugi
 
         foreach ($resultIterator as $row) {
             $key = $row['email'];
-            $w->addElement($key, new CommonPlugin_PageURL('user', array('id' => $row['userid'])));
+            $w->addElement($key, new phpList\plugin\Common\PageURL('user', array('id' => $row['userid'])));
 
             foreach ($this->model->selectedAttrs as $attr) {
                 $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);

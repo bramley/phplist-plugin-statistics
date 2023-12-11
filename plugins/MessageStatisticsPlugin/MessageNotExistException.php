@@ -26,7 +26,7 @@
  *
  * @category  phplist
  */
-class MessageStatisticsPlugin_MessageNotExistException extends CommonPlugin_Exception
+class MessageStatisticsPlugin_MessageNotExistException extends phpList\plugin\Common\Exception
 {
     /*
      *    Public methods

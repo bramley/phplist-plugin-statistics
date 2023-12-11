@@ -27,10 +27,10 @@
  *
  * @category  phplist
  */
-class MessageStatisticsPlugin_Controller_Domain extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+class MessageStatisticsPlugin_Controller_Domain extends MessageStatisticsPlugin_Controller implements phpList\plugin\Common\IPopulator, phpList\plugin\Common\IExportable
 {
     /*
-     * Implementation of CommonPlugin_IExportable
+     * Implementation of phpList\plugin\Common\IExportable
      */
     public function exportRows()
     {
@@ -56,7 +56,7 @@ class MessageStatisticsPlugin_Controller_Domain extends MessageStatisticsPlugin_
     }
 
     /*
-     * Implementation of CommonPlugin_IPopulator
+     * Implementation of phpList\plugin\Common\IPopulator
      */
     public function populate(WebblerListing $w, $start, $limit)
     {

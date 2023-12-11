@@ -34,7 +34,7 @@
  * - $caption: text
  * - $chart: chart
  * - $form: attribute search/select form
- * - $listing: HTML result of CommonPlugin_Listing.
+ * - $listing: HTML result of phpList\plugin\Common\Listing.
  */
 ?>
 <div id='top'>

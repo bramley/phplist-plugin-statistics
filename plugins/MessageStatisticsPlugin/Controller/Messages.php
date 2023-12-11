@@ -27,7 +27,7 @@
  *
  * @category  phplist
  */
-class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugin_Controller implements phpList\plugin\Common\IPopulator, phpList\plugin\Common\IExportable
 {
     const IMAGE_HEIGHT = 300;
 
@@ -131,7 +131,7 @@ class MessageStatisticsPlugin_Controller_Messages extends MessageStatisticsPlugi
             'legend' => array('position' => 'bottom'),
             'colors' => array('blue', 'green', 'yellow', 'red'),
         );
-        $baseUrl = new CommonPlugin_PageURL(null, ['listid' => $this->model->listid]);
+        $baseUrl = new phpList\plugin\Common\PageURL(null, ['listid' => $this->model->listid]);
         $clickLocationFormat = <<<'END'
 function(data, selectedItem) {
     row = selectedItem.row;
@@ -235,7 +235,7 @@ END;
     }
 
     /*
-     * Implementation of CommonPlugin_IExportable
+     * Implementation of phpList\plugin\Common\IExportable
      */
     public function exportFieldNames()
     {
@@ -278,7 +278,7 @@ END;
     }
 
     /*
-     * Implementation of CommonPlugin_IPopulator
+     * Implementation of phpList\plugin\Common\IPopulator
      */
     public function populate(WebblerListing $w, $start, $limit)
     {
@@ -295,7 +295,7 @@ END;
             $fields = $this->messageStats($row);
             $query['msgid'] = $fields['id'];
             $key = "$fields[id] | $fields[subject]";
-            $w->addElement($key, new CommonPlugin_PageURL(null, $query));
+            $w->addElement($key, new phpList\plugin\Common\PageURL(null, $query));
             $w->addColumn($key, $this->i18n->get('date'), $fields['datesent']);
             $w->addColumn($key, $this->i18n->get('sent'), $fields['sent'], '');
             $w->addColumn($key, $this->i18n->get('opened'), "{$fields['openrate']}% ({$fields['opens']})");
@@ -309,8 +309,8 @@ END;
             $w->addColumnHtml(
                 $key,
                 $this->i18n->get('print'),
-                new CommonPlugin_ImageTag('doc_pdf.png', $this->i18n->get('print to PDF')),
-                new CommonPlugin_PageURL(null, array('listid' => $this->model->listid, 'action' => 'print', 'msgid' => $fields['id']))
+                new phpList\plugin\Common\ImageTag('doc_pdf.png', $this->i18n->get('print to PDF')),
+                new phpList\plugin\Common\PageURL(null, array('listid' => $this->model->listid, 'action' => 'print', 'msgid' => $fields['id']))
             );
         }
     }

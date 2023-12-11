@@ -28,7 +28,7 @@
  *
  * @category  phplist
  */
-abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controller
+abstract class MessageStatisticsPlugin_Controller extends phpList\plugin\Common\Controller
 {
     /*
      *    Protected attributes
@@ -60,23 +60,23 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
             'linkclicks' => $this->i18n->get('tab_linkclicks'),
             'userviews' => $this->i18n->get('tab_userviews'),
         );
-        $tabs = new CommonPlugin_Tabs();
+        $tabs = new phpList\plugin\Common\Tabs();
         $query = array();
         $query['listid'] = $this->model->listid;
         $query['type'] = 'messages';
 
         /* Always display Messages tab */
-        $tabs->addTab($types['messages'], new CommonPlugin_PageURL(null, $query));
+        $tabs->addTab($types['messages'], new phpList\plugin\Common\PageURL(null, $query));
 
         if (in_array($this->model->type, ['settings', 'lists', 'messages'])) {
             /* Display Lists and Settings tabs when they are current and when Messages is current */
 
             if (in_array($this->model->type, ['lists', 'messages'])) {
-                $tabs->addTab($types['lists'], new CommonPlugin_PageURL(null, array('type' => 'lists')));
+                $tabs->addTab($types['lists'], new phpList\plugin\Common\PageURL(null, array('type' => 'lists')));
             }
 
             if (in_array($this->model->type, ['settings', 'messages'])) {
-                $tabs->addTab($types['settings'], new CommonPlugin_PageURL(null, array('type' => 'settings')));
+                $tabs->addTab($types['settings'], new phpList\plugin\Common\PageURL(null, array('type' => 'settings')));
             }
         } else {
             /*
@@ -86,14 +86,14 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
 
             foreach (array_slice($types, 3, 7) as $type => $title) {
                 $query['type'] = $type;
-                $tabs->addTab($title, new CommonPlugin_PageURL(null, $query));
+                $tabs->addTab($title, new phpList\plugin\Common\PageURL(null, $query));
             }
 
             // Display only when selected
             if ($this->model->type == 'linkclicks') {
-                $tabs->addTab($types[$this->model->type], CommonPlugin_PageURL::createFromGet());
+                $tabs->addTab($types[$this->model->type], phpList\plugin\Common\PageURL::createFromGet());
             } elseif ($this->model->type == 'userviews') {
-                $tabs->addTab($types[$this->model->type], CommonPlugin_PageURL::createFromGet());
+                $tabs->addTab($types[$this->model->type], phpList\plugin\Common\PageURL::createFromGet());
                 $tabs->insertTabBefore($types['unopened'], $types[$this->model->type]);
             }
         }
@@ -153,7 +153,7 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
 
             if (isset($_POST['SearchForm'])) {
                 $this->model->setProperties($_POST['SearchForm'], true);
-                $redirect = new CommonPlugin_PageURL(null, ['type' => 'opened']);
+                $redirect = new phpList\plugin\Common\PageURL(null, ['type' => 'opened']);
                 header("Location: $redirect");
                 exit;
             }
@@ -162,8 +162,8 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
             $params['tabs'] = $this->navigation()->display();
             $params['caption'] = $this->caption();
 
-            if ($this instanceof CommonPlugin_IPopulator) {
-                $listing = new CommonPlugin_Listing($this, $this);
+            if ($this instanceof phpList\plugin\Common\IPopulator) {
+                $listing = new phpList\plugin\Common\Listing($this, $this);
 
                 if ($this->itemsPerPage) {
                     $listing->pager->setItemsPerPage($this->itemsPerPage[0], $this->itemsPerPage[1]);
@@ -196,11 +196,11 @@ abstract class MessageStatisticsPlugin_Controller extends CommonPlugin_Controlle
             }
 
             if ($this->showAttributeForm && count($this->model->attributes) > 0) {
-                $params['form'] = CommonPlugin_Widget::attributeForm($this, $this->model, false, true);
+                $params['form'] = phpList\plugin\Common\Widget::attributeForm($this, $this->model, false, true);
             }
-            $toolbar = new CommonPlugin_Toolbar($this);
+            $toolbar = new phpList\plugin\Common\Toolbar($this);
 
-            if ($this instanceof CommonPlugin_IExportable) {
+            if ($this instanceof phpList\plugin\Common\IExportable) {
                 if ($this instanceof MessageStatisticsPlugin_Controller_Messages
                    && !getConfig('statistics_export_all_messages')) {
                     list($start, $limit) = $listing->pager->range();

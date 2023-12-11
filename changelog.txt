@@ -1,3 +1,9 @@
+version 2.4.2+20231212
+      Ensure the ID column for a chart is a string. Using PDO it is returned as an integer.
+      Remove unnecessary parameter to queryOne()
+      Fix error stopping export of Links tab
+      Use namespaced names for Common plugin classes instead of PEAR names
+
 version 2.4.1+20230714
       Avoid displaying backslashes in attribute values
 

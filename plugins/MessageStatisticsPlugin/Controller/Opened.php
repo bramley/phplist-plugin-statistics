@@ -28,10 +28,10 @@
  */
 use phpList\plugin\Common\ImageTag;
 
-class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_Controller implements phpList\plugin\Common\IPopulator, phpList\plugin\Common\IExportable
 {
     /*
-     * Implementation of CommonPlugin_IExportable
+     * Implementation of phpList\plugin\Common\IExportable
      */
     public function exportRows()
     {
@@ -81,7 +81,7 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
     }
 
     /*
-     * Implementation of CommonPlugin_IPopulator
+     * Implementation of phpList\plugin\Common\IPopulator
      */
 
     public function populate(WebblerListing $w, $start, $limit)
@@ -94,7 +94,7 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
 
         foreach ($rows as $row) {
             $key = $row['email'];
-            $w->addElement($key, new CommonPlugin_PageURL('user', array('id' => $row['userid'])));
+            $w->addElement($key, new phpList\plugin\Common\PageURL('user', array('id' => $row['userid'])));
 
             foreach ($this->model->selectedAttrs as $attr) {
                 $w->addColumn($key, $this->model->attributes[$attr]['name'], $row["attr{$attr}"]);
@@ -109,11 +109,11 @@ class MessageStatisticsPlugin_Controller_Opened extends MessageStatisticsPlugin_
             $w->addColumnHtml($key, $this->i18n->get('status'), $status);
             $w->addColumn($key, $this->i18n->get('latest view'), $row['latest_view'] ? formatDateTime($row['latest_view']) : '');
             $w->addColumn($key, $this->i18n->get('first view'), formatDateTime($row['viewed']));
-            $url = new CommonPlugin_PageURL(
+            $url = new phpList\plugin\Common\PageURL(
                 null, ['type' => 'userviews', 'userid' => $row['userid'], 'msgid' => $this->model->msgid]
             );
             $w->addColumn($key, $this->i18n->get('total views'), $row['total_views'], $url);
-            $url = new CommonPlugin_PageURL(
+            $url = new phpList\plugin\Common\PageURL(
                 'userclicks', ['userid' => $row['userid'], 'msgid' => $this->model->msgid]
             );
             $w->addColumn($key, $this->i18n->get('links clicked'), $row['links_clicked'] ?: '', $url);

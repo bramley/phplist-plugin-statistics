@@ -32,4 +32,4 @@ if (!phplistPlugin::isEnabled('CommonPlugin')) {
     return;
 }
 
-CommonPlugin_Main::run(new MessageStatisticsPlugin_ControllerFactory());
+phpList\plugin\Common\Main::run(new MessageStatisticsPlugin_ControllerFactory());

@@ -22,13 +22,13 @@
  */
 
 /**
- * This class is a concrete implementation of CommonPlugin_ControllerFactoryBase.
+ * This class is a concrete implementation of phpList\plugin\Common\ControllerFactoryBase.
  *
  * @category  phplist
  */
 use phpList\plugin\Common\Container;
 
-class MessageStatisticsPlugin_ControllerFactory extends CommonPlugin_ControllerFactoryBase
+class MessageStatisticsPlugin_ControllerFactory extends phpList\plugin\Common\ControllerFactoryBase
 {
     const DEFAULT_TYPE = 'messages';
 
@@ -39,7 +39,7 @@ class MessageStatisticsPlugin_ControllerFactory extends CommonPlugin_ControllerF
      * @param string $pi     the plugin
      * @param array  $params further parameters from the URL
      *
-     * @return CommonPlugin_Controller
+     * @return phpList\plugin\Common\Controller
      */
     public function createController($pi, array $params)
     {

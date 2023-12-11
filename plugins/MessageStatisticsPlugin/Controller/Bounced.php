@@ -27,10 +27,10 @@
  *
  * @category  phplist
  */
-class MessageStatisticsPlugin_Controller_Bounced extends MessageStatisticsPlugin_Controller implements CommonPlugin_IPopulator, CommonPlugin_IExportable
+class MessageStatisticsPlugin_Controller_Bounced extends MessageStatisticsPlugin_Controller implements phpList\plugin\Common\IPopulator, phpList\plugin\Common\IExportable
 {
     /*
-     * Implementation of CommonPlugin_IExportable
+     * Implementation of phpList\plugin\Common\IExportable
      */
     public function exportRows()
     {
@@ -64,7 +64,7 @@ class MessageStatisticsPlugin_Controller_Bounced extends MessageStatisticsPlugin
     }
 
     /*
-     * Implementation of CommonPlugin_IPopulator
+     * Implementation of phpList\plugin\Common\IPopulator
      */
     public function populate(WebblerListing $w, $start, $limit)
     {
@@ -76,9 +76,9 @@ class MessageStatisticsPlugin_Controller_Bounced extends MessageStatisticsPlugin
 
         foreach ($resultIterator as $row) {
             $key = $row['bounce'];
-            $w->addElement($key, new CommonPlugin_PageURL('bounce', array('s' => 0, 'id' => $row['bounce'])));
+            $w->addElement($key, new phpList\plugin\Common\PageURL('bounce', array('s' => 0, 'id' => $row['bounce'])));
             $w->addColumn($key, $this->i18n->get('subscriber'), $row['email'],
-                new CommonPlugin_PageURL('user', array('id' => $row['user']), 'left')
+                new phpList\plugin\Common\PageURL('user', array('id' => $row['user']), 'left')
             );
 
             foreach ($this->model->selectedAttrs as $attr) {

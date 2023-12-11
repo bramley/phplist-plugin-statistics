@@ -26,7 +26,7 @@
  *
  * @category  phplist
  */
-class MessageStatisticsPlugin_DAO_Message extends CommonPlugin_DAO_Message
+class MessageStatisticsPlugin_DAO_Message extends phpList\plugin\Common\DAO\Message
 {
     const MESSAGE_SELECT = "'sent', 'inprocess', 'suspended'";
     /**
