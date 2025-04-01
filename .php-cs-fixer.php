@@ -25,6 +25,8 @@ return $config->setRules([
         'visibility_required' => false,
         'phpdoc_to_comment' => false,
         'global_namespace_import' => false,
+        'nullable_type_declaration_for_default_null_value' => false,
+        'no_null_property_initialization' => false,
     ])
     ->setFinder($finder)
 ;

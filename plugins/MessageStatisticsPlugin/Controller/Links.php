@@ -28,8 +28,9 @@
  * @category  phplist
  */
 use phpList\plugin\Common\IExportable;
+use phpList\plugin\Common\IPopulator;
 
-class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_Controller implements phpList\plugin\Common\IPopulator, phpList\plugin\Common\IExportable
+class MessageStatisticsPlugin_Controller_Links extends MessageStatisticsPlugin_Controller implements IPopulator, IExportable
 {
     protected $itemsPerPage = array(array(15, 25), 15);
 

@@ -1,3 +1,7 @@
+version 2.4.3+20250401
+      Include campaigns that have already been sent but resubmitted
+      CS-fixer
+
 version 2.4.2+20231212
       Ensure the ID column for a chart is a string. Using PDO it is returned as an integer.
       Remove unnecessary parameter to queryOne()
