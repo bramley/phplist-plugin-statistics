@@ -340,7 +340,7 @@ END;
             FROM (
                 SELECT m.id
                 FROM {$this->tables['message']} m
-                WHERE m.status IN ($this->selectStatus)
+                WHERE (m.status IN ($this->selectStatus) OR m.sent IS NOT NULL)
                 $fromDateCondition
                 $toDateCondition
                 $m_lm_exists
@@ -375,7 +375,7 @@ END;
         $sql =
             "SELECT COUNT(m.id) AS t
             FROM {$this->tables['message']} m
-            WHERE m.status IN ($this->selectStatus)
+            WHERE (m.status IN ($this->selectStatus) OR m.sent IS NOT NULL)
             $fromDateCondition
             $toDateCondition
             $lm_exists
