@@ -92,14 +92,8 @@ class MessageStatisticsPlugin extends phplistPlugin
 
     public function dependencyCheck()
     {
-        global $plugins;
-
-        return array(
-            'Common Plugin v3.15.0 or later installed' => (
-                phpListPlugin::isEnabled('CommonPlugin')
-                && version_compare($plugins['CommonPlugin']->version, '3.15.0') >= 0
-            ),
-            'PHP version 5.5.0 or greater' => version_compare(PHP_VERSION, '5.5') > 0,
-        );
+        return [
+            'Common Plugin must be enabled' => phpListPlugin::isEnabled('CommonPlugin'),
+        ];
     }
 }
