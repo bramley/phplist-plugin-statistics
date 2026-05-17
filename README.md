@@ -62,6 +62,7 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version     Description
+    2.4.4+20260517  Use common function to group lists by category
     2.4.3+20250401  Include campaigns that have already been sent but resubmitted
     2.4.2+20231212  Fix error stopping export of Links tab
     2.4.1+20230714  Avoid displaying backslashes in attribute values

@@ -1,3 +1,8 @@
+version 2.4.4+20260517
+      Remove obsolete dependencies
+      Use common function to group lists by category
+      CS Fixer
+
 version 2.4.3+20250401
       Include campaigns that have already been sent but resubmitted
       CS-fixer

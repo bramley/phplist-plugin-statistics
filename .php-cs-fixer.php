@@ -19,14 +19,20 @@ return $config->setRules([
         'no_superfluous_phpdoc_tags' => false,
         'ordered_imports' => [
             'sort_algorithm' => 'alpha',
-            'imports_order' => ['class', 'function', 'const']
+            'imports_order' => ['class', 'function', 'const'],
         ],
         'blank_line_after_namespace' => true,
+        'single_line_comment_style' => false,
         'visibility_required' => false,
         'phpdoc_to_comment' => false,
+        'type_declaration_spaces' => false,
         'global_namespace_import' => false,
-        'nullable_type_declaration_for_default_null_value' => false,
+        'operator_linebreak' => false,
         'no_null_property_initialization' => false,
+        'nullable_type_declaration_for_default_null_value' => false,
+        'fully_qualified_strict_types' => false,
+        'blank_line_after_opening_tag' => false,
+        'trailing_comma_in_multiline' => false,
     ])
     ->setFinder($finder)
 ;
