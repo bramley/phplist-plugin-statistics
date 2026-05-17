@@ -21,6 +21,8 @@
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
 
+use function phpList\plugin\Common\listDataByCategory;
+
 /**
  * Sub-class that provides the populator and exportable functions
  * for messages.
@@ -168,11 +170,10 @@ END;
         );
         $toCaption = $this->i18n->get('To');
 
-        $lists = iterator_to_array($this->model->listsForOwner());
         $listsDropDown = CHtml::dropDownList(
             'listid',
             $this->model->listid,
-            array_column($lists, 'name', 'id')
+            listDataByCategory($this->model->listsForOwner())
         );
         $listsCaption = $this->i18n->get('List');
         $action = $_SERVER['REQUEST_URI'];
